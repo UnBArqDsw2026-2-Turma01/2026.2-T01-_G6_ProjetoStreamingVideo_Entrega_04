@@ -1,12 +1,34 @@
-<!-- docs/_sidebar.md -->
+- [Início](/)
+- [Introdução à Entrega 04](/Introducao.md)
+- [Checklist da Entrega 04](/Checklist.md)
 
-- [Home](/docs)
-- [Projetos](/docs/Projeto/Projeto.md)
+- **Desenho de Software — DAS**
+  - [1. Visão geral](/Base/1.DAS_Reutilizacao.md)
+  - 1.1. Relatórios
+    - [1.1.1. DAS](/Base/Relatórios/1.1.1.DAS.md)
+      - [1.1.1.1. Introdução](/Base/Relatórios/1.1.1.DAS/1.1.1.1.Introducao.md)
+      - [1.1.1.2. Representação Arquitetural](/Base/Relatórios/1.1.1.DAS/1.1.1.2.RepresentacaoArquitetural.md)
+      - [1.1.1.3. Metas e Restrições Arquiteturais](/Base/Relatórios/1.1.1.DAS/1.1.1.3.MetasRestricoes.md)
+      - [1.1.1.4. Visão de Casos de Uso](/Base/Relatórios/1.1.1.DAS/1.1.1.4.VisaoCasosDeUso.md)
+      - [1.1.1.5. Visão Lógica](/Base/Relatórios/1.1.1.DAS/1.1.1.5.VisaoLogica.md)
+      - [1.1.1.6. Visão de Processos](/Base/Relatórios/1.1.1.DAS/1.1.1.6.VisaoProcessos.md)
+      - [1.1.1.7. Visão de Implantação](/Base/Relatórios/1.1.1.DAS/1.1.1.7.VisaoImplantacao.md)
+      - [1.1.1.8. Visão de Implementação](/Base/Relatórios/1.1.1.DAS/1.1.1.8.VisaoImplementacao.md)
+      - [1.1.1.9. Visão de Dados](/Base/Relatórios/1.1.1.DAS/1.1.1.9.VisaoDados.md)
+      - [1.1.1.10. Tamanho e Desempenho](/Base/Relatórios/1.1.1.DAS/1.1.1.10.TamanhoDesempenho.md)
+      - [1.1.1.11. Qualidade](/Base/Relatórios/1.1.1.DAS/1.1.1.11.Qualidade.md)
+      - [1.1.1.12. Matriz de Rastreabilidade](/Base/Relatórios/1.1.1.DAS/1.1.1.12.Rastreabilidade.md)
+      - [ADRs da Entrega 04](/Base/Relatórios/1.1.1.DAS/ADR/README.md)
+      - [Registro de prompts de IA](/Base/Relatórios/1.1.1.DAS/RegistroPrompts.md)
+    - [1.1.2. Reutilização](/Base/Relatórios/1.1.2.Reutilizacao.md)
+  - [1.2. Participações](/Base/1.2.Participacoes.md)
+  - [1.3. Iniciativas extras](/Base/1.3.IniciativasExtras.md)
 
-- **Base**
-  - [1. Desenho de Software (DAS ou Reutilização)](/docs/Base/1.DAS_Reutilizacao.md)
-  - Relatórios
-      - [1.1.1. DAS](/docs/Base/Relatórios/1.1.1.DAS.md)
-      - [1.1.2. Reutilização](/docs/Base/Relatórios/1.1.2.Reutilizacao.md)
-  - [1.2. Participações](/docs/Base/1.2.Participacoes.md)
-  - [1.3. Iniciativas Extras](/docs/Base/1.3.IniciativasExtras.md)
+- **Projeto**
+  - [Projetos do período](/Projeto/Projeto.md)
+  - [Planejamento da Entrega 04](/Projeto/Planejamento.md)
+  - [Atas e reuniões](/Projeto/Atas/README.md)
+  - [Modelo de ata](/Projeto/Atas/TEMPLATE.md)
+  - [Repositório de código](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo)
+  - [Entrega 03](https://unbarqdsw2026-2-turma01.github.io/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_03/)
+  - [Entrega 02](https://unbarqdsw2026-2-turma01.github.io/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_02/)
