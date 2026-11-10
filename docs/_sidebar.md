@@ -28,6 +28,7 @@
   - [Projetos do período](/Projeto/Projeto.md)
   - [Planejamento da Entrega 04](/Projeto/Planejamento.md)
   - [Atas e reuniões](/Projeto/Atas/README.md)
+    - [Reunião Geral 1 (Entrega 04)](/Projeto/Atas/ata-G01-entrega-04.md)
   - [Modelo de ata](/Projeto/Atas/TEMPLATE.md)
   - [Repositório de código](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo)
   - [Entrega 03](https://unbarqdsw2026-2-turma01.github.io/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_03/)
