@@ -1,6 +1,6 @@
 # Planejamento da Entrega 04
 
-> Versão em PDF: [planejamento-entrega-04.pdf](Projeto/assets/planejamento-entrega-04.pdf ':ignore'). Decisões pendentes de confirmação na reunião de abertura ([#2](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/2)): foco, datas reais, horário de congelamento e repositório de código.
+> Versão em PDF: [planejamento-entrega-04.pdf](Projeto/assets/planejamento-entrega-04.pdf ':ignore'). Decisões da reunião de abertura ([ata](/Projeto/Atas/ata-G01-entrega-04.md)): **foco DAS aprovado** (D01), divisão por subequipe aprovada com ressalvas (D02), TypeScript mantido (D07) e integração por shared kernel (D08). **Pendentes:** confirmar as datas no Aprender3 (D03), horário de congelamento (D04) e próxima reunião (D05). A parte de **vídeo** deste plano deve ser desconsiderada: a demonstração será ao vivo (D06).
 
 ## Em uma página
 
@@ -89,12 +89,14 @@ O contrato é definido em [código #3](https://github.com/UnBArqDsw2026-2-Turma0
 
 | Marco | Quando | Data real | Entregável | Critério de saída |
 | --- | --- | --- | --- | --- |
-| M0 · Abertura | D-14 | A definir | Reunião geral e ata | Plano aprovado ou ajustado |
-| M1 · Fundação | D-11 | A definir | Monorepo, shared-kernel, esqueleto do DAS | `npm test` passa na raiz; sidebar completa |
-| M2 · Rascunho | D-7 | A definir | Três visões em rascunho; CA-01 no terminal | **Go/no-go** da web integrada |
-| M3 · Revisão | D-4 | A definir | Revisões cruzadas, web, relatos de IA, extras A | PRs de visão revisados por outra subequipe |
-| M4 · Fechamento | D-2 | A definir | Vídeo, quadros 1.2 e 1.3, README | [Checklist](/Checklist.md) completo |
-| M5 · Congelamento | D-1 | A definir | Último merge, ensaio, cópia offline | Nenhum commit após o horário combinado |
+| M0 · Abertura | D-14 | 09/11 (prov.) | Reunião geral e ata | Plano aprovado ou ajustado |
+| M1 · Fundação | D-11 | 12/11 (prov.) | Monorepo, shared-kernel, esqueleto do DAS | `npm test` passa na raiz; sidebar completa |
+| M2 · Rascunho | D-7 | 16/11 (prov.) | Três visões em rascunho; CA-01 no terminal | **Go/no-go** da web integrada |
+| M3 · Revisão | D-4 | 19/11 (prov.) | Revisões cruzadas, web, relatos de IA, extras A | PRs de visão revisados por outra subequipe |
+| M4 · Fechamento | D-2 | 21/11 (prov.) | Vídeo, quadros 1.2 e 1.3, README | [Checklist](/Checklist.md) completo |
+| M5 · Congelamento | D-1 | 22/11 (prov.) | Último merge, ensaio, cópia offline | Nenhum commit após o horário combinado |
+
+Datas **provisórias**, com D = 23/11/2026 (data-limite mais cedo entre as lembradas na reunião, ata D03). Confirmar a data de entrega no Aprender3 e ajustar também os [milestones](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/milestones).
 
 ## 6. Iniciativas extras
 
