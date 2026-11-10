@@ -3,7 +3,7 @@
 ## Identificação
 
 - **Reunião:** Reunião Geral 1 — planejamento da Entrega 04.
-- **Data e horário:** **A confirmar.** A transcrição não traz data nem horário. O arquivo da transcrição foi baixado em 10/11/2026, às 20h25. A fala final está em 22min40s da gravação.
+- **Data e horário:** 9 de novembro de 2026, às 19h, conforme informado por Lucas Andrade Zanetti (a transcrição em si não traz data nem horário). A fala final está em 22min40s da gravação.
 - **Local ou plataforma:** Reunião on-line; gravação no Microsoft Stream/SharePoint.
 - **Participantes com fala identificada na transcrição:** Lucas Andrade Zanetti, Davi Severiano Freitas, Philipe Amâncio Reis Caetano, Pedro Henrique Freire Rodrigues, Pedro Druck Montalvão Reis e Mateus Rodrigues Barreto. As falas de Pedro Druck e de Mateus Rodrigues Barreto saíram ininteligíveis na transcrição automática, então só a presença deles é registrada.
 - **Sem fala registrada** (podem ter estado presentes sem falar): Matheus Lemes Amaral, Heitor Macedo Ricardo, Daniel de Oliveira Lira, Hugo Freitas Silva e Eduardo Lôbo Moreira. A transcrição identifica quem falou, mas não confirma a lista completa de presentes.
@@ -58,4 +58,4 @@ Estes pontos **não foram discutidos na reunião**; foram notados ao redigir est
 
 | Data | Autor do registro | Revisor | Alteração ou comprobatório |
 | --- | --- | --- | --- |
-| 10/11/2026 | Redação a partir da transcrição VTT, com apoio de IA generativa | Pendente | Cada decisão aponta o trecho da transcrição; gravação vinculada acima. A data da reunião deve ser confirmada. |
+| 10/11/2026 | Redação a partir da transcrição VTT, com apoio de IA generativa | Pendente | Cada decisão aponta o trecho da transcrição; gravação vinculada acima. Data e horário da reunião informados por Lucas Andrade Zanetti. |
