@@ -89,7 +89,7 @@ O contrato é definido em [código #3](https://github.com/UnBArqDsw2026-2-Turma0
 
 | Marco | Quando | Data real | Entregável | Critério de saída |
 | --- | --- | --- | --- | --- |
-| M0 · Abertura | D-14 | 09/11 (prov.) | Reunião geral e ata | Plano aprovado ou ajustado |
+| M0 · Abertura | D-14 | 09/11 (reunião realizada) | Reunião geral e ata | Plano aprovado ou ajustado |
 | M1 · Fundação | D-11 | 12/11 (prov.) | Monorepo, shared-kernel, esqueleto do DAS | `npm test` passa na raiz; sidebar completa |
 | M2 · Rascunho | D-7 | 16/11 (prov.) | Três visões em rascunho; CA-01 no terminal | **Go/no-go** da web integrada |
 | M3 · Revisão | D-4 | 19/11 (prov.) | Revisões cruzadas, web, relatos de IA, extras A | PRs de visão revisados por outra subequipe |
