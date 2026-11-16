@@ -1,0 +1,52 @@
+@startuml visao-processos-eventbus-concorrencia-v1
+' Visão de Processos (DAS 1.1.1.6): fluxo de concorrência no processo Node.js
+' Autoria: SubEquipe_03 (Eduardo Lôbo Moreira), 2026. v1.
+
+title Visão de Processos: Concorrência no StreamChannel, EventBusEmMemoria e SSE (v1)
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+
+|transmissao (StreamChannel)|
+start
+:goLive(config) ou endLive();
+:this.notify(event) delega para\na dispatchStrategy configurada;
+
+|Strategy (Observer)|
+:Divide observadores em lotes\nde até 150 (concurrencyLimit);
+while (próximo lote?) is (sim)
+  fork
+    :Dispara observadores do lote\nem paralelo (Promise.allSettled);
+  fork again
+    :Falha individual vira\nNotificationResult { success: false };
+  end fork
+endwhile (fim dos lotes)
+
+|transmissao (StreamChannel)|
+:Retorna NotificationReport;
+:eventBus.publicar(LiveIniciada ou LiveEncerrada);
+
+|EventBusEmMemoria|
+:this.fila.push(evento);
+if (this.emProcessamento == true?) then (sim)
+  :Retorna sem recursão\n(evento aguarda na fila);
+  stop
+else (não)
+  :this.emProcessamento = true;
+  while (this.fila.length > 0?) is (sim)
+    :proximo = this.fila.shift();
+    :Executa tratadores do tipo\nem ordem sobre cópia [...lista];
+  endwhile (não)
+  :this.emProcessamento = false;
+endif
+
+|conteudo e apps/web (SSE)|
+fork
+  :conteudo assina LiveEncerrada\ne cria o VOD;
+fork again
+  :apps/web encaminha evento\nvia SSE (text/event-stream);
+end fork
+stop
+
+@enduml
