@@ -8,6 +8,9 @@
 
 title Visão Lógica — contratos entre contextos (ports e eventos), v1
 
+left to right direction
+skinparam nodesep 25
+skinparam ranksep 60
 skinparam backgroundColor #FFFFFF
 skinparam shadowing false
 skinparam defaultFontName Helvetica

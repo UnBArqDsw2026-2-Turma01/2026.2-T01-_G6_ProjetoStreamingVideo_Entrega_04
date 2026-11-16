@@ -9,6 +9,9 @@
 
 title Visão Lógica — contextos da SubEquipe_02 (monetização e shared-kernel), v1
 
+left to right direction
+skinparam nodesep 25
+skinparam ranksep 60
 skinparam backgroundColor #FFFFFF
 skinparam shadowing false
 skinparam defaultFontName Helvetica
