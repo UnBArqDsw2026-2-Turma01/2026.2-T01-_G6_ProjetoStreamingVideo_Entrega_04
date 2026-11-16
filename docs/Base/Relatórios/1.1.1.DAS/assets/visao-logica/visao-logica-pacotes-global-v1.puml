@@ -12,6 +12,14 @@ skinparam shadowing false
 skinparam defaultFontName Helvetica
 skinparam packageStyle folder
 skinparam ArrowColor #333333
+skinparam rectangle {
+  BackgroundColor<<app>> #E1D5E7
+  BackgroundColor<<SG1>> #DAE8FC
+  BackgroundColor<<SG2>> #D5E8D4
+  BackgroundColor<<SG3>> #FFE6CC
+  BackgroundColor<<kernel>> #F5F5F5
+  BorderColor #555555
+}
 skinparam package {
   BorderColor #555555
   BackgroundColor<<camada>> #FFFFFF
@@ -23,29 +31,29 @@ skinparam package {
 }
 
 package "Camada 1 · Apresentação e composição" as L1 <<camada>> {
-  package "@g6/cli-demo\n(apps/cli-demo)" as cli <<app>>
-  package "@g6/web\n(apps/web)" as web <<app>>
+  rectangle "@g6/cli-demo\n(apps/cli-demo)" as cli <<app>>
+  rectangle "@g6/web\n(apps/web)" as web <<app>>
 }
 
 package "Camada 2 · Contextos delimitados" as L2 <<camada>> {
-  package "@g6/identidade" as identidade <<SG3>>
+  rectangle "@g6/identidade" as identidade <<SG3>>
   package "@g6/transmissao" as transmissao <<camada>> {
-    package "configuracao" as tr_conf <<SG1>>
-    package "servico" as tr_serv <<SG1>>
-    package "canal" as tr_canal <<SG3>>
+    rectangle "configuracao" as tr_conf <<SG1>>
+    rectangle "servico" as tr_serv <<SG1>>
+    rectangle "canal" as tr_canal <<SG3>>
   }
-  package "@g6/conteudo" as conteudo <<SG1>>
-  package "@g6/monetizacao" as monetizacao <<SG2>>
-  package "@g6/chat" as chat <<SG3>>
-  package "@g6/moderacao" as moderacao <<SG3>>
+  rectangle "@g6/conteudo" as conteudo <<SG1>>
+  rectangle "@g6/monetizacao" as monetizacao <<SG2>>
+  rectangle "@g6/chat" as chat <<SG3>>
+  rectangle "@g6/moderacao" as moderacao <<SG3>>
 }
 
 package "Camada 3 · @g6/shared-kernel" as kernel <<kernel>> {
-  package "tipos" as k_tipos <<kernel>>
-  package "ports" as k_ports <<kernel>>
-  package "eventos" as k_eventos <<kernel>>
-  package "eventbus" as k_bus <<kernel>>
-  package "testing\n(fakes e suítes)" as k_testing <<kernel>>
+  rectangle "tipos" as k_tipos <<kernel>>
+  rectangle "ports" as k_ports <<kernel>>
+  rectangle "eventos" as k_eventos <<kernel>>
+  rectangle "eventbus" as k_bus <<kernel>>
+  rectangle "testing\n(fakes e suítes)" as k_testing <<kernel>>
 }
 
 ' Dependências permitidas (RD1, RD2). A seta vai de quem depende para quem é usado.
