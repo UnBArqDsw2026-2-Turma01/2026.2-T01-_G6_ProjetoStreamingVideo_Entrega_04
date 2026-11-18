@@ -1,0 +1,118 @@
+@startuml visao-logica-contextos-sg1-v1
+' Visão Lógica (DAS 1.1.1.5) — detalhe dos contextos da SubEquipe_01:
+' transmissao/configuracao, transmissao/servico e conteudo.
+' Autoria: SubEquipe_01 (Lucas Andrade Zanetti, Matheus Lemes Amaral,
+' Pedro Druck Montalvão Reis, Heitor Macedo Ricardo), 2026. Versão 1.
+' Classes da E03: g6-streaming-entrega03-subgrupo01-codigo @ be019ec.
+' <<a implementar>> = classe prevista em issue do código, ainda inexistente.
+
+title Visão Lógica — contextos da SubEquipe_01 (transmissão/configuração e conteúdo), v1
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam packageStyle folder
+skinparam classAttributeIconSize 0
+hide empty members
+skinparam package {
+  BackgroundColor<<SG1>> #DAE8FC
+  BackgroundColor<<SG3>> #FFE6CC
+  BackgroundColor<<kernel>> #F5F5F5
+}
+skinparam class {
+  BackgroundColor<<a implementar>> #FFFFFF
+  BorderColor<<a implementar>> #999999
+  BackgroundColor<<port>> #FFFFFF
+}
+
+package "@g6/shared-kernel" as kernel <<kernel>> {
+  interface TransmissaoPort <<port>>
+  interface EventBus <<port>>
+  class PresetTransmissao <<DTO>> {
+    preset: 'baixa-latencia' | 'alta-qualidade' | 'movel'
+    titulo: string
+  }
+}
+
+package "@g6/transmissao" as transmissao {
+  package "configuracao (SG1 · #6)" as conf <<SG1>> {
+    class StreamConfigDirector <<Director>> {
+      + lowLatency(title): StreamConfig
+      + highQuality(title): StreamConfig
+      + mobile(title): StreamConfig
+    }
+    interface StreamConfigBuilder <<Builder>>
+    class DefaultStreamConfigBuilder <<ConcreteBuilder>>
+    class StreamConfig <<Product>>
+    class VideoSettings
+  }
+  package "servico (SG1 · #8)" as serv <<SG1>> {
+    class TransmissaoService <<a implementar>> {
+      + abrir(criador, preset)
+      + encerrar(criador, live)
+      + consultar(live)
+    }
+  }
+  package "canal (SG3 · #7)" as canal <<SG3>> {
+    class StreamChannel <<Subject>>
+  }
+}
+
+package "@g6/conteudo (SG1 · #9)" as conteudo <<SG1>> {
+  abstract class UserContentCreator <<Creator>> {
+    + submit(input): TContent
+  }
+  class LiveStreamCreator <<ConcreteCreator>>
+  class RecordedVideoCreator <<ConcreteCreator>>
+  class ClipCreator <<ConcreteCreator>>
+  abstract class UserContent <<Product>>
+  class LiveStream
+  class RecordedVideo
+  class Clip
+  interface ContentRepository
+  interface PolicyService <<interno>>
+  class TratadorLiveEncerrada <<a implementar>>
+}
+
+' Builder + Director
+StreamConfigDirector o--> StreamConfigBuilder
+DefaultStreamConfigBuilder ..|> StreamConfigBuilder
+DefaultStreamConfigBuilder ..> StreamConfig : <<create>>
+StreamConfig o--> "0..1" VideoSettings
+
+' Serviço liga configuração e canal (RD6) e realiza o port.
+TransmissaoService ..|> TransmissaoPort
+TransmissaoService ..> StreamConfigDirector : preset → receita
+TransmissaoService ..> StreamChannel : abre a live\ncom StreamConfig
+TransmissaoService ..> PresetTransmissao
+StreamChannel ..> EventBus : <<publica>>\nLiveIniciada / LiveEncerrada
+
+' Factory Method
+LiveStreamCreator --|> UserContentCreator
+RecordedVideoCreator --|> UserContentCreator
+ClipCreator --|> UserContentCreator
+LiveStream --|> UserContent
+RecordedVideo --|> UserContent
+Clip --|> UserContent
+UserContentCreator ..> ContentRepository
+UserContentCreator ..> PolicyService
+RecordedVideoCreator ..> RecordedVideo : <<create>>
+
+' Reação por evento: conteudo não conhece transmissao.
+TratadorLiveEncerrada ..> EventBus : <<assina>>\nLiveEncerrada
+TratadorLiveEncerrada ..> RecordedVideoCreator : cria o VOD
+
+note right of PolicyService
+  Moderação de VOD permanece **interna** ao conteúdo
+  (DE09 da E02; observação do PR #26 do código).
+  Não usa ModeracaoPort, que modera só chat.
+end note
+
+note bottom of serv
+  Único ponto que importa configuracao **e** canal.
+  Mapeamento preset → Director **esperado** (fechado na #6):
+  baixa-latencia → lowLatency · alta-qualidade → highQuality
+  movel → mobile. Ver ADR-009.
+end note
+
+@enduml

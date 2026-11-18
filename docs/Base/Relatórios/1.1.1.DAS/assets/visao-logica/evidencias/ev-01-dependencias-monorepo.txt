@@ -1,0 +1,134 @@
+EV-01 — Dependências entre pacotes do monorepo (Visão Lógica, DAS 1.1.1.5)
+Gerado em 15/11/2026 pela SubEquipe_01 a partir do repositório
+UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo.
+Comandos (rodados na raiz do repositório de código, sem checkout):
+  git show <ref>:<pacote>/package.json        # dependências @g6 declaradas
+  git grep -n -E "from ['\"]@g6/" <ref> -- packages apps
+  git grep -n -E "from ['\"](\.\./){2,}" <ref> -- packages apps
+
+================================================================
+REF origin/main @ 55b1ed863866dcf3a41587f3642ef06efcb0f3be
+(main: esqueleto do monorepo, PR #24 e #25)
+----- dependências @g6 declaradas em package.json
+apps/cli-demo/package.json           @g6/shared-kernel @g6/identidade @g6/transmissao @g6/conteudo @g6/monetizacao @g6/chat @g6/moderacao 
+apps/web/package.json                @g6/shared-kernel @g6/identidade @g6/transmissao @g6/conteudo @g6/monetizacao @g6/chat @g6/moderacao 
+packages/chat/package.json           @g6/shared-kernel 
+packages/conteudo/package.json       @g6/shared-kernel 
+packages/identidade/package.json     @g6/shared-kernel 
+packages/moderacao/package.json      @g6/shared-kernel 
+packages/monetizacao/package.json    @g6/shared-kernel 
+packages/shared-kernel/package.json  
+packages/transmissao/package.json    @g6/shared-kernel 
+----- imports de @g6/* (src, test e README)
+apps/cli-demo/src/main.ts:1:import * as shared_kernel from '@g6/shared-kernel';
+apps/cli-demo/src/main.ts:2:import * as identidade from '@g6/identidade';
+apps/cli-demo/src/main.ts:3:import * as transmissao from '@g6/transmissao';
+apps/cli-demo/src/main.ts:4:import * as conteudo from '@g6/conteudo';
+apps/cli-demo/src/main.ts:5:import * as monetizacao from '@g6/monetizacao';
+apps/cli-demo/src/main.ts:6:import * as chat from '@g6/chat';
+apps/cli-demo/src/main.ts:7:import * as moderacao from '@g6/moderacao';
+apps/cli-demo/test/estrutura.test.ts:3:import * as shared_kernel from '@g6/shared-kernel';
+apps/cli-demo/test/estrutura.test.ts:4:import * as identidade from '@g6/identidade';
+apps/cli-demo/test/estrutura.test.ts:5:import * as transmissao from '@g6/transmissao';
+apps/cli-demo/test/estrutura.test.ts:6:import * as conteudo from '@g6/conteudo';
+apps/cli-demo/test/estrutura.test.ts:7:import * as monetizacao from '@g6/monetizacao';
+apps/cli-demo/test/estrutura.test.ts:8:import * as chat from '@g6/chat';
+apps/cli-demo/test/estrutura.test.ts:9:import * as moderacao from '@g6/moderacao';
+apps/web/test/estrutura.test.ts:3:import * as shared_kernel from '@g6/shared-kernel';
+apps/web/test/estrutura.test.ts:4:import * as identidade from '@g6/identidade';
+apps/web/test/estrutura.test.ts:5:import * as transmissao from '@g6/transmissao';
+apps/web/test/estrutura.test.ts:6:import * as conteudo from '@g6/conteudo';
+apps/web/test/estrutura.test.ts:7:import * as monetizacao from '@g6/monetizacao';
+apps/web/test/estrutura.test.ts:8:import * as chat from '@g6/chat';
+apps/web/test/estrutura.test.ts:9:import * as moderacao from '@g6/moderacao';
+----- imports relativos que sobem dois ou mais níveis
+packages/monetizacao/test/recarga/estrutura.test.ts:1:import * as pacote from '../../src/index';
+packages/transmissao/test/canal/estrutura.test.ts:3:import * as pacote from '../../src/index';
+packages/transmissao/test/configuracao/estrutura.test.ts:2:import * as pacote from '../../src/index';
+
+================================================================
+REF origin/feat/shared-kernel-fakes @ 3d43c7db07c12dffaa8de82a560069c9b6131fcd
+(branch do PR #27, que inclui o contrato do PR #26; ainda não integrada à main)
+----- dependências @g6 declaradas em package.json
+apps/cli-demo/package.json           @g6/shared-kernel @g6/identidade @g6/transmissao @g6/conteudo @g6/monetizacao @g6/chat @g6/moderacao 
+apps/web/package.json                @g6/shared-kernel @g6/identidade @g6/transmissao @g6/conteudo @g6/monetizacao @g6/chat @g6/moderacao 
+packages/chat/package.json           @g6/shared-kernel 
+packages/conteudo/package.json       @g6/shared-kernel 
+packages/identidade/package.json     @g6/shared-kernel 
+packages/moderacao/package.json      @g6/shared-kernel 
+packages/monetizacao/package.json    @g6/shared-kernel 
+packages/shared-kernel/package.json  
+packages/transmissao/package.json    @g6/shared-kernel 
+----- imports de @g6/* (src, test e README)
+apps/cli-demo/src/main.ts:1:import * as shared_kernel from '@g6/shared-kernel';
+apps/cli-demo/src/main.ts:2:import * as identidade from '@g6/identidade';
+apps/cli-demo/src/main.ts:3:import * as transmissao from '@g6/transmissao';
+apps/cli-demo/src/main.ts:4:import * as conteudo from '@g6/conteudo';
+apps/cli-demo/src/main.ts:5:import * as monetizacao from '@g6/monetizacao';
+apps/cli-demo/src/main.ts:6:import * as chat from '@g6/chat';
+apps/cli-demo/src/main.ts:7:import * as moderacao from '@g6/moderacao';
+apps/cli-demo/test/estrutura.test.ts:3:import * as shared_kernel from '@g6/shared-kernel';
+apps/cli-demo/test/estrutura.test.ts:4:import * as identidade from '@g6/identidade';
+apps/cli-demo/test/estrutura.test.ts:5:import * as transmissao from '@g6/transmissao';
+apps/cli-demo/test/estrutura.test.ts:6:import * as conteudo from '@g6/conteudo';
+apps/cli-demo/test/estrutura.test.ts:7:import * as monetizacao from '@g6/monetizacao';
+apps/cli-demo/test/estrutura.test.ts:8:import * as chat from '@g6/chat';
+apps/cli-demo/test/estrutura.test.ts:9:import * as moderacao from '@g6/moderacao';
+apps/web/test/estrutura.test.ts:3:import * as shared_kernel from '@g6/shared-kernel';
+apps/web/test/estrutura.test.ts:4:import * as identidade from '@g6/identidade';
+apps/web/test/estrutura.test.ts:5:import * as transmissao from '@g6/transmissao';
+apps/web/test/estrutura.test.ts:6:import * as conteudo from '@g6/conteudo';
+apps/web/test/estrutura.test.ts:7:import * as monetizacao from '@g6/monetizacao';
+apps/web/test/estrutura.test.ts:8:import * as chat from '@g6/chat';
+apps/web/test/estrutura.test.ts:9:import * as moderacao from '@g6/moderacao';
+packages/shared-kernel/README.md:22:import { FakeTransmissao } from '@g6/shared-kernel/testing';
+packages/shared-kernel/README.md:23:import { liveId, usuarioId, canalId } from '@g6/shared-kernel';
+packages/shared-kernel/README.md:54:import { casosModeracaoPort } from '@g6/shared-kernel/testing';
+----- imports relativos que sobem dois ou mais níveis
+packages/monetizacao/test/recarga/estrutura.test.ts:1:import * as pacote from '../../src/index';
+packages/shared-kernel/src/testing/fakes/fake-autenticacao.ts:1:import type { AutenticacaoPort } from '../../ports';
+packages/shared-kernel/src/testing/fakes/fake-autenticacao.ts:2:import type { Credenciais, FatorAdicional, Resultado, Sessao } from '../../tipos';
+packages/shared-kernel/src/testing/fakes/fake-autenticacao.ts:3:import { usuarioId } from '../../tipos';
+packages/shared-kernel/src/testing/fakes/fake-chat.ts:1:import type { ChatPort } from '../../ports';
+packages/shared-kernel/src/testing/fakes/fake-chat.ts:2:import type { Cancelamento, LiveId, MensagemChat, MensagemDestacada, MensagemEntregue, Resultado } from '../../tipos';
+packages/shared-kernel/src/testing/fakes/fake-doacao.ts:1:import type { DoacaoPort } from '../../ports';
+packages/shared-kernel/src/testing/fakes/fake-doacao.ts:2:import type { ComprovanteDoacao, LiveId, MoedaVirtual, Resultado, Sessao } from '../../tipos';
+packages/shared-kernel/src/testing/fakes/fake-moderacao.ts:1:import type { ModeracaoPort } from '../../ports';
+packages/shared-kernel/src/testing/fakes/fake-moderacao.ts:2:import type { MensagemChat, VereditoModeracao } from '../../tipos';
+packages/shared-kernel/src/testing/fakes/fake-recarga.ts:1:import type { RecargaPort } from '../../ports';
+packages/shared-kernel/src/testing/fakes/fake-recarga.ts:12:} from '../../tipos';
+packages/shared-kernel/src/testing/fakes/fake-recarga.ts:13:import { pacoteId } from '../../tipos';
+packages/shared-kernel/src/testing/fakes/fake-transmissao.ts:1:import type { TransmissaoPort } from '../../ports';
+packages/shared-kernel/src/testing/fakes/fake-transmissao.ts:2:import type { LiveId, LiveResumo, PresetTransmissao, Resultado, Sessao } from '../../tipos';
+packages/shared-kernel/src/testing/fakes/fake-transmissao.ts:3:import { liveId } from '../../tipos';
+packages/shared-kernel/src/testing/suites/autenticacao.suite.ts:2:import type { AutenticacaoPort } from '../../ports';
+packages/shared-kernel/src/testing/suites/autenticacao.suite.ts:3:import type { Credenciais, FatorAdicional, Sessao } from '../../tipos';
+packages/shared-kernel/src/testing/suites/autenticacao.suite.ts:4:import { usuarioId } from '../../tipos';
+packages/shared-kernel/src/testing/suites/chat.suite.ts:2:import type { ChatPort } from '../../ports';
+packages/shared-kernel/src/testing/suites/chat.suite.ts:3:import type { MensagemChat, MensagemDestacada, MensagemEntregue } from '../../tipos';
+packages/shared-kernel/src/testing/suites/chat.suite.ts:4:import { liveId, usuarioId } from '../../tipos';
+packages/shared-kernel/src/testing/suites/doacao.suite.ts:2:import type { DoacaoPort } from '../../ports';
+packages/shared-kernel/src/testing/suites/doacao.suite.ts:3:import type { MoedaVirtual, Sessao } from '../../tipos';
+packages/shared-kernel/src/testing/suites/doacao.suite.ts:4:import { liveId, usuarioId } from '../../tipos';
+packages/shared-kernel/src/testing/suites/event-bus.suite.ts:2:import type { EventBus, EventoDominio } from '../../eventos';
+packages/shared-kernel/src/testing/suites/event-bus.suite.ts:3:import { canalId, liveId } from '../../tipos';
+packages/shared-kernel/src/testing/suites/moderacao.suite.ts:2:import type { ModeracaoPort } from '../../ports';
+packages/shared-kernel/src/testing/suites/moderacao.suite.ts:3:import type { MensagemChat } from '../../tipos';
+packages/shared-kernel/src/testing/suites/moderacao.suite.ts:4:import { usuarioId } from '../../tipos';
+packages/shared-kernel/src/testing/suites/recarga.suite.ts:2:import type { RecargaPort } from '../../ports';
+packages/shared-kernel/src/testing/suites/recarga.suite.ts:3:import type { MeioPagamento, Sessao } from '../../tipos';
+packages/shared-kernel/src/testing/suites/recarga.suite.ts:4:import { pacoteId, usuarioId } from '../../tipos';
+packages/shared-kernel/src/testing/suites/transmissao.suite.ts:2:import type { TransmissaoPort } from '../../ports';
+packages/shared-kernel/src/testing/suites/transmissao.suite.ts:3:import type { PresetTransmissao, Sessao } from '../../tipos';
+packages/shared-kernel/src/testing/suites/transmissao.suite.ts:4:import { liveId, usuarioId } from '../../tipos';
+packages/transmissao/test/canal/estrutura.test.ts:3:import * as pacote from '../../src/index';
+packages/transmissao/test/configuracao/estrutura.test.ts:2:import * as pacote from '../../src/index';
+
+================================================================
+LEITURA (SubEquipe_01):
+- Nenhum packages/<contexto> declara ou importa outro contexto (RD3).
+- packages/shared-kernel não declara dependência @g6 (RD4).
+- Só apps/* declaram e importam os contextos (RD1).
+- Todo import relativo com ../../ permanece dentro do próprio pacote (test/ -> src/, testing/ -> ports|tipos|eventos).
+- Limite: os pacotes de contexto ainda estão vazios na main; a evidência mostra a
+  estrutura declarada, não o código importado da E03. Repetir a varredura após as issues #5 a #14.
