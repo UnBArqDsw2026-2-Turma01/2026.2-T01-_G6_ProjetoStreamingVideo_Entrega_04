@@ -1,0 +1,133 @@
+@startuml visao-logica-contextos-sg3-v1
+' Visão Lógica (DAS 1.1.1.5) — detalhe dos contextos da SubEquipe_03:
+' identidade, transmissao/canal, chat e moderacao.
+' Autoria: SubEquipe_01 (Lucas Andrade Zanetti, Matheus Lemes Amaral,
+' Pedro Druck Montalvão Reis, Heitor Macedo Ricardo), 2026. Versão 1 — rascunho
+' a validar pela SubEquipe_03 (Hugo Freitas Silva e Philipe Amâncio Reis Caetano).
+' Classes da E03: g6-streaming-entrega03-subgrupo03-codigo @ d2860ff.
+
+title Visão Lógica — contextos da SubEquipe_03 (identidade, canal, chat e moderação), v1
+
+left to right direction
+skinparam nodesep 25
+skinparam ranksep 60
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam packageStyle folder
+skinparam classAttributeIconSize 0
+hide empty members
+skinparam package {
+  BackgroundColor<<SG3>> #FFE6CC
+  BackgroundColor<<kernel>> #F5F5F5
+}
+skinparam class {
+  BackgroundColor<<a implementar>> #FFFFFF
+  BorderColor<<a implementar>> #999999
+  BackgroundColor<<port>> #FFFFFF
+}
+
+package "@g6/shared-kernel" as kernel <<kernel>> {
+  interface AutenticacaoPort <<port>>
+  interface ChatPort <<port>>
+  interface ModeracaoPort <<port>>
+  interface EventBus <<port>>
+  class MensagemChat <<DTO>>
+  class VereditoModeracao <<DTO>> {
+    decisao: aprovada | quarentena | bloqueada
+    motivo: string
+  }
+}
+
+package "@g6/identidade (#5)" as identidade <<SG3>> {
+  interface AuthenticationHandler <<Handler>>
+  abstract class AbstractAuthenticationHandler
+  class RateLimitHandler <<ConcreteHandler>>
+  class ClientIntegrityHandler <<ConcreteHandler>>
+  class PasswordHandler <<ConcreteHandler>>
+  class LeakedPasswordHandler <<ConcreteHandler>>
+  class AccountStatusHandler <<ConcreteHandler>>
+  class TwoFactorHandler <<ConcreteHandler>>
+  class StepUpGrantHandler <<ConcreteHandler>>
+  class SessionIssuerHandler <<ConcreteHandler>>
+  class LoginService <<Client>>
+  class AutenticacaoService <<a implementar>>
+}
+
+package "@g6/transmissao :: canal (#7)" as canal <<SG3>> {
+  interface ISubject <<Subject>>
+  interface IObserver <<Observer>>
+  class StreamChannel <<ConcreteSubject>>
+  interface INotificationDispatchStrategy <<Strategy>>
+  class AsynchronousConcurrentDispatchStrategy <<ConcreteStrategy>>
+  class SynchronousBlockingDispatchStrategy <<ConcreteStrategy>>
+}
+
+package "@g6/chat (#13)" as chat <<SG3>> {
+  class ChatRoom <<Subject>>
+  interface ChatObserver <<Observer>>
+  class ChatDeliveryService <<ConcreteObserver>>
+  class QuarantineQueue
+  class ChatAuditService
+  class ChatService <<a implementar>>
+}
+
+package "@g6/moderacao (#14)" as moderacao <<SG3>> {
+  interface AutoModPipeline
+  class ModeracaoService <<a implementar>>
+}
+
+' Chain of Responsibility
+AbstractAuthenticationHandler ..|> AuthenticationHandler
+AbstractAuthenticationHandler o--> "0..1 próximo" AuthenticationHandler
+RateLimitHandler --|> AbstractAuthenticationHandler
+ClientIntegrityHandler --|> AbstractAuthenticationHandler
+PasswordHandler --|> AbstractAuthenticationHandler
+LeakedPasswordHandler --|> AbstractAuthenticationHandler
+AccountStatusHandler --|> AbstractAuthenticationHandler
+TwoFactorHandler --|> AbstractAuthenticationHandler
+StepUpGrantHandler --|> AbstractAuthenticationHandler
+SessionIssuerHandler --|> AbstractAuthenticationHandler
+LoginService ..> AuthenticationHandler
+AutenticacaoService ..|> AutenticacaoPort
+AutenticacaoService ..> LoginService
+
+' Observer + Strategy no canal
+StreamChannel ..|> ISubject
+StreamChannel o--> "*" IObserver
+StreamChannel o--> INotificationDispatchStrategy
+AsynchronousConcurrentDispatchStrategy ..|> INotificationDispatchStrategy
+SynchronousBlockingDispatchStrategy ..|> INotificationDispatchStrategy
+StreamChannel ..> EventBus : <<publica>>\nLiveIniciada / LiveEncerrada
+
+' Observer no chat, moderação por port
+ChatRoom o--> "*" ChatObserver
+ChatDeliveryService ..|> ChatObserver
+ChatRoom --> QuarantineQueue : quarentena
+ChatRoom --> ChatAuditService : auditoria
+ChatService ..|> ChatPort
+ChatService --> ChatRoom
+ChatService ..> ModeracaoPort : <<use>>\nantes de entregar
+ChatService ..> EventBus : <<publica>>\nMensagemPublicada
+
+' Moderação
+ModeracaoService ..|> ModeracaoPort
+ModeracaoService --> AutoModPipeline
+ModeracaoPort ..> MensagemChat
+ModeracaoPort ..> VereditoModeracao
+
+note bottom of moderacao
+  Na E03, AutoModPipeline importava ChatMessage do chat
+  e ChatRoom importava ModerationDecision da moderação:
+  ciclo chat ↔ moderação. Com MensagemChat e VereditoModeracao
+  no kernel, a dependência passa a ter um só sentido (chat → port).
+end note
+
+note right of canal
+  Os observadores de moderação de vídeo do StreamChannel
+  (AutoModObserver, SafetyVisionModerationObserver etc.)
+  não podem importar @g6/moderacao (RD3): ficam no canal
+  ou são ligados por apps/*. Ponto em aberto da #7.
+end note
+
+@enduml

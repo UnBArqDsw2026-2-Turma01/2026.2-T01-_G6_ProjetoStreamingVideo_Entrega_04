@@ -1,0 +1,51 @@
+EV-02 — Acoplamentos entre módulos no código da Entrega 03 (Visão Lógica, DAS 1.1.1.5)
+Gerado em 15/11/2026 pela SubEquipe_01, com git grep sobre clones dos repositórios da E03.
+
+================================================================
+A) SubEquipe_03 — chat e moderação importam um ao outro (ciclo)
+REPO g6-streaming-entrega03-subgrupo03-codigo @ d2860ff4511f1985a8c39a312c3bfad186bd8b06
+$ git grep -n -E "from ['\"]\.\./(moderation|chat)/" -- src/chat src/moderation
+src/chat/ChatAuditService.ts:1:import type { ModerationVerdict } from "../moderation/ModerationVerdict";
+src/chat/ChatRoom.ts:1:import { ModerationDecision } from "../moderation/ModerationDecision";
+src/chat/ChatRoom.ts:2:import type { AutoModPipeline } from "../moderation/AutoModPipeline";
+src/chat/ChatSetup.ts:1:import type { AutoModPipeline } from "../moderation/AutoModPipeline";
+src/chat/QuarantineQueue.ts:1:import { ModerationDecision } from "../moderation/ModerationDecision";
+src/chat/QuarantineQueue.ts:2:import type { ModerationVerdict } from "../moderation/ModerationVerdict";
+src/moderation/AutoModPipeline.ts:1:import type { ChatMessage } from "../chat/ChatMessage";
+
+B) SubEquipe_03 — quem usa o Strategy (INotificationDispatchStrategy)
+$ git grep -l -i strategy -- 'src/*.ts' ':!src/patterns/strategy'
+src/__tests__/observer.test.ts
+src/benchmark.ts
+src/demo.ts
+src/interactive.ts
+src/patterns/observer/StreamChannel.ts
+src/webServer.ts
+$ git grep -n -i strategy -- src/moderation src/engine   (vazio = a moderação não usa Strategy)
+
+C) SubEquipe_02 — frentes que importam umas às outras
+REPO 2026.2-T01-_G6_ProjetoStreamingVideo_SubEquipe02_Codigo @ 95a674384827fc64cced173d26e4a16c061785f2
+$ git grep -n -E "from ['\"]\.\./(f1-recarga|f2-doacao|f3-chat|contratos)" -- src/f1-recarga src/f2-doacao src/f3-chat
+src/f2-doacao/Doacao.ts:2:import { REPASSE_POR_MOEDA } from "../f1-recarga";
+src/f2-doacao/MediatorDoacaoComMensagem.ts:2:import type { NotificadorChat } from "../contratos";
+src/f2-doacao/ServicoDoacao.ts:1:import type { NotificadorChat } from "../contratos";
+src/f2-doacao/montarDoacao.ts:2:import type { NotificadorChat } from "../contratos";
+src/f3-chat/Chat.ts:1:import type { DoacaoNotificada, NotificadorChat } from "../contratos";
+src/f3-chat/Chat.ts:2:import { FaixaDestaque } from "../f2-doacao";
+
+D) SubEquipe_01 — a moderação de conteúdo é um port interno (PolicyService)
+REPO g6-streaming-entrega03-subgrupo01-codigo @ be019ec93914c106459cf73e910e6baf0efc7175
+$ git grep -n 'export interface' -- src/criacionais/factory-method/ports.ts
+src/criacionais/factory-method/ports.ts:12:export interface ContentRepository {
+src/criacionais/factory-method/ports.ts:32:export interface PolicyService {
+
+================================================================
+LEITURA (SubEquipe_01):
+- A: ChatRoom/QuarantineQueue/ChatAuditService importam moderation/*, e AutoModPipeline importa chat/ChatMessage.
+  É um ciclo entre dois módulos que, na E04, viram contextos distintos (@g6/chat e @g6/moderacao).
+  O contrato o quebra: MensagemChat e VereditoModeracao passam ao kernel, e só o chat depende de ModeracaoPort.
+- B: o Strategy de despacho é usado pelo StreamChannel (e pelos demos), não pela moderação.
+- C: f3-chat importa f2-doacao (FaixaDestaque) e f2-doacao importa f1-recarga (REPASSE_POR_MOEDA).
+  Na E04 as três frentes ficam no mesmo contexto (@g6/monetizacao), então essas dependências passam a ser internas;
+  o chat de exibição sai da monetização e recebe a MensagemDestacada já resolvida.
+- D: o Factory Method depende de PolicyService e ContentRepository, ambos interfaces locais ao conteúdo.
