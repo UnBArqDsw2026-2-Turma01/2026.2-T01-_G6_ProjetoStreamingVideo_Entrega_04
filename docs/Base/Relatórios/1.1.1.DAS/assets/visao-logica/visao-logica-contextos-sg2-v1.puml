@@ -1,0 +1,142 @@
+@startuml visao-logica-contextos-sg2-v1
+' Visão Lógica (DAS 1.1.1.5) — detalhe dos contextos da SubEquipe_02:
+' monetizacao (recarga, doacao, destaque) e shared-kernel.
+' Autoria: SubEquipe_01 (Lucas Andrade Zanetti, Matheus Lemes Amaral,
+' Pedro Druck Montalvão Reis, Heitor Macedo Ricardo), 2026. Versão 1 — rascunho
+' a validar pela SubEquipe_02 (Davi Severiano Freitas e Daniel de Oliveira Lira).
+' Classes da E03: 2026.2-T01-_G6_ProjetoStreamingVideo_SubEquipe02_Codigo @ 95a6743.
+' Kernel: PR #26 (b75c711) e PR #27 (3d43c7d) do repositório de código.
+
+title Visão Lógica — contextos da SubEquipe_02 (monetização e shared-kernel), v1
+
+left to right direction
+skinparam nodesep 25
+skinparam ranksep 60
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam packageStyle folder
+skinparam classAttributeIconSize 0
+hide empty members
+skinparam package {
+  BackgroundColor<<SG2>> #D5E8D4
+  BackgroundColor<<kernel>> #F5F5F5
+}
+skinparam class {
+  BackgroundColor<<a implementar>> #FFFFFF
+  BorderColor<<a implementar>> #999999
+  BackgroundColor<<port>> #FFFFFF
+}
+
+package "@g6/shared-kernel (SG2 · #3, #4)" as kernel <<kernel>> {
+  package "tipos" as k_tipos {
+    class "Resultado<T, E>" as Resultado
+    class Sessao
+    class MensagemDestacada <<DTO>>
+  }
+  package "ports" as k_ports {
+    interface RecargaPort <<port>>
+    interface DoacaoPort <<port>>
+    interface ChatPort <<port>>
+    interface TransmissaoPort <<port>>
+    interface EventBus <<port>>
+  }
+  package "eventbus" as k_bus {
+    class EventBusEmMemoria
+  }
+  package "testing" as k_testing {
+    class FakeChat
+    class FakeTransmissao
+    class "casos<Port>()" as suites <<suíte de contrato>>
+  }
+}
+
+package "@g6/monetizacao" as monetizacao <<SG2>> {
+  package "recarga (#10)" as recarga {
+    interface Preco <<Component>>
+    class PrecoPacote <<ConcreteComponent>>
+    abstract class PrecoDecorator <<Decorator>>
+    class ComDesconto
+    class ComTaxaFixa
+    class ComImposto
+    interface GatewayPagamento <<Target>>
+    class AdaptadorProcessadorSimulado <<Adapter>>
+    class AdaptadorMercadoPago <<Adapter>>
+    class AdaptadorStripe <<Adapter>>
+    interface ConfirmadorPagamento <<Subject>>
+    class ServicoConfirmacao <<RealSubject>>
+    class ProxyConfirmacaoSegura <<Proxy>>
+    class RecargaService <<a implementar>>
+  }
+  package "doacao (#11)" as doacao {
+    class ServicoDoacao <<Facade>>
+    class MediatorDoacao <<Mediator>>
+    class MediatorDoacaoComMensagem <<Mediator>>
+  }
+  package "destaque (#12)" as destaque {
+    interface "MensagemDestacada\n(componente local da E03)" as MsgComp <<Component>>
+    abstract class MensagemDecorator <<Decorator>>
+    class MensagemBase
+    class ComFaixaCor
+    class ComFixacao
+    class ComLimiteCaracteres
+    class "montarMensagemDestacada()" as montar <<a implementar>>
+  }
+}
+
+' Recarga: Decorator no preço, Adapter no gateway, Proxy na confirmação.
+PrecoPacote ..|> Preco
+PrecoDecorator ..|> Preco
+PrecoDecorator o--> Preco
+ComDesconto --|> PrecoDecorator
+ComTaxaFixa --|> PrecoDecorator
+ComImposto --|> PrecoDecorator
+AdaptadorProcessadorSimulado ..|> GatewayPagamento
+AdaptadorMercadoPago ..|> GatewayPagamento
+AdaptadorStripe ..|> GatewayPagamento
+ServicoConfirmacao ..|> ConfirmadorPagamento
+ProxyConfirmacaoSegura ..|> ConfirmadorPagamento
+ProxyConfirmacaoSegura o--> ServicoConfirmacao
+RecargaService ..|> RecargaPort
+RecargaService ..> Preco
+RecargaService ..> GatewayPagamento
+RecargaService ..> ConfirmadorPagamento
+RecargaService ..> EventBus : <<publica>>\nRecargaConcluida
+
+' Doação: Facade + Mediator, chat e transmissão só por port.
+ServicoDoacao ..|> DoacaoPort
+ServicoDoacao --> MediatorDoacao
+ServicoDoacao --> MediatorDoacaoComMensagem
+MediatorDoacaoComMensagem ..> ChatPort : <<use>>
+MediatorDoacaoComMensagem ..> montar : <<use>>
+ServicoDoacao ..> TransmissaoPort : <<use>>\nconsultar(live).criador
+ServicoDoacao ..> EventBus : <<publica>>\nDoacaoConfirmada
+
+' Destaque: Decorator que produz o DTO do kernel.
+MensagemBase ..|> MsgComp
+MensagemDecorator ..|> MsgComp
+MensagemDecorator o--> MsgComp
+ComFaixaCor --|> MensagemDecorator
+ComFixacao --|> MensagemDecorator
+ComLimiteCaracteres --|> MensagemDecorator
+montar ..> MsgComp : empilha as camadas
+montar ..> MensagemDestacada : <<create>>\nDTO do kernel
+
+note right of MsgComp
+  Mesmo nome do DTO do kernel.
+  Renomear um dos dois na #12
+  evita ambiguidade (seção Decisões).
+end note
+
+' Kit de testes: fakes realizam os mesmos ports.
+FakeChat ..|> ChatPort
+FakeTransmissao ..|> TransmissaoPort
+EventBusEmMemoria ..|> EventBus
+
+note bottom of doacao
+  Falha no ChatPort **não desfaz** doação nem repasse
+  (E03, Ata S2_02, D05): DoacaoPort devolve ok
+  com destaqueEntregue = false.
+end note
+
+@enduml

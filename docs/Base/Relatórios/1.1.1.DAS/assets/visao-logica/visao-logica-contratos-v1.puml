@@ -1,0 +1,118 @@
+@startuml visao-logica-contratos-v1
+' Visão Lógica (DAS 1.1.1.5) — contratos entre contextos: ports providos e requeridos
+' e eventos de domínio publicados e assinados.
+' Autoria: SubEquipe_01 (Lucas Andrade Zanetti, Matheus Lemes Amaral,
+' Pedro Druck Montalvão Reis, Heitor Macedo Ricardo), 2026. Versão 1.
+' Fonte: TSDoc "Provê / Consome / Garante" de cada port em
+' packages/shared-kernel/src/ports/*.ts e src/eventos/evento-dominio.ts (PR #26 @ b75c711).
+
+title Visão Lógica — contratos entre contextos (ports e eventos), v1
+
+left to right direction
+skinparam nodesep 25
+skinparam ranksep 60
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam packageStyle folder
+skinparam classAttributeIconSize 0
+hide empty members
+skinparam package {
+  BackgroundColor<<SG1>> #DAE8FC
+  BackgroundColor<<SG2>> #D5E8D4
+  BackgroundColor<<SG3>> #FFE6CC
+  BackgroundColor<<kernel>> #F5F5F5
+  BackgroundColor<<app>> #E1D5E7
+}
+skinparam class {
+  BackgroundColor<<port>> #FFFFFF
+  BackgroundColor<<evento>> #FFF2CC
+}
+
+package "apps/*" as apps <<app>> {
+}
+
+package "@g6/shared-kernel" as kernel <<kernel>> {
+  interface AutenticacaoPort <<port>> {
+    + login(credenciais)
+    + stepUp(sessao, fator)
+  }
+  interface TransmissaoPort <<port>> {
+    + abrir(criador, preset)
+    + encerrar(criador, live)
+    + consultar(live)
+  }
+  interface RecargaPort <<port>> {
+    + ofertas(sessao)
+    + recarregar(sessao, pacote, meio)
+    + consultar(sessao, recargaId)
+  }
+  interface DoacaoPort <<port>> {
+    + doar(sessao, live, valor, mensagem?)
+  }
+  interface ChatPort <<port>> {
+    + publicar(live, mensagem)
+    + publicarDestacada(live, mensagem)
+    + inscrever(live, ouvinte)
+  }
+  interface ModeracaoPort <<port>> {
+    + avaliar(mensagem)
+  }
+  interface EventBus <<port>> {
+    + publicar(evento)
+    + assinar(tipo, tratador)
+  }
+  class "EventoDominio" as Evento <<evento>> {
+    LiveIniciada · LiveEncerrada
+    RecargaConcluida · DoacaoConfirmada
+    MensagemPublicada
+  }
+}
+
+package "@g6/identidade" as identidade <<SG3>> {
+}
+package "@g6/transmissao" as transmissao <<SG1>> {
+}
+package "@g6/conteudo" as conteudo <<SG1>> {
+}
+package "@g6/monetizacao" as monetizacao <<SG2>> {
+}
+package "@g6/chat" as chat <<SG3>> {
+}
+package "@g6/moderacao" as moderacao <<SG3>> {
+}
+
+' Provê: o contexto realiza o port (seta de realização).
+identidade ..|> AutenticacaoPort
+transmissao ..|> TransmissaoPort
+monetizacao ..|> RecargaPort
+monetizacao ..|> DoacaoPort
+chat ..|> ChatPort
+moderacao ..|> ModeracaoPort
+
+' Requer: o contexto usa o port; a implementação concreta é injetada por apps/*.
+monetizacao ..> ChatPort : <<use>>\nMediator publica\na mensagem destacada
+monetizacao ..> TransmissaoPort : <<use>>\nquem recebe o repasse
+chat ..> ModeracaoPort : <<use>>\nantes de entregar
+
+' Eventos de domínio pelo EventBus (publica / assina).
+transmissao ..> EventBus : <<publica>>\nLiveIniciada, LiveEncerrada
+monetizacao ..> EventBus : <<publica>>\nRecargaConcluida, DoacaoConfirmada
+chat ..> EventBus : <<publica>>\nMensagemPublicada
+conteudo ..> EventBus : <<assina>>\nLiveEncerrada → VOD
+EventBus --> Evento
+
+' apps consomem os ports de borda e compõem tudo.
+apps ..> AutenticacaoPort : <<use>>
+apps ..> TransmissaoPort : <<use>>
+apps ..> RecargaPort : <<use>>
+apps ..> DoacaoPort : <<use>>
+apps ..> ChatPort : <<use>>
+
+note bottom of kernel
+  Nenhuma seta liga dois contextos diretamente (RD3).
+  monetizacao conhece **ChatPort**, não **@g6/chat**:
+  a implementação real só se encontra com ela em apps/*.
+end note
+
+@enduml
