@@ -19,6 +19,8 @@
       - [1.1.1.11. Qualidade](/Base/Relatórios/1.1.1.DAS/1.1.1.11.Qualidade.md)
       - [1.1.1.12. Matriz de Rastreabilidade](/Base/Relatórios/1.1.1.DAS/1.1.1.12.Rastreabilidade.md)
       - [ADRs da Entrega 04](/Base/Relatórios/1.1.1.DAS/ADR/README.md)
+        - [ADR-006 · Camadas + contextos](/Base/Relatórios/1.1.1.DAS/ADR/ADR-006-camadas-contextos-delimitados.md)
+        - [ADR-009 · Transmissão com dois donos](/Base/Relatórios/1.1.1.DAS/ADR/ADR-009-transmissao-contexto-dois-donos.md)
       - [Registro de prompts de IA](/Base/Relatórios/1.1.1.DAS/RegistroPrompts.md)
     - [1.1.2. Reutilização](/Base/Relatórios/1.1.2.Reutilizacao.md)
   - [1.2. Participações](/Base/1.2.Participacoes.md)

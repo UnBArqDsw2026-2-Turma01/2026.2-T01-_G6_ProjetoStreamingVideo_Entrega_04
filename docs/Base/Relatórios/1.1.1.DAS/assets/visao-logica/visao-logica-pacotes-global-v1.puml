@@ -1,0 +1,91 @@
+@startuml visao-logica-pacotes-global-v1
+' Visão Lógica (DAS 1.1.1.5) — diagrama de pacotes UML global: camadas × contextos.
+' Autoria: SubEquipe_01 (Lucas Andrade Zanetti, Matheus Lemes Amaral,
+' Pedro Druck Montalvão Reis, Heitor Macedo Ricardo), 2026. Versão 1.
+' Fonte de verdade dos nomes: packages/*/package.json do repositório de código
+' (main @ 55b1ed8) e contrato do shared-kernel (PR #26 @ b75c711).
+
+title Visão Lógica — pacotes globais (camadas × contextos), v1
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam packageStyle folder
+skinparam ArrowColor #333333
+skinparam rectangle {
+  BackgroundColor<<app>> #E1D5E7
+  BackgroundColor<<SG1>> #DAE8FC
+  BackgroundColor<<SG2>> #D5E8D4
+  BackgroundColor<<SG3>> #FFE6CC
+  BackgroundColor<<kernel>> #F5F5F5
+  BorderColor #555555
+}
+skinparam package {
+  BorderColor #555555
+  BackgroundColor<<camada>> #FFFFFF
+  BackgroundColor<<app>> #E1D5E7
+  BackgroundColor<<SG1>> #DAE8FC
+  BackgroundColor<<SG2>> #D5E8D4
+  BackgroundColor<<SG3>> #FFE6CC
+  BackgroundColor<<kernel>> #F5F5F5
+}
+
+package "Camada 1 · Apresentação e composição" as L1 <<camada>> {
+  rectangle "@g6/cli-demo\n(apps/cli-demo)" as cli <<app>>
+  rectangle "@g6/web\n(apps/web)" as web <<app>>
+}
+
+package "Camada 2 · Contextos delimitados" as L2 <<camada>> {
+  rectangle "@g6/identidade" as identidade <<SG3>>
+  package "@g6/transmissao" as transmissao <<camada>> {
+    rectangle "configuracao" as tr_conf <<SG1>>
+    rectangle "servico" as tr_serv <<SG1>>
+    rectangle "canal" as tr_canal <<SG3>>
+  }
+  rectangle "@g6/conteudo" as conteudo <<SG1>>
+  rectangle "@g6/monetizacao" as monetizacao <<SG2>>
+  rectangle "@g6/chat" as chat <<SG3>>
+  rectangle "@g6/moderacao" as moderacao <<SG3>>
+}
+
+package "Camada 3 · @g6/shared-kernel" as kernel <<kernel>> {
+  rectangle "tipos" as k_tipos <<kernel>>
+  rectangle "ports" as k_ports <<kernel>>
+  rectangle "eventos" as k_eventos <<kernel>>
+  rectangle "eventbus" as k_bus <<kernel>>
+  rectangle "testing\n(fakes e suítes)" as k_testing <<kernel>>
+}
+
+' Dependências permitidas (RD1, RD2). A seta vai de quem depende para quem é usado.
+L1 ..> L2 : <<use>>\nRD1 · só apps compõem\nimplementações reais
+L1 ..> kernel : <<import>>\nRD1
+L2 ..> kernel : <<import>>\nRD2 · único destino\npermitido a um contexto
+
+' Dependências internas permitidas (RD6): servico liga configuracao e canal.
+tr_serv ..> tr_conf : <<use>>
+tr_serv ..> tr_canal : <<use>>
+
+' Dependências internas do kernel: ports e eventos usam só tipos.
+k_ports ..> k_tipos
+k_eventos ..> k_tipos
+k_bus ..> k_eventos
+k_testing ..> k_ports
+k_testing ..> k_eventos
+
+legend right
+  |= Cor |= Dono |
+  |<#DAE8FC>| SubEquipe_01 |
+  |<#D5E8D4>| SubEquipe_02 |
+  |<#FFE6CC>| SubEquipe_03 |
+  |<#E1D5E7>| apps (composição) |
+  |<#F5F5F5>| shared-kernel (contrato comum) |
+  ----
+  **Proibido** (ausência de seta é regra):
+  RD3 · contexto → outro contexto
+  RD4 · shared-kernel → qualquer pacote do monorepo
+  RD5 · contexto → apps
+  RD6 · configuracao ↔ canal (só servico liga os dois)
+  RD7 · src de produção → shared-kernel/testing
+endlegend
+
+@enduml
