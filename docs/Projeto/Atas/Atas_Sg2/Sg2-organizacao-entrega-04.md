@@ -30,7 +30,7 @@ A evidência de que a arquitetura existe de fato é o cenário **CA-01 — Live 
 | 4 | **Relato de IA** | Relato individual, crítico e fundamentado, de cada integrante (Foco_02) | ✅ |
 | 5 | **Página de Reutilização** | Justificativa da escolha do foco DAS e reúso presente no trabalho ([1.1.2](/Base/Relatórios/1.1.2.Reutilizacao.md), [#9](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/9)) | ✅ (o template não permite omitir seções) |
 | 6 | **Visão de Dados** | Entidades do domínio e onde os dados vivem em cada contexto ([1.1.1.9](/Base/Relatórios/1.1.1.DAS/1.1.1.9.VisaoDados.md), [#9](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/9)) | ✅ |
-| 7 | **Vídeo explicativo** | Cada responsável pode gravar um vídeo explicando o próprio diagrama, se for aplicável ([Ata S2E4_01, D08](./ata-S2E4-01-2026-11-11.md)) | ⭐ Opcional |
+| 7 | **Vídeo explicativo** | Cada responsável pode gravar um vídeo explicando o próprio diagrama, se for aplicável ([Ata S2E4_01, D08](./ata-S2-01-2026-11-11.md)) | ⭐ Opcional |
 | 8 | **Extras** | E6 Docker Compose, E7 C4 como código e E9 shared kernel documentado | ⭐ Pode agregar à menção |
 
 Contribuições para o grupo todo: linhas da SubEquipe_02 na [matriz de rastreabilidade](/Base/Relatórios/1.1.1.DAS/1.1.1.12.Rastreabilidade.md) ([#20](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/20)) e consolidação do quadro de [participações](/Base/1.2.Participacoes.md) ([#15](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/15)).
@@ -62,7 +62,7 @@ flowchart LR
 
 **Regra herdada da E03**: a mensagem destacada é uma notificação assíncrona. Se o chat falhar, a doação e o repasse continuam válidos ([Ata S2_02, D05 da E03](https://unbarqdsw2026-2-turma01.github.io/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_03/#/Projeto/Atas/Atas_Sg2/ata-S2-02-2026-10-10)). No contrato, isso aparece em `ComprovanteDoacao.destaqueEntregue`.
 
-**Mudança em relação à E03**: o chat agora é da SubEquipe_03. A SubEquipe_02 aplica o Decorator da mensagem destacada **antes** e envia a mensagem já decorada ao chat da SubEquipe_03; do chat da SubEquipe_02 na E03, só a criação da mensagem decorada é reaproveitada. O Mediator da doação continua ([Ata S2E4_01, D04](./ata-S2E4-01-2026-11-11.md)).
+**Mudança em relação à E03**: o chat agora é da SubEquipe_03. A SubEquipe_02 aplica o Decorator da mensagem destacada **antes** e envia a mensagem já decorada ao chat da SubEquipe_03; do chat da SubEquipe_02 na E03, só a criação da mensagem decorada é reaproveitada. O Mediator da doação continua ([Ata S2E4_01, D04](./ata-S2-01-2026-11-11.md)).
 
 ---
 
@@ -102,7 +102,7 @@ As extras só entram na página [1.3](/Base/1.3.IniciativasExtras.md) com compro
 
 ## 4. Divisão de responsabilidades
 
-Divisão confirmada na reunião S2E4_01 ([Ata S2E4_01, D01 e D02](./ata-S2E4-01-2026-11-11.md)).
+Divisão confirmada na reunião S2E4_01 ([Ata S2E4_01, D01 e D02](./ata-S2-01-2026-11-11.md)).
 
 **Regras da divisão:**
 1. Todo integrante participa de **pelo menos um artefato de Visão** e do **código**.
@@ -126,7 +126,7 @@ Divisão confirmada na reunião S2E4_01 ([Ata S2E4_01, D01 e D02](./ata-S2E4-01-
 | **Mateus Rodrigues Barreto** | Implementação (com Daniel): diagrama de componentes e organização do monorepo | Contrato (#3, [PR #26](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/pull/26)) · destaque (#12) · página web integrada (#16) | Introdução e Representação Arquitetural ([#3](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/3)) | — | Capturas de tela para o README e o DAS |
 | **Todos** | — | — | — | — | Relato de IA · linhas no registro de prompts · *Versionamentos* no mesmo PR de cada contribuição · a própria linha em 1.2 Participações ([moldes](./moldes-contribuicao.md)) |
 
-**Visão de Dados:** os quatro integrantes; a divisão interna será combinada nas próximas reuniões ([Ata S2E4_01, D03](./ata-S2E4-01-2026-11-11.md)).
+**Visão de Dados:** os quatro integrantes; a divisão interna será combinada nas próximas reuniões ([Ata S2E4_01, D03](./ata-S2-01-2026-11-11.md)).
 
 **Ajuste com o grupo:** no [planejamento geral](/Projeto/Planejamento.md), Davi aparece na Visão de Implementação (#8) e Pedro na de Implantação (#7). Com esta divisão, as issues precisam ser reatribuídas: #8 para Daniel e Mateus, e #7 para Pedro e Davi.
 
@@ -136,7 +136,7 @@ A divisão **não é estanque**: todos trabalham nos mesmos repositórios e pode
 
 ## 5. Cronograma sugerido
 
-Na reunião S2E4_01, a subequipe decidiu não fixar datas por tarefa por enquanto ([Ata S2E4_01, D07](./ata-S2E4-01-2026-11-11.md)). O que está combinado:
+Na reunião S2E4_01, a subequipe decidiu não fixar datas por tarefa por enquanto ([Ata S2E4_01, D07](./ata-S2-01-2026-11-11.md)). O que está combinado:
 
 | Período | Meta | Responsável |
 | -- | -- | -- |
@@ -219,8 +219,8 @@ Pendências resolvidas na reunião S2E4_01: responsável pela Visão de Dados (D
 
 | Reunião | Data | Pauta | Ata |
 | -- | -- | -- | -- |
-| S2E4_01 | 11/11/2026 | Abertura: planejamento geral, shared kernel, integração com o chat, divisão em duplas, Reutilização, Visão de Dados, prazos | [Ata S2E4_01](./ata-S2E4-01-2026-11-11.md) |
-| S2E4_02 | 16/11/2026 | Acompanhamento: migração do código, issues e visões | A preencher |
+| S2E4_01 | 11/11/2026 | Abertura: planejamento geral, shared kernel, integração com o chat, divisão em duplas, Reutilização, Visão de Dados, prazos | [Ata S2E4_01](./ata-S2-01-2026-11-11.md) |
+| S2E4_02 | 16/11/2026 | Acompanhamento: migração do código, issues e visões | [Ata S2E4_02](./ata-S2-02-2026-11-16.md) |
 
 ---
 
