@@ -29,6 +29,10 @@
   - [Planejamento da Entrega 04](/Projeto/Planejamento.md)
   - [Atas e reuniões](/Projeto/Atas/README.md)
     - [Reunião Geral 1 (Entrega 04)](/Projeto/Atas/ata-G01-entrega-04.md)
+    - SubEquipe 02
+      - [Ata S2E4_01 (11/11/2026)](/Projeto/Atas/Atas_Sg2/ata-S2-01-2026-11-11.md)
+      - [Ata S2E4_02 (16/11/2026)](/Projeto/Atas/Atas_Sg2/ata-S2-02-2026-11-16.md)
+      - [Organização da SubEquipe 02](/Projeto/Atas/Atas_Sg2/Sg2-organizacao-entrega-04.md)
   - [Modelo de ata](/Projeto/Atas/TEMPLATE.md)
   - [Repositório de código](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo)
   - [Entrega 03](https://unbarqdsw2026-2-turma01.github.io/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_03/)
