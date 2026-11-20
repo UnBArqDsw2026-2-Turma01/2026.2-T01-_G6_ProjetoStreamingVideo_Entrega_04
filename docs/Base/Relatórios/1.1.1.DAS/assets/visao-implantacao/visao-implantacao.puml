@@ -1,0 +1,100 @@
+@startuml visao-implantacao
+' Visão de Implantação — DAS, Entrega 04 (G6)
+' Diagrama de implantação UML 2.5.1 (OMG, 2017, cap. 19): nós «device» e «executionEnvironment»,
+' artefatos implantados e caminhos de comunicação do cenário CA-01.
+' Autoria: SubEquipe_02 (Davi Severiano Freitas e Pedro Henrique Freire Rodrigues), 2026.
+skinparam shadowing false
+skinparam linetype ortho
+skinparam nodesep 60
+skinparam ranksep 70
+skinparam padding 4
+skinparam defaultFontName Helvetica
+skinparam ArrowFontSize 11
+skinparam ArrowColor #333333
+skinparam NoteBackgroundColor #FFFDE7
+skinparam node {
+  BackgroundColor #FFFFFF
+  BorderColor #555555
+}
+skinparam artifact {
+  BackgroundColor #F4F6FA
+  BorderColor #6B7A90
+}
+
+title Visão de Implantação — CA-01 (Live com doação destacada)
+
+node "Computador do usuário" as Usuario <<device>> {
+  node Navegador <<executionEnvironment>> [
+    <b>Navegador web</b>
+    ----
+    «artifact» página integrada do CA-01
+    (index.html · app.js · estilos.css)
+    «artifact» aba do checkout (nova aba)
+  ]
+}
+
+node "Máquina de execução local" as Maquina <<device>> {
+  node Terminal <<executionEnvironment>> [
+    <b>Terminal</b>
+  ]
+  artifact Env [
+    <b>.env</b> (opcional, fora do git)
+    credenciais de TESTE
+  ]
+  node "Node.js ≥ 22 · tsx · processo único" as Node <<executionEnvironment>> {
+    artifact "apps/cli-demo/src/main.ts\n«composition root» · npm run demo" as Cli
+    artifact "apps/web/src/servidor.ts\n«composition root» · npm run web\nHTTP /api/* · SSE · estáticos" as Web
+    artifact "@g6/shared-kernel\nports · eventos · EventBusEmMemoria" as Kernel
+    artifact "@g6/identidade\n@g6/transmissao\n@g6/conteudo" as Pacotes1
+    artifact "@g6/chat\n@g6/moderacao" as Pacotes2
+    artifact "@g6/monetizacao\nrecarga · doação · destaque\nAdapters MP · Stripe · Simulado\nProxy de confirmação" as Monet
+  }
+}
+
+node MP <<external>> [
+  <b>Mercado Pago</b> (conta de teste)
+  ----
+  «artifact» API REST: Preference · Payment · User
+  «artifact» Checkout Pro
+]
+
+node Stripe <<external>> [
+  <b>Stripe</b> (modo de teste)
+  ----
+  «artifact» API REST: Checkout Sessions
+  «artifact» checkout hospedado
+]
+
+' ---- dependências dentro do processo
+Web -down[#888888].> Kernel : <<use>>
+Cli -down[#888888].> Kernel : <<use>>
+Pacotes1 -up[#888888].> Kernel : <<use>>
+Pacotes2 -up[#888888].> Kernel : <<use>>
+Monet -up[#888888].> Kernel : <<use>>
+Env <.right[#888888]. Cli : <<read>>
+MP -[hidden]down- Stripe
+Cli -[hidden]right- Web
+Pacotes1 -[hidden]right- Pacotes2
+Pacotes2 -[hidden]right- Monet
+Terminal -[hidden]down- Env
+
+' ---- caminhos de comunicação
+Navegador -down- Web : «HTTP/JSON» /api/*\n«SSE» eventos\nlocalhost:PORT
+Terminal -right- Cli : «stdin/stdout»
+Monet -right- MP : «HTTPS/REST»\nSDK mercadopago
+Monet -right- Stripe : «HTTPS/REST»\nSDK stripe
+Navegador -right- MP : «HTTPS»\nCheckout Pro
+Navegador -right- Stripe : «HTTPS»\ncheckout Stripe
+
+note bottom of Node
+  <b>Estado em memória</b> (sem banco de dados): carteiras, recargas,
+  lives e chat se perdem ao encerrar o processo.
+  O ProcessadorSimulado roda aqui dentro: o CA-01 funciona offline.
+end note
+
+legend bottom
+  Linhas contínuas: caminhos de comunicação (protocolo · quem inicia).
+  Setas tracejadas: dependências <<use>> e <<read>> dentro da máquina.
+  Nenhum caminho entra na máquina local vindo da internet.
+endlegend
+@enduml
