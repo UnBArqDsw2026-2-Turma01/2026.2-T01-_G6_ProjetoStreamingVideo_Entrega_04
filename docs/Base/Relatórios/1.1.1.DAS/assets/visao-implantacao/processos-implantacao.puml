@@ -1,0 +1,86 @@
+@startuml processos-implantacao
+' Processos essenciais da implantação do CA-01 entre os nós da Figura 1.
+' Autoria: SubEquipe_02 (Davi Severiano Freitas e Pedro Henrique Freire Rodrigues), 2026.
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam defaultFontSize 12
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam ParticipantPadding 18
+skinparam BoxPadding 8
+skinparam sequence {
+  ParticipantBackgroundColor #F4F6FA
+  ParticipantBorderColor #6B7A90
+  LifeLineBorderColor #999999
+  GroupBorderColor #555555
+  GroupBackgroundColor #EEF2F8
+  ArrowColor #333333
+}
+title Processos essenciais da implantação — CA-01
+
+box "Computador do usuário" #FFFFFF
+  participant "Navegador\n(página integrada)" as Nav
+  participant "Navegador\n(aba do checkout)" as Aba
+end box
+box "Máquina de execução local" #FBFCFE
+  participant ".env" as Env
+  participant "Processo Node.js\n(apps/web + pacotes)" as Node
+end box
+box "Externos (modo de teste)" #FFFBF7
+  participant "Mercado Pago\nou Stripe" as Proc
+end box
+
+== P1 · Inicialização (npm run web) ==
+Node -> Env : process.loadEnvFile (se existir)
+Node -> Node : gatewaysDoAmbiente(env)
+activate Node
+opt token APP_USR- do Mercado Pago
+  Node -> Proc : HTTPS User.get (GET /users/me)
+  Proc --> Node : conta de teste? (nickname TESTUSER)
+end
+Node -> Node : compõe os seis contextos e assina\nos tratadores no EventBusEmMemoria
+Node -> Node : escuta em localhost:PORT e informa\nprocessadores conectados, não usados ou recusados
+deactivate Node
+
+== P2 · Ação do usuário e propagação de eventos ==
+Nav -> Node : GET / (index.html, app.js, estilos.css)
+Nav -> Node : abre o canal SSE
+Nav -> Node : POST /api/... (login, doação, mensagem)
+activate Node
+Node -> Node : rota → port do contexto → Resultado
+Node -> Node : EventBusEmMemoria.publicar(evento)\ntratadores rodam no mesmo event loop
+Node --> Nav : resposta JSON
+Node -->> Nav : SSE: evento de domínio (ex.: DoacaoConfirmada)
+deactivate Node
+
+== P3 · Recarga com processador real ==
+Nav -> Node : POST /api/recargas {pacoteId, meio}
+activate Node
+Node -> Proc : HTTPS cria Preference (MP)\nou Checkout Session (Stripe)
+Proc --> Node : idCheckout + link
+Node --> Nav : CheckoutPendente (instruções com o link)
+deactivate Node
+Nav -> Aba : abre o link em nova aba
+Aba -> Proc : HTTPS: espectador paga com dados de teste
+loop a cada 5 s, enquanto a recarga está pendente
+  Nav -> Node : POST /api/recargas/verificar {recargaId}
+  activate Node
+  Node -> Proc : HTTPS consultarPagamento(idCheckout)
+  Proc --> Node : pendente | aprovado | recusado
+  alt aprovado
+    Node -> Node : assinarNotificacao(segredo) →\nRecargaService.receberAviso
+    Node -> Node : Proxy: assinatura (O14) e idempotência (O11)
+    Node -> Proc : HTTPS reconsulta o pagamento (ServicoConfirmacao)
+    Node -> Node : credita a carteira e publica RecargaConcluida
+    Node -->> Nav : SSE: RecargaConcluida (saldo atualizado)
+  else pendente ou recusado
+    Node --> Nav : recarga segue pendente
+  end
+  deactivate Node
+end
+
+note over Nav, Proc
+  Com o processador <b>simulado</b> (padrão), P3 acontece inteiro dentro do processo Node.js:
+  nenhuma chamada HTTPS e nenhuma aba de checkout. <b>Nenhum caminho entra na máquina local vindo da internet.</b>
+end note
+@enduml
