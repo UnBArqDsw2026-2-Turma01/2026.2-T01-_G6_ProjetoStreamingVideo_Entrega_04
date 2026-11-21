@@ -1,0 +1,97 @@
+@startuml visao-processos-ca01-sequencia-v1
+' Visão de Processos (DAS 1.1.1.6): sequência ponta a ponta do CA-01
+' Autoria: SubEquipe_03 (Eduardo Lôbo Moreira), 2026. v1.
+
+title Visão de Processos: Sequência de execução do CA-01 (v1)
+
+autonumber
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam sequenceMessageAlign center
+
+actor "Criador / Espectador" as User
+participant "apps/*\n(cli-demo / web + SSE)" as App #E1D5E7
+participant "identidade\n(AutenticacaoPort)" as Auth #FFE6CC
+participant "transmissao\n(TransmissaoPort + StreamChannel)" as Trans #DAE8FC
+participant "monetizacao\n(RecargaPort / DoacaoPort)" as Mon #D5E8D4
+participant "chat\n(ChatPort)" as Chat #FFE6CC
+participant "moderacao\n(ModeracaoPort)" as Mod #FFE6CC
+participant "conteudo\n(VOD Factory)" as Cont #DAE8FC
+participant "EventBusEmMemoria\n(@g6/shared-kernel)" as Bus #FFF2CC
+
+== 1. Autenticação ==
+User -> App : login(credenciais)
+App -> Auth : login(credenciais)
+Auth --> App : Resultado<Sessao>
+
+== 2. Abertura da live ==
+User -> App : abrirLive(criador, preset)
+App -> Trans : abrir(criador, preset)
+Trans -> Trans : StreamConfigDirector monta StreamConfig\nStreamChannel.goLive(config)
+
+loop lotes de até 150 observadores
+  par Promise.allSettled
+    Trans ->> Trans : notifica observadores do lote
+  else tolerância a falha
+    Trans ->> Trans : erro isolado em NotificationResult
+  end
+end
+
+Trans -> Bus : publicar(LiveIniciada)
+Bus -> App : tratador SSE envia ao navegador
+Trans --> App : Resultado<LiveResumo>
+
+== 3. Recarga em dois tempos ==
+User -> App : recarregar(pacote, meio)
+App -> Mon : recarregar(sessao, pacote, meio)
+Mon --> App : Resultado<CheckoutPendente>\n(sem creditar saldo)
+... Confirmação posterior via webhook / Proxy ...
+Mon -> Mon : credita MoedaVirtual (idempotente)
+Mon -> Bus : publicar(RecargaConcluida)
+Bus -> App : tratador SSE atualiza saldo
+
+== 4. Doação destacada e moderação ==
+User -> App : doar(live, valor, texto)
+App -> Mon : doar(doador, live, valor, texto)
+Mon -> Trans : consultar(live)
+Trans --> Mon : Resultado<LiveResumo>
+Mon -> Mon : Decorator monta MensagemDestacada
+
+par repasse e chat independentes
+  Mon -> Mon : repasse financeiro ao criador
+else publicação no chat com moderação
+  Mon -> Chat : publicarDestacada(live, mensagem)
+  Chat -> Mod : avaliar(mensagem)
+  Mod -> Mod : AutoModPipelineConcreto\n(TextEntropyAnalyzer + Strategies)
+  Mod --> Chat : VereditoModeracao\n(aprovada | quarentena | bloqueada)
+  alt decisao == 'aprovada'
+    Chat -> Chat : notifica ouvintes da sala
+    Chat -> Bus : publicar(MensagemPublicada)
+    Bus -> App : tratador SSE exibe destaque
+    Chat --> Mon : Resultado<void> (ok: true)
+  else bloqueada, quarentena ou falha no chat
+    Chat --> Mon : Resultado<void> (ok: false)
+  end
+end
+
+note over Mon, Chat
+  Regra da Ata S2_02 (D05): se o chat falhar ou
+  bloquear a mensagem, o repasse não é desfeito
+  (ComprovanteDoacao.destaqueEntregue = false).
+end note
+
+Mon -> Bus : publicar(DoacaoConfirmada)
+Bus -> App : tratador SSE registra doação
+Mon --> App : Resultado<ComprovanteDoacao>
+
+== 5. Encerramento da live e VOD ==
+User -> App : encerrarLive(criador, live)
+App -> Trans : encerrar(criador, live)
+Trans -> Trans : StreamChannel.endLive()\n(notifica observadores de fim)
+Trans -> Bus : publicar(LiveEncerrada)
+Bus -> Cont : tratador cria VOD (Factory Method)
+Bus -> App : tratador SSE avisa encerramento
+Trans --> App : Resultado<void>
+
+@enduml
