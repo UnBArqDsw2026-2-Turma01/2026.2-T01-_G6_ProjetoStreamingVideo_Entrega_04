@@ -1,0 +1,107 @@
+@startuml visao-implementacao-componentes
+' Visão de Implementação — DAS, Entrega 04 (G6)
+' Diagrama de componentes UML 2.5.1 (OMG, 2017, cap. 11): componentes do monorepo,
+' interfaces providas (ports) e dependências requeridas.
+' Autoria: SubEquipe_02 (Daniel de Oliveira Lira e Mateus Rodrigues Barreto), 2026.
+
+skinparam shadowing false
+skinparam linetype ortho
+skinparam nodesep 70
+skinparam ranksep 115
+skinparam padding 6
+skinparam defaultFontName Helvetica
+skinparam ArrowFontSize 10
+skinparam ArrowColor #4A5568
+skinparam NoteBackgroundColor #FFFDE7
+
+skinparam package {
+  BackgroundColor #FFFFFF
+  BorderColor #666666
+}
+skinparam component {
+  BorderColor #4A5568
+}
+skinparam interface {
+  BackgroundColor #FFFFFF
+  BorderColor #2B6CB0
+}
+
+title Visão de Implementação — Diagrama de Componentes e Interfaces (Monorepo)
+
+package "Camada 1 · Aplicações (apps/* — Composition Root)" #F8FAFC {
+  component "@g6/cli-demo\n(apps/cli-demo)\n[SG1]" as Cli #EBF4FF
+  component "@g6/web\n(apps/web)\n[SG2 · SG3(auth)]" as Web #E8F5E9
+}
+
+package "Camada 2 · Contextos Delimitados (packages/*)" #FFFFFF {
+  component "@g6/identidade\n[SG3]" as Id #FFF3E0
+  component "@g6/monetizacao\n(recarga · doacao · destaque · comum)\n[SG2]" as Mo #E8F5E9
+  component "@g6/transmissao\n(configuracao · canal · servico)\n[SG1 · SG3]" as Tr #EBF4FF
+  component "@g6/conteudo\n[SG1]" as Co #EBF4FF
+  component "@g6/chat\n[SG3]" as Ch #FFF3E0
+  component "@g6/moderacao\n[SG3]" as Md #FFF3E0
+}
+
+package "Camada 3 · Núcleo Compartilhado (packages/shared-kernel)" #F1F8E9 {
+  interface "AutenticacaoPort" as PAuth
+  interface "RecargaPort" as PRec
+  interface "DoacaoPort" as PDoa
+  interface "TransmissaoPort" as PTrans
+  interface "ChatPort" as PChat
+  interface "EventBus" as PBus
+  interface "ModeracaoPort" as PMod
+
+  component "@g6/shared-kernel\ntipos · ports · eventos · EventBusEmMemoria\n[SG2]" as Kernel #DCEDC8
+  component "@g6/shared-kernel/testing\n6 fakes · 7 suítes de contrato\n[SG2]" as Testing #F1F8E9
+}
+
+' ---- Interfaces providas (alinhadas logo abaixo de cada componente)
+Id -down- PAuth
+Mo -down- PRec
+Mo -down- PDoa
+Tr -down- PTrans
+Ch -down- PChat
+Md -down- PMod
+Kernel -up- PBus
+
+' ---- Interfaces requeridas entre contextos (via ports do kernel)
+Mo ..> PTrans
+Mo ..> PChat
+Ch ..> PMod
+
+' ---- Publicação e assinatura no EventBus
+Tr ..> PBus : LiveIniciada / Encerrada
+Co ..> PBus : assina LiveEncerrada
+Mo ..> PBus : RecargaConcluida / DoacaoConfirmada
+Ch ..> PBus : MensagemPublicada
+
+' ---- Aplicações consomem ports e compõem os contextos
+Cli ..> PAuth
+Cli ..> PTrans
+Cli ..> PRec
+Cli ..> PDoa
+Cli ..> PChat
+Cli ..> PBus
+
+Web ..> PAuth
+Web ..> PTrans
+Web ..> PRec
+Web ..> PDoa
+Web ..> PChat
+Web ..> PBus
+
+' ---- Submódulo de testes (RD7)
+Testing ..> Kernel : <<use>>
+
+note bottom of Testing
+  <b>Regra RD7:</b> @g6/shared-kernel/testing é importado
+  exclusivamente em test/ dos pacotes (nunca em src/).
+end note
+
+legend bottom
+  Cores dos componentes indicam a subequipe proprietária (CODEOWNERS):
+  Azul = SG1 · Verde = SG2 · Laranja = SG3.
+  Linha contínua com círculo = interface provida (port implementado).
+  Seta tracejada = interface requerida (port ou EventBus consumido — detalhes na tabela abaixo).
+endlegend
+@enduml
