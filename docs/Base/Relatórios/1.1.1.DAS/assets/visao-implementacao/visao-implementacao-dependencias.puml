@@ -1,0 +1,83 @@
+@startuml visao-implementacao-dependencias
+' Visão de Implementação — DAS, Entrega 04 (G6)
+' Grafo de dependências entre workspaces do monorepo e subpastas críticas (RD1–RD7).
+' Autoria: SubEquipe_02 (Daniel de Oliveira Lira e Mateus Rodrigues Barreto), 2026.
+
+skinparam shadowing false
+skinparam linetype ortho
+skinparam nodesep 50
+skinparam ranksep 60
+skinparam defaultFontName Helvetica
+skinparam ArrowFontSize 11
+skinparam ArrowColor #333333
+skinparam NoteBackgroundColor #FFFDE7
+
+title Grafo de Dependências entre Pacotes (Workspaces npm · RD1–RD7)
+
+package "apps/* (Camada 1)" #F8FAFC {
+  [apps/web\n@g6/web] as Web #E8F5E9
+  [apps/cli-demo\n@g6/cli-demo] as Cli #EBF4FF
+}
+
+package "packages/* — Contextos (Camada 2)" #FFFFFF {
+  [packages/identidade\n@g6/identidade] as Id #FFF3E0
+  package "packages/transmissao (@g6/transmissao)" as TrPkg #EBF4FF {
+    [src/servico] as TrSrv
+    [src/configuracao\n(SG1)] as TrCfg
+    [src/canal\n(SG3)] as TrCan
+  }
+  [packages/conteudo\n@g6/conteudo] as Co #EBF4FF
+  [packages/monetizacao\n@g6/monetizacao] as Mo #E8F5E9
+  [packages/chat\n@g6/chat] as Ch #FFF3E0
+  [packages/moderacao\n@g6/moderacao] as Md #FFF3E0
+}
+
+package "packages/shared-kernel (Camada 3)" #F1F8E9 {
+  [@g6/shared-kernel\n(src/tipos, ports, eventos, eventbus)] as Kernel #DCEDC8
+  [@g6/shared-kernel/testing\n(src/testing)] as Testing #F1F8E9
+}
+
+' ---- RD1: apps/* -> contextos e kernel
+Web --> Id
+Web --> TrPkg
+Web --> Co
+Web --> Mo
+Web --> Ch
+Web --> Md
+Web --> Kernel
+
+Cli --> Id
+Cli --> TrPkg
+Cli --> Co
+Cli --> Mo
+Cli --> Ch
+Cli --> Md
+Cli --> Kernel
+
+' ---- RD6: dependência interna em transmissao
+TrSrv --> TrCfg : RD6
+TrSrv --> TrCan : RD6
+
+' ---- RD2: contextos -> shared-kernel
+Id --> Kernel : RD2
+TrPkg --> Kernel : RD2
+Co --> Kernel : RD2
+Mo --> Kernel : RD2
+Ch --> Kernel : RD2
+Md --> Kernel : RD2
+
+' ---- RD7: apenas test/ importa testing
+Mo ..> Testing : test/ (RD7)
+Kernel <.. Testing
+
+note right of TrPkg
+  <b>RD6:</b> configuracao e canal não se importam;
+  apenas src/servico liga ambos.
+end note
+
+note bottom of Kernel
+  <b>RD3:</b> Nenhuma seta entre pacotes da Camada 2.
+  <b>RD4:</b> Nenhuma seta sai de @g6/shared-kernel.
+  <b>RD5:</b> Nenhuma seta sobe para apps/*.
+end note
+@enduml
