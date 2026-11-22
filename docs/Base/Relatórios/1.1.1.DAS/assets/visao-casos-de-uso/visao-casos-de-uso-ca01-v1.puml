@@ -11,6 +11,7 @@ skinparam backgroundColor #FFFFFF
 skinparam shadowing false
 skinparam defaultFontName Helvetica
 skinparam ArrowColor #333333
+hide stereotype
 skinparam actorBorderColor #333333
 skinparam usecase {
   BorderColor #555555
@@ -32,15 +33,15 @@ rectangle "Plataforma de streaming (recorte do CA-01)" {
   usecase "Informar segundo\nfator (TOTP)" as UC01a <<SG3>>
   usecase "UC-02\nAbrir live por preset" as UC02 <<SG1>>
   usecase "Notificar\nseguidores" as UC02a <<SG3>>
+  usecase "UC-06\nEncerrar live" as UC06 <<SG1>>
+  usecase "Gerar VOD\n(ao receber LiveEncerrada)" as UC06a <<SG1>>
   usecase "UC-03\nRecarregar moeda virtual" as UC03 <<SG2>>
   usecase "Confirmar pagamento\n(aviso autêntico, uma vez)" as UC03a <<SG2>>
   usecase "UC-04\nDoar a uma live" as UC04 <<SG2>>
   usecase "Repassar ao criador" as UC04a <<SG2>>
   usecase "Publicar mensagem\ndestacada" as UC04b <<SG2>>
-  usecase "UC-05\nEnviar mensagem no chat" as UC05 <<SG3>>
   usecase "Moderar mensagem" as UC05a <<SG3>>
-  usecase "UC-06\nEncerrar live" as UC06 <<SG1>>
-  usecase "Gerar VOD" as UC06a <<SG1>>
+  usecase "UC-05\nEnviar mensagem no chat" as UC05 <<SG3>>
 }
 
 criador --> UC01
@@ -52,30 +53,25 @@ espectador --> UC04
 espectador --> UC05
 UC03a --> processador
 
-UC01a .> UC01 : <<extend>>\n[papel = criador]
-UC02 .> UC02a : <<include>>
-UC03 .> UC03a : <<include>>
-UC04 .> UC04a : <<include>>
-UC04b .> UC04 : <<extend>>\n[doação com mensagem]
-UC04b .> UC05a : <<include>>
-UC05 .> UC05a : <<include>>
-UC06 .> UC06a : <<include>>
+UC01 <.. UC01a : <<extend>>\n[papel = criador]
+UC02 ..> UC02a : <<include>>
+UC03 ..> UC03a : <<include>>
+UC04 ..> UC04a : <<include>>
+UC04 <.. UC04b : <<extend>>\n[doação com mensagem]
+UC04b ..> UC05a : <<include>>
+UC05 ..> UC05a : <<include>>
+UC06 ..> UC06a : <<include>>
 
-note bottom of UC04b
-  Falha ao publicar no chat não desfaz
-  a doação (D05): o comprovante volta
-  com destaqueEntregue = false.
-end note
 
-note bottom of UC06a
-  Disparado pelo evento LiveEncerrada
-  no EventBus: conteudo não conhece
-  transmissao (RD3).
-end note
 
 legend right
   Cor = subequipe dona do contexto que realiza o caso de uso
   azul: SubEquipe_01 · verde: SubEquipe_02 · laranja: SubEquipe_03
+  ----
+  Publicar mensagem destacada: falha no chat não desfaz a doação
+  (D05); o comprovante volta com destaqueEntregue = false.
+  Gerar VOD: disparado pelo evento LiveEncerrada no EventBus;
+  conteudo não conhece transmissao (RD3).
 endlegend
 
 @enduml
