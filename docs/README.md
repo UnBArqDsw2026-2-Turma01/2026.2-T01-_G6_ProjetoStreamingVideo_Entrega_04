@@ -1,42 +1,96 @@
-# Plataforma de Streaming de Vídeo — Entrega 04
+<header class="hero">
+  <span class="eyebrow">Entrega 04 · Arquitetura e Desenho de Software</span>
+  <h1>Plataforma de Streaming de Vídeo</h1>
+  <p>
+    A documentação do Grupo 06 reúne o Documento de Arquitetura de Software,
+    evidências executáveis e pontos de vista sobre IA Generativa em uma jornada
+    clara de leitura e apresentação.
+  </p>
+  <div class="hero-actions">
+    <a class="button" href="/Base/Relatórios/1.1.1.DAS.md">Ler o DAS</a>
+    <a class="button-secondary" href="https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo">
+      Explorar o código
+    </a>
+  </div>
+</header>
 
-Documentação do **Grupo 06** para a quarta entrega da disciplina **Arquitetura e Desenho de Software**, da Universidade de Brasília: **Arquitetura de Software (DAS) + IA Generativa**.
+<div class="metadata-strip" aria-label="Informações da disciplina">
+  <div><strong>Disciplina</strong>FGA0208</div>
+  <div><strong>Turma</strong>01 · Grupo 06</div>
+  <div><strong>Semestre</strong>2026.2</div>
+  <div><strong>Entregável</strong>DAS + IA Generativa</div>
+</div>
 
-**Código da Disciplina:** FGA0208<br>
-**Turma:** 01<br>
-**Grupo:** 06<br>
-**Semestre:** 2026.2<br>
-**Entrega:** 04 — Desenho de Software (DAS + IA Generativa)<br>
+## Comece pela sua necessidade
 
-> **Em preparação:** a estrutura das páginas, os responsáveis e as issues estão definidos. O conteúdo de cada seção será elaborado pelos responsáveis indicados.
+<div class="resource-grid">
+  <article class="resource-card">
+    <h3>Entender o projeto</h3>
+    <p>Conheça o contexto da plataforma, os objetivos desta entrega e a divisão das subequipes.</p>
+    <a href="/Introducao.md">Ler a introdução →</a>
+  </article>
+  <article class="resource-card">
+    <h3>Explorar a arquitetura</h3>
+    <p>Navegue pelas visões do DAS, decisões arquiteturais, dados, implantação e qualidade.</p>
+    <a href="/Base/1.DAS_Reutilizacao.md">Abrir o guia do DAS →</a>
+  </article>
+  <article class="resource-card">
+    <h3>Executar o cenário</h3>
+    <p>Veja como o CA-01 integra transmissão, doação, chat, moderação e conteúdo em um monorepo.</p>
+    <a href="https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo">Acessar o código →</a>
+  </article>
+</div>
 
-## Alunos
+## Roteiro recomendado
 
-| Matrícula | Integrante | Subequipe | GitHub |
-| --- | --- | --- | --- |
-| 24/1039645 | Lucas Andrade Zanetti | SubEquipe_01 | [@Bappoz](https://github.com/Bappoz) |
-| 24/1031852 | Matheus Lemes Amaral | SubEquipe_01 | [@1emes](https://github.com/1emes) |
-| 24/1040332 | Pedro Druck Montalvão Reis | SubEquipe_01 | [@pedruck](https://github.com/pedruck) |
-| 24/1039073 | Heitor Macedo Ricardo | SubEquipe_01 | [@HeitorM50](https://github.com/HeitorM50) |
-| 24/1011018 | Davi Severiano Freitas | SubEquipe_02 | [@Davi-UnB](https://github.com/Davi-UnB) |
-| 24/1025505 | Daniel de Oliveira Lira | SubEquipe_02 | [@Daniellira540](https://github.com/Daniellira540) |
-| 24/1011466 | Mateus Rodrigues Barreto | SubEquipe_02 | [@Mateus0xC](https://github.com/Mateus0xC) |
-| 23/1026545 | Pedro Henrique Freire Rodrigues | SubEquipe_02 | [@Pedro-Henrique3](https://github.com/Pedro-Henrique3) |
-| 24/1041302 | Hugo Freitas Silva | SubEquipe_03 | [@HugoFreitass](https://github.com/HugoFreitass) |
-| 24/1040350 | Philipe Amâncio Reis Caetano | SubEquipe_03 | [@Phill-Chill](https://github.com/Phill-Chill) |
-| 24/1011027 | Eduardo Lôbo Moreira | SubEquipe_03 | [@EduLoboM](https://github.com/EduLoboM) |
+<div class="journey" aria-label="Roteiro de leitura">
+  <article class="resource-card">
+    <h3>1 · Contexto</h3>
+    <p>Comece pela introdução e pelo planejamento para compreender escopo, responsáveis e cronograma.</p>
+    <a href="/Introducao.md">Introdução</a>
+  </article>
+  <article class="resource-card">
+    <h3>2 · Arquitetura</h3>
+    <p>Leia as visões 4+1, os ADRs e a matriz de rastreabilidade para seguir os elos do sistema.</p>
+    <a href="/Base/Relatórios/1.1.1.DAS.md">Documento DAS</a>
+  </article>
+  <article class="resource-card">
+    <h3>3 · Evidência</h3>
+    <p>Confira participações, decisões, prompts e o checklist que materializa a entrega.</p>
+    <a href="/Checklist.md">Checklist da entrega</a>
+  </article>
+</div>
 
-## Navegação
+## Evidência arquitetural em execução
 
-| Página | Conteúdo |
+O cenário **CA-01 — Live com doação destacada** atravessa os padrões das três subequipes:
+
+1. autenticação com Chain of Responsibility;
+2. abertura da live com Builder e Observer;
+3. recarga com Decorator, Adapter e Proxy;
+4. doação com Facade e Mediator;
+5. destaque no chat com Decorator e Observer;
+6. criação do VOD com Factory Method.
+
+<div class="action-links">
+  <a class="button" href="/Base/Relatórios/1.1.1.DAS/1.1.1.5.VisaoLogica.md">Visão lógica</a>
+  <a class="button-secondary" href="/Base/Relatórios/1.1.1.DAS/1.1.1.6.VisaoProcessos.md">Visão de processos</a>
+  <a class="button-secondary" href="/Base/Relatórios/1.1.1.DAS/ADR/README.md">Decisões ADR</a>
+</div>
+
+## Equipe
+
+O trabalho está organizado em três subequipes, responsáveis pelas visões, pelo código integrado e pelas decisões de arquitetura.
+
+| Subequipe | Foco |
 | --- | --- |
-| [Introdução](/Introducao.md) | Contexto, objetivo e subequipes |
-| [1. Desenho de Software](/Base/1.DAS_Reutilizacao.md) | Visão geral do módulo e estado das seções |
-| [1.1.1. DAS](/Base/Relatórios/1.1.1.DAS.md) | Relatório principal: DAS, vídeo, IA Generativa, versionamentos |
-| [1.2. Participações](/Base/1.2.Participacoes.md) | Quadro de participações |
-| [1.3. Iniciativas extras](/Base/1.3.IniciativasExtras.md) | Extras com comprobatórios |
-| [Planejamento](/Projeto/Planejamento.md) | Divisão, cronograma e extras recomendadas |
+| SubEquipe_01 | Estrutura do DAS, visão lógica e transmissão/conteúdo |
+| SubEquipe_02 | Visões de implementação, implantação e dados |
+| SubEquipe_03 | Processos, qualidade, chat e moderação |
 
 ## Entregas anteriores
 
-[Entrega 02](https://unbarqdsw2026-2-turma01.github.io/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_02/) · [Entrega 03](https://unbarqdsw2026-2-turma01.github.io/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_03/)
+<div class="action-links">
+  <a class="button-secondary" href="https://unbarqdsw2026-2-turma01.github.io/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_02/">Entrega 02</a>
+  <a class="button-secondary" href="https://unbarqdsw2026-2-turma01.github.io/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_03/">Entrega 03</a>
+</div>

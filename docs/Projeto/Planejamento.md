@@ -1,6 +1,6 @@
 # Planejamento da Entrega 04
 
-> Versão em PDF: [planejamento-entrega-04.pdf](Projeto/assets/planejamento-entrega-04.pdf ':ignore'). Decisões da reunião de abertura ([ata](/Projeto/Atas/ata-G01-entrega-04.md)): **foco DAS aprovado** (D01), divisão por subequipe aprovada com ressalvas (D02), TypeScript mantido (D07) e integração por shared kernel (D08). **Pendentes:** confirmar as datas no Aprender3 (D03), horário de congelamento (D04) e próxima reunião (D05). A parte de **vídeo** deste plano deve ser desconsiderada: a demonstração será ao vivo (D06).
+> Versão em PDF: [planejamento-entrega-04.pdf](assets/planejamento-entrega-04.pdf ':ignore'). Decisões da reunião de abertura ([ata](/Projeto/Atas/ata-G01-entrega-04.md)): **foco DAS aprovado** (D01), divisão por subequipe aprovada com ressalvas (D02), TypeScript mantido (D07) e integração por shared kernel (D08). **Pendentes:** confirmar as datas no Aprender3 (D03), horário de congelamento (D04) e próxima reunião (D05). A parte de **vídeo** deste plano deve ser desconsiderada: a demonstração será ao vivo (D06).
 
 ## Em uma página
 
