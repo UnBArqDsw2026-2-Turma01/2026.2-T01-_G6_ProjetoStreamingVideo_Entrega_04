@@ -47,7 +47,7 @@ Adotar **D**.
 - `configuracao` e `canal` **não se importam** em nenhuma direção (RD6, na [Visão Lógica](/Base/Relatórios/1.1.1.DAS/1.1.1.5.VisaoLogica.md?id=regras-de-dependência)).
 - `servico/TransmissaoService` (código #8) é o único ponto que conhece as duas: traduz o `PresetTransmissao` em uma receita do Director, entrega a `StreamConfig` ao `StreamChannel` e realiza o `TransmissaoPort`.
 - O canal publica `LiveIniciada` e `LiveEncerrada` no `EventBus`, e é por eles que `conteudo` cria o VOD sem conhecer a transmissão.
-- O mapeamento preset → Director **esperado** é `baixa-latencia → lowLatency`, `alta-qualidade → highQuality` e `movel → mobile` (T-04). Quem o fecha é a issue #6.
+- O mapeamento preset → Director é `baixa-latencia → lowLatency`, `alta-qualidade → highQuality` e `movel → mobile` (T-04), implementado na issue #6 ([`presets.ts`](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/blob/73534e9b76685d348798fc3b38b85944dda7879b/packages/transmissao/src/configuracao/presets.ts), PR [#35](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/pull/35)).
 
 ## 5. Consequências
 
@@ -55,13 +55,13 @@ Adotar **D**.
 
 **Fica mais difícil / custo:**
 
-- RD6 é uma regra **interna** a um pacote. As ferramentas de dependência entre pacotes não a enxergam sem uma regra por caminho; a extra E2 precisa de uma regra específica para `src/configuracao` ↔ `src/canal`.
+- RD6 é uma regra **interna** a um pacote. As ferramentas de dependência entre pacotes não a enxergam sem uma regra por caminho; a extra E2 precisa de uma regra específica para `src/configuracao` ↔ `src/canal`. *Em 22/11/2026 ela ainda não existe: RD6 vale por revisão (ver [ADR-011](/Base/Relatórios/1.1.1.DAS/ADR/ADR-011-fitness-functions-regras-da-visao-logica.md), FF-06).*
 - O `npm test` do pacote chama dois executores (T-02). Um erro em um deles pode parecer falha do pacote inteiro para a outra subequipe.
 - O `TransmissaoService` é **código novo de integração** entre duas subequipes. Por isso a revisão da #8 é cruzada: implementa Heitor (SG1), revisa Eduardo (SG3).
 
 **Riscos e limites declarados:**
 
-- O mapeamento de T-04 é inferido pelo nome dos presets. Os parâmetros que cada receita do Director produz (resolução, latência, bitrate) não foram conferidos contra o que o canal espera, e isso fica para a #8.
+- ~~O mapeamento de T-04 é inferido pelo nome dos presets.~~ **Resolvido em 22/11/2026:** o mapeamento está implementado e os parâmetros de cada receita são testados ([`stream-config-director.test.ts`](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/blob/73534e9b76685d348798fc3b38b85944dda7879b/packages/transmissao/test/configuracao/stream-config-director.test.ts)). Continua em aberto conferir se o canal aceita a `StreamConfig` pronta pelo `TransmissaoService`, o que depende da [#8](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/8) (PR [#44](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/pull/44), em revisão).
 - Os observadores de moderação de vídeo que o `StreamChannel` da E03 notificava ficam no `canal`. Se algum precisar da moderação real, a ligação acontece em `apps/*` (ADR-006, riscos).
 
 ## 6. Referências

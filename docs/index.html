@@ -5,22 +5,88 @@
   <title>Streaming de Vídeo — Entrega 04 | Grupo 06</title>
   <meta name="description" content="Documentação da Entrega 04 do Grupo 06: Documento de Arquitetura (DAS) e IA Generativa. FGA0208, UnB, 2026.2.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#4f46a8">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#4f46a8" id="meta-theme-color">
+  <script>
+    // Define o tema antes da primeira pintura, para não piscar claro → escuro.
+    // Ordem: escolha salva pelo leitor > preferência do sistema > claro.
+    (function () {
+      var tema = null;
+      try { tema = localStorage.getItem('g6-theme'); } catch (e) { /* armazenamento bloqueado: segue o sistema */ }
+      if (tema !== 'light' && tema !== 'dark') {
+        tema = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-theme', tema);
+    })();
+  </script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/themes/vue.css">
   <link rel="stylesheet" href="./assets/styles.css">
   <style>
-    :root { --theme-color: #4f46a8; }
-    .markdown-section { max-width: 960px; }
     .markdown-section table { display: block; overflow-x: auto; }
     .sidebar .app-name { font-size: 1.2rem; }
-    .mermaid { text-align: center; margin: 1.5em 0; overflow-x: auto; }
-    .mermaid svg { max-width: 100%; height: auto; }
   </style>
 </head>
 <body>
   <div id="app">Carregando a documentação da Entrega 04…</div>
   <noscript>Ative o JavaScript para navegar pela documentação ou consulte os arquivos Markdown no repositório.</noscript>
   <script>
+    var ICONE_LUA = '<svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+    var ICONE_SOL = '<svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+
+    function temaAtual() {
+      return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    }
+
+    function rotularBotao() {
+      var botao = document.getElementById('g6-theme-toggle');
+      if (!botao) return;
+      var escuro = temaAtual() === 'dark';
+      var texto = escuro ? 'Tema claro' : 'Tema escuro';
+      botao.setAttribute('aria-label', 'Alternar para ' + texto.toLowerCase());
+      botao.querySelector('.label').textContent = texto;
+    }
+
+    function aplicarTema(tema, salvar) {
+      document.documentElement.setAttribute('data-theme', tema);
+      var meta = document.getElementById('meta-theme-color');
+      if (meta) meta.setAttribute('content', tema === 'dark' ? '#0f1117' : '#4f46a8');
+      if (salvar) {
+        try { localStorage.setItem('g6-theme', tema); } catch (e) { /* sem persistência: vale só nesta visita */ }
+      }
+      rotularBotao();
+    }
+
+    // O Mermaid desenha o SVG uma vez com o tema da hora; recarregar a rota é o jeito
+    // mais simples de redesenhar com o tema novo. Só acontece em páginas com diagrama.
+    function alternarTema() {
+      aplicarTema(temaAtual() === 'dark' ? 'light' : 'dark', true);
+      if (document.querySelector('.mermaid')) window.location.reload();
+    }
+
+    function pluginTema(hook) {
+      hook.mounted(function () {
+        var botao = document.createElement('button');
+        botao.type = 'button';
+        botao.id = 'g6-theme-toggle';
+        botao.className = 'theme-toggle';
+        botao.innerHTML = ICONE_LUA + ICONE_SOL + '<span class="label"></span>';
+        botao.addEventListener('click', alternarTema);
+        document.body.appendChild(botao);
+        aplicarTema(temaAtual(), false);
+      });
+    }
+
+    // Sem escolha salva, acompanha a mudança de tema do sistema.
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+        var salvo = null;
+        try { salvo = localStorage.getItem('g6-theme'); } catch (err) { /* ignora */ }
+        if (salvo === 'light' || salvo === 'dark') return;
+        aplicarTema(e.matches ? 'dark' : 'light', false);
+        if (document.querySelector('.mermaid')) window.location.reload();
+      });
+    }
+
     window.$docsify = {
       name: 'G6 · Streaming de Vídeo<br>Entrega 04',
       repo: 'https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04',
@@ -44,7 +110,8 @@
         crossChapter: true,
         crossChapterText: true
       },
-      alias: { '/.*/_sidebar.md': '/_sidebar.md' }
+      alias: { '/.*/_sidebar.md': '/_sidebar.md' },
+      plugins: [pluginTema]
     };
   </script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/docsify.min.js"></script>
@@ -53,6 +120,6 @@
   <script src="https://cdn.jsdelivr.net/npm/docsify-pagination@2/dist/docsify-pagination.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-mermaid@2.0.1/dist/docsify-mermaid.js"></script>
-  <script>mermaid.initialize({ startOnLoad: true, theme: 'default' });</script>
+  <script>mermaid.initialize({ startOnLoad: true, theme: temaAtual() === 'dark' ? 'dark' : 'default' });</script>
 </body>
 </html>
