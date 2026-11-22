@@ -10,7 +10,7 @@
 >
 > **Entrega**: 23/11/2026
 >
-> **Status**: 🟡 Em andamento.
+> **Status**: 🟡 Em fechamento: visões e código da SubEquipe_02 na `main`; faltam os relatos de IA, a ligação da página aos processadores reais e a documentação do shared kernel ([Ata S2E4_03](./ata-S2-03-2026-11-21.md)).
 
 ---
 
@@ -29,9 +29,9 @@ A evidência de que a arquitetura existe de fato é o cenário **CA-01 — Live 
 | 3 | **Código** | Shared kernel, monetização (recarga, doação e destaque) e página web integrada, com testes | ✅ |
 | 4 | **Relato de IA** | Relato individual, crítico e fundamentado, de cada integrante (Foco_02) | ✅ |
 | 5 | **Página de Reutilização** | Justificativa da escolha do foco DAS e reúso presente no trabalho ([1.1.2](/Base/Relatórios/1.1.2.Reutilizacao.md), [#9](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/9)) | ✅ (o template não permite omitir seções) |
-| 6 | **Visão de Dados** | Entidades do domínio e onde os dados vivem em cada contexto ([1.1.1.9](/Base/Relatórios/1.1.1.DAS/1.1.1.9.VisaoDados.md), [#9](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/9)) | ✅ |
+| 6 | **Visão de Dados** | Justificativa de escopo: o sistema não tem banco de dados, e os dados ficam em memória em cada contexto ([1.1.1.9](/Base/Relatórios/1.1.1.DAS/1.1.1.9.VisaoDados.md), [#9](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/9)) | ✅ |
 | 7 | **Vídeo explicativo** | Cada responsável pode gravar um vídeo explicando o próprio diagrama, se for aplicável ([Ata S2E4_01, D08](./ata-S2-01-2026-11-11.md)) | ⭐ Opcional |
-| 8 | **Extras** | E6 Docker Compose, E7 C4 como código e E9 shared kernel documentado | ⭐ Pode agregar à menção |
+| 8 | **Extras** | E9 shared kernel documentado (E6 Docker Compose e E7 C4 como código foram retirados do escopo) | ⭐ Pode agregar à menção |
 
 Contribuições para o grupo todo: linhas da SubEquipe_02 na [matriz de rastreabilidade](/Base/Relatórios/1.1.1.DAS/1.1.1.12.Rastreabilidade.md) ([#20](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/20)) e consolidação do quadro de [participações](/Base/1.2.Participacoes.md) ([#15](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/15)).
 
@@ -82,8 +82,8 @@ flowchart LR
 
 | Ponto | Provê | Consome | Observação |
 | -- | -- | -- | -- |
-| Contrato e fakes (#3, #4) | SubEquipe_02 | Todos os pacotes | Aguarda a confirmação das outras subequipes nos PRs #26 e #27; congelado no M1 do grupo; depois, mudança só com issue `contrato` e aprovação das subequipes afetadas |
-| `RecargaPort` · `DoacaoPort` | SubEquipe_02 (monetização) | `apps/web`, `apps/cli-demo` | Ver pendência P1 |
+| Contrato e fakes (#3, #4) | SubEquipe_02 | Todos os pacotes | Na `main` desde 18/11 (PRs #26 e #27, [Ata S2E4_02, D01](./ata-S2-02-2026-11-16.md)); mudança só com issue `contrato` e aprovação das subequipes afetadas |
+| `RecargaPort` · `DoacaoPort` | SubEquipe_02 (monetização) | `apps/web`, `apps/cli-demo` | `RecargaPort` com checkout pendente e consulta da recarga (P1 resolvida no PR #26) |
 | `ChatPort.publicarDestacada` | SubEquipe_03 (chat) | SubEquipe_02 (doação) | Recebe a mensagem já decorada pela SubEquipe_02; testar contra o `FakeChat` configurado para falhar |
 | Destaque → doação | SubEquipe_02 (#12) | SubEquipe_02 (#11) | Pela ordem do guia, #12 vem antes de #11 |
 | Login na página web | SubEquipe_03 (`apps/web/src/auth`, #17) | SubEquipe_02 (`apps/web`) | A página web é da SubEquipe_02, exceto o login |
@@ -92,9 +92,9 @@ flowchart LR
 
 | # | Iniciativa | Issue | Situação |
 | -- | -- | -- | -- |
-| E6 | Docker Compose: a Visão de Implantação executável (`docker compose up` sobe a página web) | [código #20](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/20) | ⬜ Planejada |
-| E7 | Diagramas C4 como código, com a correspondência C4 ↔ visões 4+1 | [#22](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/22) | ⬜ Planejada |
-| E9 | Shared kernel documentado (o mesmo contrato reutilizado por vários contextos) | [código #22](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/22) | ⬜ Planejada |
+| E6 | Docker Compose: a Visão de Implantação executável (`docker compose up` sobe a página web) | [código #20](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/20) | ❌ Não será feito ([Ata S2E4_02, D06](./ata-S2-02-2026-11-16.md); [Ata S2E4_03, D04](./ata-S2-03-2026-11-21.md)) |
+| E7 | Diagramas C4 como código, com a correspondência C4 ↔ visões 4+1 | [#22](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/22) | ❌ Não será feito ([Ata S2E4_02, D06](./ata-S2-02-2026-11-16.md)) |
+| E9 | Shared kernel documentado (o mesmo contrato reutilizado por vários contextos) | [código #22](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/22) | 🟡 Com Mateus ([Ata S2E4_03, D03](./ata-S2-03-2026-11-21.md)) |
 
 As extras só entram na página [1.3](/Base/1.3.IniciativasExtras.md) com comprobatório.
 
@@ -126,9 +126,11 @@ Divisão confirmada na reunião S2E4_01 ([Ata S2E4_01, D01 e D02](./ata-S2-01-20
 | **Mateus Rodrigues Barreto** | Implementação (com Daniel): diagrama de componentes e organização do monorepo | Contrato (#3, [PR #26](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/pull/26)) · destaque (#12) · página web integrada (#16) | Introdução e Representação Arquitetural ([#3](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/3)) | — | Capturas de tela para o README e o DAS |
 | **Todos** | — | — | — | — | Relato de IA · linhas no registro de prompts · *Versionamentos* no mesmo PR de cada contribuição · a própria linha em 1.2 Participações ([moldes](./moldes-contribuicao.md)) |
 
-**Visão de Dados:** os quatro integrantes; a divisão interna será combinada nas próximas reuniões ([Ata S2E4_01, D03](./ata-S2-01-2026-11-11.md)).
+**Visão de Dados:** prevista para os quatro integrantes ([Ata S2E4_01, D03](./ata-S2-01-2026-11-11.md)); como o sistema não tem banco de dados, virou uma justificativa de escopo, feita por Daniel junto com a página de Reutilização.
 
-**Ajuste com o grupo:** no [planejamento geral](/Projeto/Planejamento.md), Davi aparece na Visão de Implementação (#8) e Pedro na de Implantação (#7). Com esta divisão, as issues precisam ser reatribuídas: #8 para Daniel e Mateus, e #7 para Pedro e Davi.
+**Ajustes posteriores:** a doação voltou para Pedro, a página web integrada ficou com Mateus e Daniel, e o Docker Compose e o C4 saíram do escopo ([Ata S2E4_02, D02, D05 e D06](./ata-S2-02-2026-11-16.md)); a documentação do shared kernel (E9) passou para Mateus ([Ata S2E4_03, D03](./ata-S2-03-2026-11-21.md)).
+
+**Ajuste com o grupo:** no [planejamento geral](/Projeto/Planejamento.md), Davi aparecia na Visão de Implementação (#8) e Pedro na de Implantação (#7). As issues foram reatribuídas: #8 para Daniel e Mateus, e #7 para Pedro e Davi.
 
 A divisão **não é estanque**: todos trabalham nos mesmos repositórios e podem colaborar com as outras partes.
 
@@ -187,10 +189,12 @@ Referências de base:
 
 | # | Pendência | Por que importa | Encaminhamento |
 | -- | -- | -- | -- |
-| P1 | `RecargaPort.recarregar` devolve um `Recibo` com a moeda **já creditada** | Serve ao processador simulado, que aprova na hora, mas não ao checkout do Mercado Pago e do Stripe, que fica pendente até o pagamento e é confirmado pelo Proxy | Decidir antes do congelamento do contrato: (a) o CA-01 usa o simulado pelo port, e os processadores reais ficam como fluxo extra da página web; ou (b) propor no #3 um resultado que admita checkout pendente |
-| P2 | Confirmação do contrato pelas outras subequipes | O contrato escolheu entre decisões diferentes das subequipes na E03 | Mateus e Daniel cobram a revisão nos PRs #26 e #27 |
-| P3 | Reatribuição das issues #7, #8 e #9 | A divisão interna troca os donos sugeridos no planejamento geral | Davi, até 16/11 |
-| P4 | Participação de todos na Visão Lógica | Não está claro se todo integrante precisa participar da visão obrigatória | Davi pergunta à professora |
+| P1 | `RecargaPort.recarregar` devolve um `Recibo` com a moeda **já creditada** | Serve ao processador simulado, que aprova na hora, mas não ao checkout do Mercado Pago e do Stripe | ✅ Resolvida pela opção (b): o contrato passou a devolver o checkout pendente e a consultar a recarga ([PR #26](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/pull/26)) |
+| P2 | Confirmação do contrato pelas outras subequipes | O contrato escolheu entre decisões diferentes das subequipes na E03 | ✅ PRs #26 e #27 mesclados em 18/11 ([Ata S2E4_02, D01](./ata-S2-02-2026-11-16.md)) |
+| P3 | Reatribuição das issues #7, #8 e #9 | A divisão interna troca os donos sugeridos no planejamento geral | ✅ Issues reatribuídas |
+| P4 | Participação de todos na Visão Lógica | Não está claro se todo integrante precisa participar da visão obrigatória | ✅ A professora confirmou que não é necessário ([Ata S2E4_02](./ata-S2-02-2026-11-16.md)) |
+| P5 | Página integrada só com o processador simulado | Os processadores reais já estão na monetização (PR #31), mas a página ainda não os oferece | Mateus conecta ([Ata S2E4_03, D02](./ata-S2-03-2026-11-21.md)) |
+| P6 | GitHub Pages do repositório de documentação não publicado | Sem ele, o relatório não fica acessível pelo site | A definir com o grupo ([Ata S2E4_03](./ata-S2-03-2026-11-21.md)) |
 
 Pendências resolvidas na reunião S2E4_01: responsável pela Visão de Dados (D03), vídeo (D08) e cronograma (D07).
 
@@ -198,19 +202,19 @@ Pendências resolvidas na reunião S2E4_01: responsável pela Visão de Dados (D
 
 ## 9. Checklist da SubEquipe_02
 
-- [ ] Contrato e fakes na `main` (#3, #4)
-- [ ] Recarga, doação e destaque com testes verdes, expostos pelos ports (#10, #11, #12)
-- [ ] Página web integrada rodando o CA-01 (#16)
-- [ ] Visão de Implementação com diagrama de componentes, interfaces e dependências (#8)
-- [ ] Visão de Implantação com diagrama de implantação (#7)
-- [ ] Página de Reutilização (#9)
-- [ ] Visão de Dados com o modelo de dados e onde os dados vivem em cada contexto (#9)
+- [x] Contrato e fakes na `main` (#3, #4; PRs #26 e #27)
+- [x] Recarga, doação e destaque com testes verdes (#10, #11, #12; PRs #31, #32 e #28)
+- [x] Página web integrada rodando o CA-01 (#16; PR #36) — falta oferecer os processadores reais (P5)
+- [x] Visão de Implementação com diagrama de componentes, interfaces e dependências (#8)
+- [x] Visão de Implantação com diagrama de implantação (#7)
+- [x] Página de Reutilização (#9)
+- [x] Visão de Dados, como justificativa de escopo (#9)
 - [ ] Revisões cruzadas feitas (quatro) e recebidas nas nossas páginas
 - [ ] Linhas da SubEquipe_02 na matriz de rastreabilidade (#20)
 - [ ] Relatos de IA dos quatro integrantes (#13) e linhas no registro de prompts
 - [ ] Versionamentos com todos os integrantes; 1.2 Participações consolidada (#15)
-- [ ] Extras com comprobatório na 1.3 (E6, E7, E9) ou registradas como não realizadas
-- [ ] Cada integrante com pelo menos uma Visão e um item de código comprovados por commit ou PR
+- [ ] Extras com comprobatório na 1.3 (E9) ou registradas como não realizadas (E6 e E7 registradas nas atas)
+- [x] Cada integrante com pelo menos uma Visão e um item de código comprovados por commit ou PR
 - [ ] Capturas de tela no README do código
 
 ---
@@ -221,6 +225,7 @@ Pendências resolvidas na reunião S2E4_01: responsável pela Visão de Dados (D
 | -- | -- | -- | -- |
 | S2E4_01 | 11/11/2026 | Abertura: planejamento geral, shared kernel, integração com o chat, divisão em duplas, Reutilização, Visão de Dados, prazos | [Ata S2E4_01](./ata-S2-01-2026-11-11.md) |
 | S2E4_02 | 16/11/2026 | Acompanhamento: migração do código, issues e visões | [Ata S2E4_02](./ata-S2-02-2026-11-16.md) |
+| S2E4_03 | 21/11/2026 | Fechamento: visões e PRs de documentação, página integrada, documentação do shared kernel, relatos de IA e prazos | [Ata S2E4_03](./ata-S2-03-2026-11-21.md) |
 
 ---
 
@@ -229,3 +234,4 @@ Pendências resolvidas na reunião S2E4_01: responsável pela Visão de Dados (D
 | Versão | Data | Descrição | Autor(es) | Revisor(es) |
 | -- | -- | -- | -- | -- |
 | 1.0 | 11/11/2026 | Criação do documento de organização da SubEquipe_02 para a Entrega 04: entregáveis, cenário CA-01, código, duplas inéditas (Davi + Pedro e Daniel + Mateus), cronograma sugerido, estudo, regras, pendências e checklist, com as decisões da reunião S2E4_01 (Visão de Dados com os quatro integrantes, Decorator antes do chat, vídeo opcional, prazos e próxima reunião) | Davi Severiano Freitas | |
+| 1.1 | 22/11/2026 | Atualização com as reuniões S2E4_02 e S2E4_03: status, Visão de Dados como justificativa de escopo, extras (E6 e E7 fora do escopo, E9 com Mateus), ajustes na divisão, pendências P1 a P4 resolvidas e P5 e P6 novas, checklist e reunião S2E4_03 | Davi Severiano Freitas | |
