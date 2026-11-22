@@ -1,0 +1,77 @@
+@startuml visao-casos-de-uso-ca01-v1
+' Visão de Casos de Uso (DAS 1.1.1.4) — casos de uso arquiteturalmente significativos do CA-01.
+' Autoria: Pedro Druck Montalvão Reis (SubEquipe_01), 2026. Versão 1.
+' Fonte de verdade dos nomes: ports e tipos de packages/shared-kernel no repositório de código
+' (main @ 76bec6c). A cor indica a subequipe dona do contexto que realiza o caso de uso.
+
+title Visão de Casos de Uso — CA-01 (Live com doação destacada), v1
+
+left to right direction
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam ArrowColor #333333
+hide stereotype
+skinparam actorBorderColor #333333
+skinparam usecase {
+  BorderColor #555555
+  BackgroundColor<<SG1>> #DAE8FC
+  BackgroundColor<<SG2>> #D5E8D4
+  BackgroundColor<<SG3>> #FFE6CC
+}
+skinparam rectangle {
+  BorderColor #555555
+  BackgroundColor #FFFFFF
+}
+
+actor "Criador" as criador
+actor "Espectador" as espectador
+actor "Processador de\npagamento" as processador <<externo>>
+
+rectangle "Plataforma de streaming (recorte do CA-01)" {
+  usecase "UC-01\nFazer login" as UC01 <<SG3>>
+  usecase "Informar segundo\nfator (TOTP)" as UC01a <<SG3>>
+  usecase "UC-02\nAbrir live por preset" as UC02 <<SG1>>
+  usecase "Notificar\nseguidores" as UC02a <<SG3>>
+  usecase "UC-06\nEncerrar live" as UC06 <<SG1>>
+  usecase "Gerar VOD\n(ao receber LiveEncerrada)" as UC06a <<SG1>>
+  usecase "UC-03\nRecarregar moeda virtual" as UC03 <<SG2>>
+  usecase "Confirmar pagamento\n(aviso autêntico, uma vez)" as UC03a <<SG2>>
+  usecase "UC-04\nDoar a uma live" as UC04 <<SG2>>
+  usecase "Repassar ao criador" as UC04a <<SG2>>
+  usecase "Publicar mensagem\ndestacada" as UC04b <<SG2>>
+  usecase "Moderar mensagem" as UC05a <<SG3>>
+  usecase "UC-05\nEnviar mensagem no chat" as UC05 <<SG3>>
+}
+
+criador --> UC01
+espectador --> UC01
+criador --> UC02
+criador --> UC06
+espectador --> UC03
+espectador --> UC04
+espectador --> UC05
+UC03a --> processador
+
+UC01 <.. UC01a : <<extend>>\n[papel = criador]
+UC02 ..> UC02a : <<include>>
+UC03 ..> UC03a : <<include>>
+UC04 ..> UC04a : <<include>>
+UC04 <.. UC04b : <<extend>>\n[doação com mensagem]
+UC04b ..> UC05a : <<include>>
+UC05 ..> UC05a : <<include>>
+UC06 ..> UC06a : <<include>>
+
+
+
+legend right
+  Cor = subequipe dona do contexto que realiza o caso de uso
+  azul: SubEquipe_01 · verde: SubEquipe_02 · laranja: SubEquipe_03
+  ----
+  Publicar mensagem destacada: falha no chat não desfaz a doação
+  (D05); o comprovante volta com destaqueEntregue = false.
+  Gerar VOD: disparado pelo evento LiveEncerrada no EventBus;
+  conteudo não conhece transmissao (RD3).
+endlegend
+
+@enduml
