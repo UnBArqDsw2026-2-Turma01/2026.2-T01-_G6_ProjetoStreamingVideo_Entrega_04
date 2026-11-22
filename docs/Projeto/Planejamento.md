@@ -87,14 +87,14 @@ O contrato é definido em [código #3](https://github.com/UnBArqDsw2026-2-Turma0
 
 ## 5. Cronograma por marcos
 
-| Marco | Quando | Data real | Entregável | Critério de saída |
-| --- | --- | --- | --- | --- |
-| M0 · Abertura | D-14 | 09/11 (reunião realizada) | Reunião geral e ata | Plano aprovado ou ajustado |
-| M1 · Fundação | D-11 | 12/11 (prov.) | Monorepo, shared-kernel, esqueleto do DAS | `npm test` passa na raiz; sidebar completa |
-| M2 · Rascunho | D-7 | 16/11 (prov.) | Três visões em rascunho; CA-01 no terminal | **Go/no-go** da web integrada |
-| M3 · Revisão | D-4 | 19/11 (prov.) | Revisões cruzadas, web, relatos de IA, extras A | PRs de visão revisados por outra subequipe |
-| M4 · Fechamento | D-2 | 21/11 (prov.) | Vídeo, quadros 1.2 e 1.3, README | [Checklist](/Checklist.md) completo |
-| M5 · Congelamento | D-1 | 22/11 (prov.) | Último merge, ensaio, cópia offline | Nenhum commit após o horário combinado |
+| Marco | Quando | Data real | Entregável | Critério de saída | Situação em 22/11/2026 |
+| --- | --- | --- | --- | --- | --- |
+| M0 · Abertura | D-14 | 09/11 (reunião realizada) | Reunião geral e ata | Plano aprovado ou ajustado | ✅ realizado em 09/11 |
+| M1 · Fundação | D-11 | 12/11 (prov.) | Monorepo, shared-kernel, esqueleto do DAS | `npm test` passa na raiz; sidebar completa | ✅ com atraso: monorepo em 09/11 ([PR #24](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/pull/24)); contrato e fakes do kernel só em 18/11 ([PR #26](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/pull/26), [#27](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/pull/27)); `npm test` passa na raiz |
+| M2 · Rascunho | D-7 | 16/11 (prov.) | Três visões em rascunho; CA-01 no terminal | **Go/no-go** da web integrada | 🟡 visões escritas; **CA-01 no terminal não implementado** (código [#15](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/15)); web integrada existe ([PR #36](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/pull/36)), mas monta fakes em vez dos pacotes reais |
+| M3 · Revisão | D-4 | 19/11 (prov.) | Revisões cruzadas, web, relatos de IA, extras A | PRs de visão revisados por outra subequipe | 🟡 revisão cruzada parcial (ver [tabela do DAS](/Base/Relatórios/1.1.1.DAS.md?id=das)); relatos de IA 3 de 11; extras E2, E3 e E8 com comprovante |
+| M4 · Fechamento | D-2 | 21/11 (prov.) | Vídeo, quadros 1.2 e 1.3, README | [Checklist](/Checklist.md) completo | ⬜ quadros 1.2 (2 de 11) e 1.3 (consolidado), README sem screenshots; vídeo substituído por apresentação ao vivo (D06) |
+| M5 · Congelamento | D-1 | 22/11 (prov.) | Último merge, ensaio, cópia offline | Nenhum commit após o horário combinado | ⬜ horário de congelamento não definido (D04) |
 
 Datas **provisórias**, com D = 23/11/2026 (data-limite mais cedo entre as lembradas na reunião, ata D03). Confirmar a data de entrega no Aprender3 e ajustar também os [milestones](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/milestones).
 
@@ -122,3 +122,4 @@ Detalhes e situação em [1.3. Iniciativas extras](/Base/1.3.IniciativasExtras.m
 | Versão | Data | Descrição | Autor(es) | Revisor(es) |
 | --- | --- | --- | --- | --- |
 | 0.1 | 09/11/2026 | Versão em Markdown do planejamento (PDF anexo) | Lucas Andrade Zanetti | — |
+| 0.2 | 22/11/2026 | Coluna de situação dos marcos, conferida contra issues e PRs dos dois repositórios | Lucas Andrade Zanetti | — |

@@ -77,7 +77,7 @@ As regras de dependência RD1–RD7, numeradas e ligadas ao diagrama de pacotes,
 
 **Riscos e limites declarados:**
 
-- **A regra ainda não é imposta por ferramenta.** EV-01 mostra que ela vale hoje, mas os pacotes de contexto estão vazios na `main`. Até a extra E2 (código #18) rodar no CI, a regra depende de revisão.
+- **A regra é imposta por ferramenta só em parte.** A extra E2 ([PR #33](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/pull/33)) e a CI ([PR #37](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/pull/37)) verificam as proibições RD3, RD4 e RD5 em cada PR. RD6 e RD7 não têm regra e dependem de revisão (ver [ADR-011](/Base/Relatórios/1.1.1.DAS/ADR/ADR-011-fitness-functions-regras-da-visao-logica.md)). *Atualizado em 22/11/2026, conforme o achado 1 da revisão da coordenação.*
 - **Os observadores de moderação de vídeo do `StreamChannel`** da E03 (`AutoModObserver`, `SafetyVisionModerationObserver` etc.) entram com o canal em `transmissao` (código #7). Se algum deles precisar da moderação real, viola RD3. A saída compatível com este ADR é ligá-los em `apps/*` ou mantê-los no canal; a decisão fica com a SubEquipe_03 na #7.
 - Seis contextos para um sistema em memória é granularidade de **organização do trabalho**, não de escala. Este ADR não afirma que os contextos poderiam virar serviços independentes; isso exigiria outra análise (ver ADR-005, sobre o monorepo).
 

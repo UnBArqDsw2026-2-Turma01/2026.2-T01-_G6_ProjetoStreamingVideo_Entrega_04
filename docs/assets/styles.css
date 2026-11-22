@@ -1,4 +1,8 @@
+/* Tokens de cor. O tema escuro troca só os valores; os componentes usam sempre os tokens.
+   O atributo data-theme é definido no <head> de index.html (escolha salva ou preferência do sistema). */
 :root {
+  color-scheme: light;
+  --theme-color: #4f46a8;
   --g6-ink: #172033;
   --g6-muted: #5f6b7a;
   --g6-brand: #4f46a8;
@@ -6,7 +10,49 @@
   --g6-brand-soft: #f1f0ff;
   --g6-line: #e5e7ef;
   --g6-surface: #ffffff;
+  --g6-surface-2: #f5f5fa;
   --g6-page: #fbfbfd;
+  --g6-nav-link: #596274;
+  --g6-quote-ink: #484b63;
+  --g6-code-ink: #b42368;
+  --g6-code-bg: #f7f2f5;
+  --g6-hero-from: #ffffff;
+  --g6-hero-to: #f7f7ff;
+  --g6-hero-line: #ddddef;
+  --g6-chip-line: #dfdff7;
+  --g6-button-bg: #4f46a8;
+  --g6-button-bg-hover: #37328a;
+  --g6-button2-line: #d8d9e7;
+  --g6-glow: rgba(79, 70, 168, 0.055);
+  --g6-img-bg: #ffffff;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --theme-color: #a9a2ff;
+  --g6-ink: #e6e9f2;
+  --g6-muted: #a4adc2;
+  --g6-brand: #a9a2ff;
+  --g6-brand-dark: #d3cfff;
+  --g6-brand-soft: #262858;
+  --g6-line: #2a2f3d;
+  --g6-surface: #171a24;
+  --g6-surface-2: #1d212d;
+  --g6-page: #0f1117;
+  --g6-nav-link: #b5bdd0;
+  --g6-quote-ink: #c5cbdb;
+  --g6-code-ink: #ff9ec6;
+  --g6-code-bg: #1f2330;
+  --g6-hero-from: #171a24;
+  --g6-hero-to: #1c1f33;
+  --g6-hero-line: #2f3350;
+  --g6-chip-line: #3a3d6b;
+  --g6-button-bg: #5a51c7;
+  --g6-button-bg-hover: #6c63da;
+  --g6-button2-line: #3a4054;
+  --g6-glow: rgba(169, 162, 255, 0.07);
+  /* Os diagramas PlantUML são exportados com fundo claro: mantêm um cartão claro no tema escuro. */
+  --g6-img-bg: #ffffff;
 }
 
 body {
@@ -19,6 +65,7 @@ body {
   width: 280px;
   border-right: 1px solid var(--g6-line);
   background: var(--g6-surface);
+  color: var(--g6-ink);
   padding: 1.25rem 1.25rem 2rem;
 }
 
@@ -43,7 +90,7 @@ body {
 }
 
 .sidebar ul li a {
-  color: #596274;
+  color: var(--g6-nav-link);
   border-radius: 6px;
   padding: 0.42rem 0.55rem;
   line-height: 1.35;
@@ -57,6 +104,7 @@ body {
   border-right: 0;
 }
 
+/* Rótulo de grupo da navegação (itens em negrito sem link). */
 .sidebar strong {
   display: block;
   margin-top: 1.15rem;
@@ -66,6 +114,13 @@ body {
   text-transform: uppercase;
 }
 
+/* Subgrupo dentro de um grupo: mais discreto que o rótulo principal. */
+.sidebar ul ul strong {
+  margin-top: 0.7rem;
+  color: var(--g6-muted);
+  font-size: 0.68rem;
+}
+
 .sidebar .search {
   margin: 0 0 0.85rem;
   border-bottom: 1px solid var(--g6-line);
@@ -73,7 +128,7 @@ body {
 }
 
 .sidebar .search input {
-  background: #f7f7fa;
+  background: var(--g6-surface-2);
   border: 1px solid var(--g6-line);
   border-radius: 8px;
   color: var(--g6-ink);
@@ -81,10 +136,35 @@ body {
   padding: 0.65rem 0.75rem;
 }
 
+.sidebar .search .results-panel,
+.sidebar .search .matching-post {
+  color: var(--g6-ink);
+}
+
+.sidebar .search .matching-post {
+  border-bottom-color: var(--g6-line);
+}
+
+.sidebar .search a {
+  color: var(--g6-nav-link);
+}
+
+.sidebar .search .matching-post h2 {
+  color: var(--g6-ink);
+}
+
+.sidebar-toggle {
+  background-color: color-mix(in srgb, var(--g6-surface) 85%, transparent);
+}
+
+.sidebar-toggle span {
+  background-color: var(--g6-brand);
+}
+
 .content {
   padding-top: 0;
   background:
-    radial-gradient(circle at 85% 5%, rgba(79, 70, 168, 0.055), transparent 22rem),
+    radial-gradient(circle at 85% 5%, var(--g6-glow), transparent 22rem),
     var(--g6-page);
 }
 
@@ -93,12 +173,21 @@ body {
   padding: 3.25rem 2.5rem 5rem;
   font-size: 16px;
   line-height: 1.72;
+  color: var(--g6-ink);
+}
+
+.markdown-section h1,
+.markdown-section h2,
+.markdown-section h3,
+.markdown-section h4,
+.markdown-section h5,
+.markdown-section strong {
+  color: var(--g6-ink);
 }
 
 .markdown-section h1,
 .markdown-section h2,
 .markdown-section h3 {
-  color: var(--g6-ink);
   letter-spacing: -0.018em;
 }
 
@@ -120,10 +209,14 @@ body {
   font-weight: 650;
 }
 
+.markdown-section hr {
+  border-bottom-color: var(--g6-line);
+}
+
 .markdown-section blockquote {
   border-left: 4px solid var(--g6-brand);
   background: var(--g6-brand-soft);
-  color: #484b63;
+  color: var(--g6-quote-ink);
   padding: 0.85rem 1.1rem;
   border-radius: 0 8px 8px 0;
 }
@@ -140,8 +233,8 @@ body {
 }
 
 .markdown-section table th {
-  background: #f5f5fa;
-  color: #42495a;
+  background: var(--g6-surface-2);
+  color: var(--g6-ink);
   border: 0;
   border-bottom: 1px solid var(--g6-line);
 }
@@ -152,6 +245,14 @@ body {
   vertical-align: top;
 }
 
+.markdown-section table tr {
+  background: transparent;
+}
+
+.markdown-section table tr:nth-child(2n) {
+  background: color-mix(in srgb, var(--g6-surface-2) 55%, transparent);
+}
+
 .markdown-section table tr:last-child td {
   border-bottom: 0;
 }
@@ -159,21 +260,74 @@ body {
 .markdown-section img {
   border: 1px solid var(--g6-line);
   border-radius: 10px;
-  background: white;
+  background: var(--g6-img-bg);
   max-width: 100%;
 }
 
 .markdown-section code {
-  color: #b42368;
-  background: #f7f2f5;
+  color: var(--g6-code-ink);
+  background: var(--g6-code-bg);
   border-radius: 5px;
 }
 
+.markdown-section pre {
+  background: var(--g6-code-bg);
+  border: 1px solid var(--g6-line);
+  border-radius: 8px;
+}
+
+.markdown-section pre > code {
+  color: var(--g6-ink);
+  background: transparent;
+}
+
+.markdown-section kbd,
+.markdown-section mark {
+  color: var(--g6-ink);
+}
+
+.markdown-section kbd {
+  background: var(--g6-surface-2);
+  border-color: var(--g6-line);
+}
+
+:root[data-theme="dark"] .markdown-section mark {
+  background: #5a4b00;
+}
+
+/* Realce de sintaxe do tema vue, reajustado para fundo escuro. */
+:root[data-theme="dark"] .token.comment,
+:root[data-theme="dark"] .token.prolog,
+:root[data-theme="dark"] .token.doctype,
+:root[data-theme="dark"] .token.cdata {
+  color: #8c95ab;
+}
+
+:root[data-theme="dark"] .token.punctuation { color: #c5cbdb; }
+:root[data-theme="dark"] .token.property,
+:root[data-theme="dark"] .token.tag,
+:root[data-theme="dark"] .token.boolean,
+:root[data-theme="dark"] .token.number,
+:root[data-theme="dark"] .token.constant,
+:root[data-theme="dark"] .token.symbol { color: #ff9ec6; }
+:root[data-theme="dark"] .token.selector,
+:root[data-theme="dark"] .token.attr-name,
+:root[data-theme="dark"] .token.string,
+:root[data-theme="dark"] .token.char,
+:root[data-theme="dark"] .token.builtin { color: #8fe0b0; }
+:root[data-theme="dark"] .token.operator,
+:root[data-theme="dark"] .token.entity,
+:root[data-theme="dark"] .token.url { color: #d3cfff; }
+:root[data-theme="dark"] .token.atrule,
+:root[data-theme="dark"] .token.attr-value,
+:root[data-theme="dark"] .token.keyword { color: #a9a2ff; }
+:root[data-theme="dark"] .token.function { color: #ffd479; }
+
 .hero {
   margin: 0 0 2.25rem;
-  border: 1px solid #ddddef;
+  border: 1px solid var(--g6-hero-line);
   border-radius: 14px;
-  background: linear-gradient(135deg, #ffffff 0%, #f7f7ff 100%);
+  background: linear-gradient(135deg, var(--g6-hero-from) 0%, var(--g6-hero-to) 100%);
   padding: clamp(1.5rem, 4vw, 3rem);
 }
 
@@ -183,7 +337,7 @@ body {
   margin-bottom: 0.9rem;
   color: var(--g6-brand-dark);
   background: var(--g6-brand-soft);
-  border: 1px solid #dfdff7;
+  border: 1px solid var(--g6-chip-line);
   border-radius: 999px;
   padding: 0.35rem 0.75rem;
   font-size: 0.76rem;
@@ -226,19 +380,26 @@ body {
 
 .button {
   color: #fff !important;
-  background: var(--g6-brand);
-  border: 1px solid var(--g6-brand);
+  background: var(--g6-button-bg);
+  border: 1px solid var(--g6-button-bg);
 }
 
 .button:hover {
-  background: var(--g6-brand-dark);
-  border-color: var(--g6-brand-dark);
+  background: var(--g6-button-bg-hover);
+  border-color: var(--g6-button-bg-hover);
 }
 
 .button-secondary {
   color: var(--g6-brand-dark) !important;
-  background: #fff;
-  border: 1px solid #d8d9e7;
+  background: var(--g6-surface);
+  border: 1px solid var(--g6-button2-line);
+}
+
+.button:focus-visible,
+.button-secondary:focus-visible,
+.theme-toggle:focus-visible {
+  outline: 3px solid var(--g6-brand);
+  outline-offset: 2px;
 }
 
 .journey,
@@ -282,7 +443,7 @@ body {
 
 .metadata-strip > div {
   border-left: 3px solid var(--g6-brand);
-  background: #f6f6fa;
+  background: var(--g6-surface-2);
   padding: 0.75rem 0.85rem;
   font-size: 0.82rem;
 }
@@ -295,10 +456,80 @@ body {
   letter-spacing: 0.05em;
 }
 
+.docs-pagination,
+.pagination-item a,
+.pagination-item-title {
+  color: var(--g6-brand);
+}
+
 .docs-pagination {
   border-top: 1px solid var(--g6-line);
   margin-top: 3rem;
   padding-top: 1.25rem;
+}
+
+.pagination-item-label {
+  color: var(--g6-muted);
+}
+
+.docsify-copy-code-button {
+  background: var(--g6-brand-soft) !important;
+  color: var(--g6-brand-dark) !important;
+}
+
+/* Botão de alternância de tema: à esquerda do canto do GitHub, sempre visível. */
+.theme-toggle {
+  position: fixed;
+  top: 0.75rem;
+  right: 5.25rem;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 36px;
+  padding: 0.35rem 0.8rem 0.35rem 0.65rem;
+  border: 1px solid var(--g6-button2-line);
+  border-radius: 999px;
+  background: var(--g6-surface);
+  color: var(--g6-ink);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.theme-toggle:hover {
+  background: var(--g6-brand-soft);
+  border-color: var(--g6-brand);
+}
+
+.theme-toggle svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+/* O ícone mostra para qual tema o clique leva. */
+.theme-toggle .icon-sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .icon-sun { display: inline; }
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+/* No tema escuro, a faixa do GitHub herda a cor do tema; escurece o triângulo para não brilhar. */
+:root[data-theme="dark"] .github-corner svg {
+  fill: var(--g6-brand-soft);
+  color: var(--g6-brand-dark);
+}
+
+.mermaid {
+  text-align: center;
+  margin: 1.5em 0;
+  overflow-x: auto;
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
 }
 
 @media (max-width: 768px) {
@@ -318,5 +549,21 @@ body {
 
   .hero {
     border-radius: 10px;
+  }
+
+  .theme-toggle {
+    top: 0.6rem;
+    right: 4.5rem;
+  }
+
+  .theme-toggle .label {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar ul li a,
+  .theme-toggle {
+    transition: none;
   }
 }
