@@ -11,6 +11,7 @@
       - [Organização da SubEquipe 02](/Projeto/Atas/Atas_Sg2/Sg2-organizacao-entrega-04.md)
       - [Ata S2E4_01 (11/11/2026)](/Projeto/Atas/Atas_Sg2/ata-S2-01-2026-11-11.md)
       - [Ata S2E4_02 (16/11/2026)](/Projeto/Atas/Atas_Sg2/ata-S2-02-2026-11-16.md)
+      - [Ata S2E4_03 (21/11/2026)](/Projeto/Atas/Atas_Sg2/ata-S2-03-2026-11-21.md)
     - [Modelo de ata](/Projeto/Atas/TEMPLATE.md)
 
 - **Arquitetura (DAS)**
