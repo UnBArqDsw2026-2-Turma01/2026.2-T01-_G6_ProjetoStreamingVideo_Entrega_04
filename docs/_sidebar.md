@@ -1,11 +1,11 @@
 - [Início](/)
-- [Introdução à Entrega 04](/Introducao.md)
-- [Checklist da Entrega 04](/Checklist.md)
+- [Introdução](/Introducao.md)
+- [Checklist da entrega](/Checklist.md)
 
-- **Desenho de Software — DAS**
-  - [1. Visão geral](/Base/1.DAS_Reutilizacao.md)
-  - 1.1. Relatórios
-    - [1.1.1. DAS](/Base/Relatórios/1.1.1.DAS.md)
+- **Arquitetura**
+  - [Visão geral do DAS](/Base/1.DAS_Reutilizacao.md)
+  - [Relatório completo](/Base/Relatórios/1.1.1.DAS.md)
+  - **Visões do DAS**
       - [1.1.1.1. Introdução](/Base/Relatórios/1.1.1.DAS/1.1.1.1.Introducao.md)
       - [1.1.1.2. Representação Arquitetural](/Base/Relatórios/1.1.1.DAS/1.1.1.2.RepresentacaoArquitetural.md)
       - [1.1.1.3. Metas e Restrições Arquiteturais](/Base/Relatórios/1.1.1.DAS/1.1.1.3.MetasRestricoes.md)

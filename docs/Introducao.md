@@ -1,6 +1,12 @@
-# Introdução — Entrega 04
-
-**Grupo 06 · Turma 01 · FGA0208 · Universidade de Brasília · 2026.2**
+<header class="hero">
+  <span class="eyebrow">Contexto da entrega</span>
+  <h1>Introdução — Entrega 04</h1>
+  <p>Grupo 06 · Turma 01 · FGA0208 · Universidade de Brasília · 2026.2</p>
+  <div class="hero-actions">
+    <a class="button" href="/Base/Relatórios/1.1.1.DAS.md">Abrir o relatório DAS</a>
+    <a class="button-secondary" href="/Projeto/Planejamento.md">Ver planejamento</a>
+  </div>
+</header>
 
 ## Contexto
 

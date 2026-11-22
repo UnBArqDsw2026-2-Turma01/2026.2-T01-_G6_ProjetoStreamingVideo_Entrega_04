@@ -5,10 +5,11 @@
   <title>Streaming de Vídeo — Entrega 04 | Grupo 06</title>
   <meta name="description" content="Documentação da Entrega 04 do Grupo 06: Documento de Arquitetura (DAS) e IA Generativa. FGA0208, UnB, 2026.2.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#3b3f99">
+  <meta name="theme-color" content="#4f46a8">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/themes/vue.css">
+  <link rel="stylesheet" href="./assets/styles.css">
   <style>
-    :root { --theme-color: #3b3f99; }
+    :root { --theme-color: #4f46a8; }
     .markdown-section { max-width: 960px; }
     .markdown-section table { display: block; overflow-x: auto; }
     .sidebar .app-name { font-size: 1.2rem; }
@@ -26,10 +27,30 @@
       loadSidebar: true,
       subMaxLevel: 2,
       auto2top: true,
+      search: {
+        placeholder: 'Buscar na documentação',
+        noData: 'Nenhum resultado',
+        depth: 3,
+        pathNamespaces: ['/']
+      },
+      copyCode: {
+        buttonText: 'Copiar',
+        errorText: 'Erro',
+        successText: 'Copiado'
+      },
+      pagination: {
+        previousText: 'Anterior',
+        nextText: 'Próxima',
+        crossChapter: true,
+        crossChapterText: true
+      },
       alias: { '/.*/_sidebar.md': '/_sidebar.md' }
     };
   </script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/docsify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/plugins/search.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@3/dist/docsify-copy-code.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-pagination@2/dist/docsify-pagination.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-mermaid@2.0.1/dist/docsify-mermaid.js"></script>
   <script>mermaid.initialize({ startOnLoad: true, theme: 'default' });</script>
