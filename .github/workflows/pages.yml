@@ -33,6 +33,11 @@ jobs:
         with:
           path: docs
 
+      # O artefato é finalizado e, meio segundo depois, o deploy consulta a API;
+      # sem essa espera a consulta devolve "Found 0 artifact(s)" (runs 45030029315 e 45030296538).
+      - name: Aguardar o artefato ficar visível
+        run: sleep 30
+
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
