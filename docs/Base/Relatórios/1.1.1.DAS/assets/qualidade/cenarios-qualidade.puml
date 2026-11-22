@@ -1,0 +1,50 @@
+@startuml
+!pragma layout smetana
+skinparam shadowing false
+skinparam componentStyle uml2
+skinparam defaultFontName SansSerif
+left to right direction
+title Qualidade no CA-01 — pontos de verificação
+component "Aplicações CA-01\n(composição)" as apps
+component "identidade" as identidade
+component "moderação" as moderacao
+component "monetização" as monetizacao
+component "chat" as chat
+package "shared-kernel" {
+  rectangle "«interface»\nAutenticacaoPort" as auth
+  rectangle "«interface»\nModeracaoPort" as mod
+  rectangle "«interface»\nDoacaoPort" as doa
+  rectangle "«interface»\nChatPort" as chatport
+  component "EventBusEmMemoria" as bus
+}
+apps ..> auth : login / step-up
+apps ..> doa : doar
+identidade ..|> auth
+moderacao ..|> mod
+monetizacao ..|> doa
+chat ..|> chatport
+chat ..> mod : avaliar
+monetizacao ..> chatport : destacar
+monetizacao ..> bus : confirmar
+note top of identidade
+QA-01 credenciais
+QA-02 MFA e sessão
+QA-03 limite de tentativas
+end note
+note bottom of moderacao
+QA-04 veredito
+QA-06 troca de estratégia
+end note
+note bottom of monetizacao
+QA-05 falha no destaque
+não desfaz a doação
+end note
+note bottom of bus
+QA-07 ordem e falhas
+end note
+legend bottom
+QA-06 também verifica limites de dependência.
+Visão conceitual: não comprova integração completa.
+Autenticação, web, moderação e chat têm PRs em revisão.
+endlegend
+@enduml
