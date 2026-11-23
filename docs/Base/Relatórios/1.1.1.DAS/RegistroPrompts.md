@@ -1,6 +1,6 @@
 # Registro de Prompts de IA Generativa (extra E5)
 
-> **Organização:** Philipe Amâncio Reis Caetano · **Issue:** [#21](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/21) · **Status:** 🟡 em preenchimento: registros de 4 de 11 integrantes (Eduardo, Lucas, Heitor e Philipe) em 22/11/2026; cada integrante acrescenta as próprias linhas
+> **Organização:** Philipe Amâncio Reis Caetano · **Issue:** [#21](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/21) · **Status:** 🟡 em preenchimento: registros de 5 de 11 integrantes (Eduardo, Lucas, Heitor, Pedro Druck e Philipe) em 23/11/2026; cada integrante acrescenta as próprias linhas
 
 Registro feito **durante** o trabalho, por cada integrante. É a fonte dos relatos do [Foco_02](/Base/Relatórios/1.1.1.DAS.md?id=foco_02-ia-generativa).
 
@@ -37,3 +37,4 @@ Registro feito **durante** o trabalho, por cada integrante. É a fonte dos relat
 | 0.6 | 22/11/2026 | Novos registros de prompts simples de Eduardo Lôbo Moreira (benchmark CA-01, seção 1.1.1.10 e revisões cruzadas) | Eduardo Lôbo Moreira | — |
 | 0.7 | 23/11/2026 | Registros de uso de IA generativa de Pedro Druck Montalvão Reis (seções 1.1.1.3 e 1.1.1.4, matriz de rastreabilidade e revisão dos ADRs) | Pedro Druck Montalvão Reis | — |
 | 0.8 | 22/11/2026 | Registros de uso de IA generativa de Philipe Amâncio Reis Caetano e atualização do status da organização | Philipe Amâncio Reis Caetano | — |
+| 0.9 | 23/11/2026 | Atualização do status do cabeçalho para 5 de 11 integrantes na `main` (incluindo os registros de Pedro Druck) | Eduardo Lôbo Moreira | — |
