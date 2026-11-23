@@ -30,7 +30,22 @@ Plataforma de streaming de vídeo com ênfase em transmissões ao vivo e conteú
 
 ## Screenshots da Quarta Entrega
 
-**Pendente** ([#17](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/17)). Inserir ao menos duas imagens com legenda e link para o artefato correspondente.
+Capturas da página integrada do CA-01 (`apps/web` do [repositório de código](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo), commit `c020c93`), executada localmente com `npm run web` e as contas de demonstração. O vídeo é a câmera simulada do navegador; o pagamento usa o gateway simulado.
+
+<p align="center"><img src="docs/assets/screenshots/ca01-live-chat-doacao.png" alt="Criador ao vivo com chat e mensagem destacada" width="820"></p>
+<p align="center"><sub><b>Figura 1</b> — Criador ao vivo: o chat recebe a mensagem comum e a mensagem destacada de 500 moedas, fixada no topo. Fluxo doação → chat da <a href="https://unbarqdsw2026-2-turma01.github.io/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/#/Base/Relatórios/1.1.1.DAS/1.1.1.6.VisaoProcessos.md">Visão de Processos</a>, com <a href="https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/tree/c020c9302dd4110dc0c69d0a032a623962bdd7c9/packages/monetizacao/src/destaque"><code>@g6/monetizacao</code></a> e <a href="https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/tree/c020c9302dd4110dc0c69d0a032a623962bdd7c9/packages/chat"><code>@g6/chat</code></a>.</sub></p>
+
+<p align="center"><img src="docs/assets/screenshots/ca01-login-mfa.png" alt="Login do criador com código do autenticador" width="420"></p>
+<p align="center"><sub><b>Figura 2</b> — Login do criador com senha e código TOTP obrigatório, pela <code>AutenticacaoPort</code> real (<a href="https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/tree/c020c9302dd4110dc0c69d0a032a623962bdd7c9/packages/identidade"><code>@g6/identidade</code></a> e <a href="https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/tree/c020c9302dd4110dc0c69d0a032a623962bdd7c9/apps/web/src/auth"><code>apps/web/src/auth</code></a>). Cenário QA-02 da seção <a href="https://unbarqdsw2026-2-turma01.github.io/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/#/Base/Relatórios/1.1.1.DAS/1.1.1.11.Qualidade.md">Qualidade</a>.</sub></p>
+
+<p align="center"><img src="docs/assets/screenshots/ca01-recarga.png" alt="Recarga de moeda virtual com checkout pendente" width="820"></p>
+<p align="center"><sub><b>Figura 3</b> — Recarga de moeda virtual: preços montados pelo Decorator (desconto e imposto) e checkout pendente até a confirmação do pagamento simulado (<a href="https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/tree/c020c9302dd4110dc0c69d0a032a623962bdd7c9/packages/monetizacao/src/recarga"><code>@g6/monetizacao/recarga</code></a>; elos na <a href="https://unbarqdsw2026-2-turma01.github.io/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/#/Base/Relatórios/1.1.1.DAS/1.1.1.12.Rastreabilidade.md">Matriz de Rastreabilidade</a>).</sub></p>
+
+<p align="center"><img src="docs/assets/screenshots/ca01-doacao-destacada.png" alt="Diálogo de doação com mensagem destacada" width="820"></p>
+<p align="center"><sub><b>Figura 4</b> — Doação com mensagem destacada: a faixa (cor, tempo de fixação e limite de caracteres) acompanha o valor, conforme o Decorator da mensagem destacada (<a href="https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/tree/c020c9302dd4110dc0c69d0a032a623962bdd7c9/packages/monetizacao/src/destaque"><code>src/destaque</code></a>).</sub></p>
+
+<p align="center"><img src="docs/assets/screenshots/ca01-moderacao.png" alt="Mensagem com link suspeito recusada pela moderação" width="820"></p>
+<p align="center"><sub><b>Figura 5</b> — Moderação antes da entrega: a mensagem com link suspeito é recusada e não chega ao chat (<a href="https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/tree/c020c9302dd4110dc0c69d0a032a623962bdd7c9/packages/moderacao"><code>@g6/moderacao</code></a> pela <code>ModeracaoPort</code>; cenário QA-04 da seção <a href="https://unbarqdsw2026-2-turma01.github.io/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/#/Base/Relatórios/1.1.1.DAS/1.1.1.11.Qualidade.md">Qualidade</a>).</sub></p>
 
 ## Há algo a ser executado?
 
