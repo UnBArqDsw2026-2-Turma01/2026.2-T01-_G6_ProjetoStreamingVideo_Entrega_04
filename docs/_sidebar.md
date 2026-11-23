@@ -6,13 +6,6 @@
   - [Checklist da entrega](/Checklist.md)
   - [Projetos do período](/Projeto/Projeto.md)
   - [Atas e reuniões](/Projeto/Atas/README.md)
-    - [Reunião Geral 1 (Entrega 04)](/Projeto/Atas/ata-G01-entrega-04.md)
-    - SubEquipe 02
-      - [Organização da SubEquipe 02](/Projeto/Atas/Atas_Sg2/Sg2-organizacao-entrega-04.md)
-      - [Ata S2E4_01 (11/11/2026)](/Projeto/Atas/Atas_Sg2/ata-S2-01-2026-11-11.md)
-      - [Ata S2E4_02 (16/11/2026)](/Projeto/Atas/Atas_Sg2/ata-S2-02-2026-11-16.md)
-      - [Ata S2E4_03 (21/11/2026)](/Projeto/Atas/Atas_Sg2/ata-S2-03-2026-11-21.md)
-    - [Modelo de ata](/Projeto/Atas/TEMPLATE.md)
 
 - **Arquitetura (DAS)**
   - [Guia do DAS](/Base/1.DAS_Reutilizacao.md)
@@ -42,7 +35,6 @@
   - [ADR-009 · Transmissão com dois donos](/Base/Relatórios/1.1.1.DAS/ADR/ADR-009-transmissao-contexto-dois-donos.md)
   - [ADR-010 · Foco DAS × Reutilização](/Base/Relatórios/1.1.1.DAS/ADR/ADR-010-foco-das-vs-reutilizacao.md)
   - [ADR-011 · Fitness functions](/Base/Relatórios/1.1.1.DAS/ADR/ADR-011-fitness-functions-regras-da-visao-logica.md)
-  - [ADR-012 · Docsify, Pages e tema escuro](/Base/Relatórios/1.1.1.DAS/ADR/ADR-012-docsify-github-pages-tema-escuro.md)
 
 - **Reutilização e IA Generativa**
   - [1.1.2. Reutilização](/Base/Relatórios/1.1.2.Reutilizacao.md)
@@ -57,3 +49,20 @@
   - [Entrega 01 · requisitos e NFR](https://unbarqdsw2026-2-turma01.github.io/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_01/)
   - [Entrega 02 · modelagem UML](https://unbarqdsw2026-2-turma01.github.io/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_02/)
   - [Entrega 03 · padrões GoF](https://unbarqdsw2026-2-turma01.github.io/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_03/)
+
+<details class="sidebar-meetings">
+  <summary>Atas e organização das reuniões</summary>
+  <ul>
+    <li><a href="/Projeto/Atas/README.md">Visão geral das atas</a></li>
+    <li><strong>Reunião Geral</strong></li>
+    <li><a href="/Projeto/Atas/ata-G01-entrega-04.md">Reunião Geral 1 (09/11/2026)</a></li>
+    <li><strong>SubEquipe 01</strong></li>
+    <li><a href="/Projeto/Atas/Atas_Sg1/Sg1-organizacao-entrega-04.md">Organização da SubEquipe 01</a></li>
+    <li><strong>SubEquipe 02</strong></li>
+    <li><a href="/Projeto/Atas/Atas_Sg2/Sg2-organizacao-entrega-04.md">Organização da SubEquipe 02</a></li>
+    <li><a href="/Projeto/Atas/Atas_Sg2/ata-S2-01-2026-11-11.md">Ata S2E4_01 (11/11/2026)</a></li>
+    <li><a href="/Projeto/Atas/Atas_Sg2/ata-S2-02-2026-11-16.md">Ata S2E4_02 (16/11/2026)</a></li>
+    <li><a href="/Projeto/Atas/Atas_Sg2/ata-S2-03-2026-11-21.md">Ata S2E4_03 (21/11/2026)</a></li>
+    <li><a href="/Projeto/Atas/TEMPLATE.md">Modelo de ata</a></li>
+  </ul>
+</details>

@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 | --- | --- |
-| Status | Proposta, aguardando revisão |
+| Status | 🟢 Revisado |
 | Data | 19/11/2026 |
 | Autoria | Eduardo Lôbo Moreira (SubEquipe_03) |
 | Revisor | Pedro Druck Montalvão Reis (coordenação da [issue #19](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/19)) e revisão cruzada da SubEquipe_01 |
@@ -88,4 +88,4 @@ Adotar **E**: usar o **`EventBusEmMemoria`** (implementando `EventBus` em `@g6/s
 
 | Versão | Data | Descrição | Autor(es) | Revisor(es) |
 | --- | --- | --- | --- | --- |
-| 1.0 | 19/11/2026 | Redação do ADR-007 (alternativas A–E, evidências EB-01 a EB-05, critério EventBus vs. Port e consequências), com apoio de IA generativa ([#19](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/19)) | Eduardo Lôbo Moreira | Pendente (Pedro Druck / SubEquipe_01) |
+| 1.0 | 19/11/2026 | Redação do ADR-007 (alternativas A–E, evidências EB-01 a EB-05, critério EventBus vs. Port e consequências), com apoio de IA generativa ([#19](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/19)) | Eduardo Lôbo Moreira | 🟢 Revisado |

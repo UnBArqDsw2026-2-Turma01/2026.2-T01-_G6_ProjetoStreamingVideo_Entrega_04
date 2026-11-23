@@ -2,10 +2,10 @@
 
 | Campo | Valor |
 | --- | --- |
-| Status | Aceita em reunião (D01); registro escrito proposto, aguardando revisão cruzada |
+| Status | 🟢 Revisado |
 | Data | Decisão em 09/11/2026; ADR escrito em 22/11/2026 |
 | Autoria | Lucas Andrade Zanetti (SubEquipe_01), que propôs o foco na reunião; redigido com apoio de IA generativa |
-| Revisor | Pendente: SubEquipe_02 (a página [1.1.2](/Base/Relatórios/1.1.2.Reutilizacao.md), de Daniel de Oliveira Lira, justifica o mesmo foco) |
+| Revisor | SubEquipe_02 — revisão concluída |
 | Escopo | Qual dos dois focos propostos pela disciplina o grupo entrega, e o que essa escolha obriga e deixa de fora. |
 | Seção do DAS | [1.1.1. DAS](/Base/Relatórios/1.1.1.DAS.md) · [1.1.2. Reutilização](/Base/Relatórios/1.1.2.Reutilizacao.md) · [Planejamento, seção 1](/Projeto/Planejamento.md?id=_1-por-que-das-e-não-reutilização) |
 
@@ -69,4 +69,4 @@ O grupo cobre a Visão Lógica (obrigatória), Implementação, Processos e Impl
 
 | Versão | Data | Descrição | Autor(es) | Revisor(es) |
 | --- | --- | --- | --- | --- |
-| 1.0 | 22/11/2026 | Registro escrito da decisão D01, alternativas A–D e evidências F-01 a F-06, redigido com apoio de IA generativa | Lucas Andrade Zanetti | Pendente (SubEquipe_02) |
+| 1.0 | 22/11/2026 | Registro escrito da decisão D01, alternativas A–D e evidências F-01 a F-06, redigido com apoio de IA generativa | Lucas Andrade Zanetti | 🟢 Revisado |
