@@ -1,0 +1,189 @@
+@startuml visao-logica-contextos-sg2-v2
+' Visão Lógica (DAS 1.1.1.5) — Figura 4: contextos da SubEquipe_02 (monetizacao: recarga, doacao,
+' destaque e comum), com os papéis GoF de cada classe.
+' Autoria: Pedro Druck Montalvão Reis (SubEquipe_01), 2026, a partir do código da SubEquipe_02.
+' Versão 2: rascunho da v1 validado contra o código mesclado (issues #10, #11 e #12 do código).
+' Fonte de verdade: packages/monetizacao/src, main @ c020c93.
+' ── Estilo comum da Visão Lógica (v2) ─────────────────────────────────────────
+' Mesmo bloco em todas as figuras: notação UML 2.5 (pacote = «folder»; seta
+' tracejada aberta = dependência; seta tracejada com triângulo = realização;
+' seta cheia com triângulo = generalização; losango vazio = agregação).
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 4
+skinparam defaultFontName Helvetica
+skinparam defaultFontSize 12
+skinparam titleFontSize 17
+skinparam titleFontStyle bold
+skinparam titleFontColor #1F2937
+skinparam footerFontSize 10
+skinparam footerFontColor #6B7280
+skinparam packageStyle folder
+skinparam packageFontStyle bold
+skinparam packageBorderColor #4B5563
+skinparam packageBorderThickness 1.2
+skinparam classAttributeIconSize 0
+skinparam classBorderColor #4B5563
+skinparam classBackgroundColor #FFFFFF
+skinparam classFontStyle bold
+skinparam classStereotypeFontSize 10
+skinparam classStereotypeFontColor #4B5563
+skinparam ArrowColor #374151
+skinparam ArrowFontSize 10
+skinparam ArrowFontColor #374151
+skinparam ArrowThickness 1.1
+skinparam legendBackgroundColor #FAFAFA
+skinparam legendBorderColor #9CA3AF
+skinparam legendFontSize 10
+skinparam noteBackgroundColor #FFFBEA
+skinparam noteBorderColor #B59F3B
+skinparam noteFontSize 10
+skinparam package {
+  BackgroundColor<<camada>> #FFFFFF
+  BackgroundColor<<app>> #EDE3F2
+  BackgroundColor<<SG1>> #DCE9FB
+  BackgroundColor<<SG2>> #DDEFDC
+  BackgroundColor<<SG3>> #FFE9D1
+  BackgroundColor<<kernel>> #F1F3F5
+  BackgroundColor<<misto>> #FFFFFF
+}
+skinparam class {
+  BackgroundColor<<port>> #FFFFFF
+  BorderColor<<port>> #111827
+  BackgroundColor<<signal>> #FFF4CC
+  BackgroundColor<<DTO>> #F8FAFC
+}
+hide empty members
+hide <<camada>> stereotype
+hide <<app>> stereotype
+hide <<SG1>> stereotype
+hide <<SG2>> stereotype
+hide <<SG3>> stereotype
+hide <<kernel>> stereotype
+hide <<misto>> stereotype
+skinparam nodesep 22
+skinparam ranksep 55
+
+title Figura 4 · Visão Lógica — contexto da SubEquipe_02 (monetização: recarga, doação e mensagem destacada)
+
+package "@g6/shared-kernel" as kernel <<kernel>> {
+  interface RecargaPort <<port>>
+  interface DoacaoPort <<port>>
+  interface ChatPort <<port>>
+  interface TransmissaoPort <<port>>
+  interface EventBus <<port>>
+  class "MensagemDestacada" as MsgDTO <<DTO>>
+  class EventoDominio <<signal>> {
+    RecargaConcluida
+    DoacaoConfirmada
+  }
+}
+
+package "@g6/monetizacao" as monetizacao <<SG2>> {
+  package "recarga  (#10 · Decorator · Adapter · Proxy)" as recarga <<SG2>> {
+    class RecargaService
+    class RecargaController <<Client>>
+    class ServicoRecarga
+    interface Preco <<Component>>
+    class PrecoPacote <<ConcreteComponent>>
+    abstract class PrecoDecorator <<Decorator>>
+    class ComDesconto <<ConcreteDecorator>>
+    class ComTaxaFixa <<ConcreteDecorator>>
+    class ComImposto <<ConcreteDecorator>>
+    interface GatewayPagamento <<Target>>
+    class AdaptadorProcessadorSimulado <<Adapter>>
+    class AdaptadorStripe <<Adapter>>
+    class AdaptadorMercadoPago <<Adapter>>
+    interface ConfirmadorPagamento <<Subject>>
+    class ProxyConfirmacaoSegura <<Proxy>>
+    class ServicoConfirmacao <<RealSubject>>
+    class Recarga
+  }
+  package "doacao  (#11 · Facade · Mediator)" as doacao <<SG2>> {
+    class ServicoDoacao <<Facade>>
+    class MediatorDoacao <<Mediator>>
+    class MediatorDoacaoComMensagem <<Mediator>>
+    class Doacao
+    class DoacaoComMensagem
+  }
+  package "destaque  (#12 · Decorator)" as destaque <<SG2>> {
+    class "montarMensagemDestacada()" as montar <<função>>
+    class FaixaDestaque
+    interface "MensagemDestacada (local)" as MsgComp <<Component>>
+    class MensagemBase <<ConcreteComponent>>
+    abstract class MensagemDecorator <<Decorator>>
+    class ComFaixaCor <<ConcreteDecorator>>
+    class ComFixacao <<ConcreteDecorator>>
+    class ComLimiteCaracteres <<ConcreteDecorator>>
+  }
+  package "comum  (domínio e financeiro)" as comum <<SG2>> {
+    class ServicoFinanceiro
+    class Carteira
+    class Usuario
+    abstract class Transacao
+  }
+}
+
+' ── recarga: o port delega ao Client da E03 ─────────────────────────────
+RecargaService .up.|> RecargaPort
+RecargaService --> RecargaController
+RecargaService .up.> EventoDominio : <U+00AB>send<U+00BB>\nRecargaConcluida
+RecargaController --> ServicoRecarga
+RecargaController --> "1..* (um por gateway)" ConfirmadorPagamento
+ServicoRecarga ..> Preco : <U+00AB>create<U+00BB>
+ServicoRecarga --> "1..*" GatewayPagamento
+PrecoPacote ..|> Preco
+PrecoDecorator ..|> Preco
+PrecoDecorator o--> Preco : embrulha
+ComDesconto --|> PrecoDecorator
+ComTaxaFixa --|> PrecoDecorator
+ComImposto --|> PrecoDecorator
+AdaptadorProcessadorSimulado ..|> GatewayPagamento
+AdaptadorStripe ..|> GatewayPagamento
+AdaptadorMercadoPago ..|> GatewayPagamento
+ProxyConfirmacaoSegura ..|> ConfirmadorPagamento
+ServicoConfirmacao ..|> ConfirmadorPagamento
+ProxyConfirmacaoSegura o--> ServicoConfirmacao
+
+' ── doacao: Facade + Mediator; chat e transmissão só por port ────────────
+ServicoDoacao .up.|> DoacaoPort
+ServicoDoacao --> MediatorDoacao
+ServicoDoacao --> MediatorDoacaoComMensagem
+ServicoDoacao ..> FaixaDestaque : <U+00AB>use<U+00BB>
+ServicoDoacao .up.> TransmissaoPort : <U+00AB>use<U+00BB>\ncriador da live
+ServicoDoacao .up.> EventoDominio : <U+00AB>send<U+00BB>\nDoacaoConfirmada
+MediatorDoacaoComMensagem ..> montar : <U+00AB>use<U+00BB>
+MediatorDoacaoComMensagem .up.> ChatPort : <U+00AB>use<U+00BB>\npublicarDestacada
+MediatorDoacao --> ServicoFinanceiro
+MediatorDoacaoComMensagem --> ServicoFinanceiro
+
+' ── destaque: Decorator que produz o DTO do kernel ──────────────────────
+montar ..> FaixaDestaque : <U+00AB>use<U+00BB>
+montar ..> MsgComp : empilha camadas
+montar .up.> MsgDTO : <U+00AB>create<U+00BB>
+MensagemBase ..|> MsgComp
+MensagemDecorator ..|> MsgComp
+MensagemDecorator o--> MsgComp : embrulha
+ComFaixaCor --|> MensagemDecorator
+ComFixacao --|> MensagemDecorator
+ComLimiteCaracteres --|> MensagemDecorator
+
+' ── comum ───────────────────────────────────────────────────────────────
+Doacao -[hidden]down- ComFaixaCor
+MediatorDoacao -[hidden]down- ComFixacao
+ServicoFinanceiro -[hidden]right- MediatorDoacaoComMensagem
+ServicoFinanceiro ..> Usuario : debita e credita
+Recarga --|> Transacao
+Doacao --|> Transacao
+DoacaoComMensagem --|> Doacao
+Usuario *--> Carteira
+
+legend bottom
+  <b>Como ler.</b> Estereótipo = papel GoF da classe (E03). ──▷ generalização · ┄┄▷ realização · ┄┄> dependência · ◇── agregação · ◆── composição.
+  Recarga em dois tempos: <i>recarregar</i> só cria o checkout; o crédito e <b>RecargaConcluida</b> vêm do aviso autêntico, filtrado pelo Proxy.
+  Falha no ChatPort <b>não desfaz</b> a doação (D05): DoacaoPort devolve ok com <i>destaqueEntregue = false</i>.
+  O componente local do Decorator ainda tem o mesmo nome do DTO do kernel (<i>MensagemDestacada</i>). Cores: <back:#DDEFDC> SG2 </back> <back:#F1F3F5> kernel </back>
+endlegend
+
+footer Autoria: Pedro Druck Montalvão Reis (SubEquipe_01), a partir do código da SubEquipe_02 · v2 · 23/11/2026 · conferido em UnBArqDsw2026-2-Turma01/…_Entrega_04_Codigo @ c020c93
+@enduml

@@ -1,0 +1,171 @@
+@startuml visao-logica-contextos-sg3-v2
+' Visão Lógica (DAS 1.1.1.5) — Figura 5: contextos da SubEquipe_03 (identidade, transmissao/canal,
+' chat e moderacao), com os papéis GoF de cada classe.
+' Autoria: Matheus Lemes Amaral (SubEquipe_01), 2026, a partir do código da SubEquipe_03.
+' Versão 2: validada contra o código mesclado (PRs #29, #30, #38 e #43 do código).
+' Fonte de verdade: packages/{identidade,chat,moderacao}/src e packages/transmissao/src/canal, main @ c020c93.
+' ── Estilo comum da Visão Lógica (v2) ─────────────────────────────────────────
+' Mesmo bloco em todas as figuras: notação UML 2.5 (pacote = «folder»; seta
+' tracejada aberta = dependência; seta tracejada com triângulo = realização;
+' seta cheia com triângulo = generalização; losango vazio = agregação).
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 4
+skinparam defaultFontName Helvetica
+skinparam defaultFontSize 12
+skinparam titleFontSize 17
+skinparam titleFontStyle bold
+skinparam titleFontColor #1F2937
+skinparam footerFontSize 10
+skinparam footerFontColor #6B7280
+skinparam packageStyle folder
+skinparam packageFontStyle bold
+skinparam packageBorderColor #4B5563
+skinparam packageBorderThickness 1.2
+skinparam classAttributeIconSize 0
+skinparam classBorderColor #4B5563
+skinparam classBackgroundColor #FFFFFF
+skinparam classFontStyle bold
+skinparam classStereotypeFontSize 10
+skinparam classStereotypeFontColor #4B5563
+skinparam ArrowColor #374151
+skinparam ArrowFontSize 10
+skinparam ArrowFontColor #374151
+skinparam ArrowThickness 1.1
+skinparam legendBackgroundColor #FAFAFA
+skinparam legendBorderColor #9CA3AF
+skinparam legendFontSize 10
+skinparam noteBackgroundColor #FFFBEA
+skinparam noteBorderColor #B59F3B
+skinparam noteFontSize 10
+skinparam package {
+  BackgroundColor<<camada>> #FFFFFF
+  BackgroundColor<<app>> #EDE3F2
+  BackgroundColor<<SG1>> #DCE9FB
+  BackgroundColor<<SG2>> #DDEFDC
+  BackgroundColor<<SG3>> #FFE9D1
+  BackgroundColor<<kernel>> #F1F3F5
+  BackgroundColor<<misto>> #FFFFFF
+}
+skinparam class {
+  BackgroundColor<<port>> #FFFFFF
+  BorderColor<<port>> #111827
+  BackgroundColor<<signal>> #FFF4CC
+  BackgroundColor<<DTO>> #F8FAFC
+}
+hide empty members
+hide <<camada>> stereotype
+hide <<app>> stereotype
+hide <<SG1>> stereotype
+hide <<SG2>> stereotype
+hide <<SG3>> stereotype
+hide <<kernel>> stereotype
+hide <<misto>> stereotype
+skinparam nodesep 24
+skinparam ranksep 50
+
+title Figura 5 · Visão Lógica — contextos da SubEquipe_03 (identidade, canal, chat e moderação)
+
+package "@g6/identidade  (#5 · Chain of Responsibility)" as identidade <<SG3>> {
+  class AutenticacaoService
+  class "buildLoginChain()\nbuildStepUpChain()" as chains <<função>>
+  interface AuthenticationHandler <<Handler>> {
+    + handle(contexto): AuthenticationOutcome
+  }
+  abstract class AbstractAuthenticationHandler
+  class "RateLimit · ClientIntegrity · Password\nLeakedPassword · AccountStatus · TwoFactor\nStepUpGrant · SessionIssuer  (8 handlers)" as handlers <<ConcreteHandler>>
+  class AuthenticationContext
+}
+
+package "@g6/transmissao :: canal  (#7 · Observer · Strategy)" as canal <<SG3>> {
+  interface ISubject <<Subject>>
+  class StreamChannel <<ConcreteSubject · Context>>
+  interface IObserver <<Observer>>
+  class "15 observadores da E03\n(notificação, webhooks, moderação de vídeo…)" as observers <<ConcreteObserver>>
+  interface INotificationDispatchStrategy <<Strategy>>
+  class AsynchronousConcurrentDispatchStrategy <<ConcreteStrategy>>
+  class SynchronousBlockingDispatchStrategy <<ConcreteStrategy>>
+}
+
+package "@g6/shared-kernel" as kernel <<kernel>> {
+  interface AutenticacaoPort <<port>>
+  interface ChatPort <<port>>
+  interface ModeracaoPort <<port>>
+  interface EventBus <<port>>
+  class MensagemChat <<DTO>>
+  class VereditoModeracao <<DTO>> {
+    decisao: 'aprovada' | 'quarentena' | 'bloqueada'
+    motivo: string
+  }
+  class EventoDominio <<signal>> {
+    LiveIniciada
+    LiveEncerrada
+    MensagemPublicada
+  }
+}
+
+package "@g6/chat  (#13 · Observer)" as chat <<SG3>> {
+  class ChatService
+  class ChatRoom <<Subject>>
+  interface ChatObserver <<Observer>>
+  class ChatDeliveryService <<ConcreteObserver>>
+  class QuarantineQueue
+  class ChatAuditService
+}
+
+package "@g6/moderacao  (#14 · Strategy)" as moderacao <<SG3>> {
+  class ModeracaoService
+  interface AutoModPipeline <<Context>>
+  class AutoModPipelineConcreto
+  interface EstrategiaModeracao <<Strategy>>
+  class "EstrategiaToxicidade\nEstrategiaPhishingELinks\nEstrategiaEntropiaEFlood" as estrategias <<ConcreteStrategy>>
+  class TextEntropyAnalyzer
+}
+
+' ── identidade: o port monta as cadeias de login e step-up ──────────────
+AutenticacaoService .down.|> AutenticacaoPort
+AutenticacaoService .up.> chains : <U+00AB>use<U+00BB>
+chains .up.> handlers : <U+00AB>create<U+00BB>
+AbstractAuthenticationHandler .down.|> AuthenticationHandler
+AbstractAuthenticationHandler o--> "0..1 próximo" AuthenticationHandler
+handlers -right-|> AbstractAuthenticationHandler
+AuthenticationHandler ..> AuthenticationContext
+
+' ── canal: Observer com Strategy de despacho ──────────────────────────
+StreamChannel .right.|> ISubject
+StreamChannel o-up-> "*" IObserver
+observers .down.|> IObserver
+StreamChannel o-up-> "1" INotificationDispatchStrategy
+AsynchronousConcurrentDispatchStrategy .down.|> INotificationDispatchStrategy
+SynchronousBlockingDispatchStrategy .down.|> INotificationDispatchStrategy
+StreamChannel .down.> EventoDominio : <U+00AB>send<U+00BB>\nLiveIniciada\nLiveEncerrada
+
+' ── chat: modera antes de entregar; só a aprovada vira MensagemPublicada ─
+ChatService .up.|> ChatPort
+ChatService .up.> ModeracaoPort : <U+00AB>use<U+00BB>\nantes de entregar
+ChatService .up.> EventoDominio : <U+00AB>send<U+00BB>\nMensagemPublicada
+ChatService --> ChatRoom : entrega
+ChatService --> QuarantineQueue : quarentena
+ChatService --> ChatAuditService : todo veredito
+ChatRoom o--> "*" ChatObserver
+ChatDeliveryService ..|> ChatObserver
+
+' ── moderacao: AutoMod compõe estratégias intercambiáveis ───────────────
+ModeracaoService .up.|> ModeracaoPort
+ModeracaoService --> AutoModPipeline
+AutoModPipelineConcreto ..|> AutoModPipeline
+AutoModPipelineConcreto o--> "*" EstrategiaModeracao
+estrategias ..|> EstrategiaModeracao
+AutoModPipelineConcreto ..> TextEntropyAnalyzer : <U+00AB>use<U+00BB>
+ModeracaoPort .right.> MensagemChat
+ModeracaoPort .right.> VereditoModeracao
+
+legend bottom
+  <b>Como ler.</b> Estereótipo = papel GoF da classe (E03). ──▷ generalização · ┄┄▷ realização · ┄┄> dependência · ◇── agregação. Caixas com várias linhas agrupam classes irmãs do mesmo papel.
+  O ciclo chat ↔ moderação da E03 acabou: <i>MensagemChat</i> e <i>VereditoModeracao</i> estão no kernel e o chat chega à moderação só pelo ModeracaoPort (RD3).
+  O canal recebe a configuração por tipagem estrutural (<i>StreamConfigCanal</i>), sem importar <i>configuracao</i> (RD6); os observadores de moderação de vídeo ficam internos ao canal.
+  Cores: <back:#FFE9D1> SG3 </back> <back:#F1F3F5> kernel </back>
+endlegend
+
+footer Autoria: Matheus Lemes Amaral (SubEquipe_01), a partir do código da SubEquipe_03 · v2 · 23/11/2026 · conferido em UnBArqDsw2026-2-Turma01/…_Entrega_04_Codigo @ c020c93
+@enduml
