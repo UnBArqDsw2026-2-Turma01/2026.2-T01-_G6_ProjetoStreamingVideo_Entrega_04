@@ -58,4 +58,4 @@ Estes pontos **não foram discutidos na reunião**; foram notados ao redigir est
 
 | Data | Autor do registro | Revisor | Alteração ou comprobatório |
 | --- | --- | --- | --- |
-| 10/11/2026 | Redação a partir da transcrição VTT, com apoio de IA generativa | Pendente | Cada decisão aponta o trecho da transcrição; gravação vinculada acima. Data e horário da reunião informados por Lucas Andrade Zanetti. |
+| 10/11/2026 | Redação a partir da transcrição VTT, com apoio de IA generativa | 🟢 revisada | Cada decisão aponta o trecho da transcrição; gravação vinculada acima. Data e horário da reunião informados por Lucas Andrade Zanetti. |

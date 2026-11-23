@@ -54,7 +54,7 @@ Em 22/11/2026, os PRs [#39][d39], [#40][d40] e [#41][d41] da documentação e o 
 
 | Versão | Data | Descrição | Autor(es) | Revisor(es) |
 | --- | --- | --- | --- | --- |
-| 1.0 | 23/11/2026 | Organização da SubEquipe_03 reconstruída a partir das issues, dos PRs e das revisões dos dois repositórios, sem atas por não haver registro de reuniões | Hugo Freitas Silva | Pendente (SubEquipe_03) |
+| 1.0 | 23/11/2026 | Organização da SubEquipe_03 reconstruída a partir das issues, dos PRs e das revisões dos dois repositórios, sem atas por não haver registro de reuniões | Hugo Freitas Silva | 🟢 SubEquipe_03 |
 
 [i3]: https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/3
 [i4]: https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/4
