@@ -1,0 +1,122 @@
+@startuml visao-processos-doacao-chat-sequencia-v1
+' Visão de Processos (DAS 1.1.1.6): recorte detalhado doação -> chat do CA-01 (etapas 4 e 5)
+' Issue #12 (docs). Autoria: SubEquipe_03 (Philipe Amâncio Reis Caetano), 2026. v1.
+' Fonte do comportamento: Entrega_04_Codigo, main (ServicoDoacao, MediatorDoacaoComMensagem,
+' ModeracaoService, EventBusEmMemoria) e feat/chat-ChatRoom-e-ChatPort-com-ModPort (ChatService, ChatRoom).
+
+title Visão de Processos: doação com mensagem destacada → chat (recorte do CA-01, v1)
+
+autonumber
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 220
+
+actor "Espectador" as User
+participant "apps/*\n(cli-demo / web)" as App #E1D5E7
+
+box "@g6/monetizacao" #F3FAF1
+  participant "ServicoDoacao\n«Facade» DoacaoPort" as Fac #D5E8D4
+  participant "MediatorDoacao\nComMensagem\n«Mediator»" as Med #D5E8D4
+  participant "ServicoFinanceiro\n«colleague»" as Fin #D5E8D4
+end box
+
+participant "transmissao\n(TransmissaoPort)" as Trans #DAE8FC
+
+box "@g6/chat" #FFF8F0
+  participant "ChatService\n(ChatPort)" as Chat #FFE6CC
+  participant "ChatAuditService" as Aud #FFE6CC
+  participant "QuarantineQueue" as Qua #FFE6CC
+  participant "ChatRoom\n«Subject»" as Room #FFE6CC
+end box
+
+participant "moderacao\n(ModeracaoPort)" as Mod #F8CECC
+collections "ouvintes da sala\n«Observer»\n(adaptador SSE, ChatDeliveryService)" as Ouv #E1D5E7
+participant "EventBusEmMemoria\n(@g6/shared-kernel)" as Bus #FFF2CC
+
+== Etapa 4: doação com mensagem ==
+User -> App : doar(live, valor, texto)
+App -> Fac : doar(sessao, live, valor, mensagem)
+activate Fac
+Fac -> Trans : consultar(live)
+Trans --> Fac : Resultado<LiveResumo> (criador da live)
+
+alt pré-condição falha (valor inválido, live fora do ar,\nmensagem vazia, auto-doação, saldo insuficiente)
+  Fac --> App : Resultado (ok: false, erro tipado)
+  note right of Fac : nada é debitado;\nchat não é acionado
+else valor >= QUANTIDADE_MINIMA_GLOBAL
+  Fac -> Med : processar(doador, criador, valor, mensagem, live)
+  activate Med
+  Med -> Med : validarPartes()\nnew DoacaoComMensagem(...)
+  Med -> Med : montarMensagemDestacada()\n«Decorator»: limite → cor → fixação
+  Med -> Fin : transferirDoacao(doador, criador, valor, repasse)
+  Fin --> Med : true
+  Med -> Med : doacao.concluir()\nregistra nas carteiras e salva
+
+  note over Med, Fin #FFFFFF
+    <b>Ponto sem volta:</b> a partir daqui o repasse está feito.
+    Nenhum resultado do chat desfaz a doação (Ata S2_02, D05).
+  end note
+
+  == Etapa 5: publicação no chat com moderação ==
+  Med -> Chat : await publicarDestacada(live, MensagemDestacada)
+  activate Chat
+  Chat -> Mod : await avaliar(mensagem)
+  activate Mod
+  Mod -> Mod : AutoModPipelineConcreto.inspectMessage()\n(TextEntropyAnalyzer + Strategies)
+  Mod --> Chat : VereditoModeracao { decisao, motivo }
+  deactivate Mod
+  Chat -> Aud : record(mensagem, veredito)
+  note right of Aud : toda decisão é auditada,\ninclusive a aprovada
+
+  break falha técnica: avaliar() rejeita a Promise ou o EventBus\nlança AggregateError (tratador de MensagemPublicada falhou)
+    Chat --> Med : exceção propagada (sem Resultado)
+    Med --> Fac : exceção propagada
+    Fac --> App : Promise rejeitada (mapearFalha relança o erro)
+    note over Fac, Bus #FFE0E0
+      <b>Risco identificado (v1):</b> o repasse já foi feito, mas
+      DoacaoConfirmada não é publicado e o espectador não recebe
+      comprovante. Só os erros tipados (quarentena/bloqueio) seguem a D05.
+    end note
+  end
+
+  alt decisao == 'aprovada' (caminho feliz)
+    Chat -> Room : publish(live, { destacada: true, mensagem })
+    activate Room
+    loop para cada ouvinte inscrito na live (cópia da lista, ordem de inscrição)
+      Room -> Ouv : ouvinte(MensagemEntregue)
+      opt ouvinte lança exceção
+        Room -> Room : try/catch → falhasEntrega.push(erro)
+        note right of Room : falha isolada: os demais\nouvintes continuam recebendo
+      end
+    end
+    deactivate Room
+    Chat -> Bus : publicar(MensagemPublicada { destacada: true })
+    Bus -> App : tratador SSE exibe o destaque
+    Chat --> Med : Resultado<void> (ok: true)
+  else decisao == 'quarentena'
+    Chat -> Qua : enqueue(mensagem, veredito)
+    Chat --> Med : Resultado (ok: false, MENSAGEM_EM_QUARENTENA)
+  else decisao == 'bloqueada'
+    Chat --> Med : Resultado (ok: false, MENSAGEM_BLOQUEADA)
+  end
+  deactivate Chat
+
+  alt publica.ok
+    Med --> Fac : { doacao, destaqueEntregue: true }
+  else quarentena ou bloqueada
+    Med --> Fac : { doacao, destaqueEntregue: false,\naviso: "Doação e repasse concluídos, mas o chat falhou..." }
+  end
+  deactivate Med
+
+  Fac -> Bus : publicar(DoacaoConfirmada { live, doador, valor })
+  Bus -> App : tratador SSE registra a doação
+  Fac --> App : Resultado<ComprovanteDoacao>\n(ok: true, destaqueEntregue, aviso?)
+  deactivate Fac
+end
+
+App --> User : comprovante + destaque exibido\n(ou aviso de que o destaque não foi entregue)
+
+@enduml

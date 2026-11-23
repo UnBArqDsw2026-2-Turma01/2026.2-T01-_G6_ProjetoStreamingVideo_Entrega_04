@@ -5,6 +5,8 @@
 ' Pedro Druck Montalvão Reis, Heitor Macedo Ricardo), 2026. Versão 1 — rascunho
 ' a validar pela SubEquipe_03 (Hugo Freitas Silva e Philipe Amâncio Reis Caetano).
 ' Classes da E03: g6-streaming-entrega03-subgrupo03-codigo @ d2860ff.
+' Contexto chat validado por Philipe Amâncio Reis Caetano em 22/11/2026 contra o código
+' mesclado (Entrega_04_Codigo, PR #38): ChatService implementado; quarentena e auditoria no ChatService.
 
 title Visão Lógica — contextos da SubEquipe_03 (identidade, canal, chat e moderação), v1
 
@@ -69,7 +71,7 @@ package "@g6/chat (#13)" as chat <<SG3>> {
   class ChatDeliveryService <<ConcreteObserver>>
   class QuarantineQueue
   class ChatAuditService
-  class ChatService <<a implementar>>
+  class ChatService
 }
 
 package "@g6/moderacao (#14)" as moderacao <<SG3>> {
@@ -103,10 +105,10 @@ StreamChannel ..> EventBus : <<publica>>\nLiveIniciada / LiveEncerrada
 ' Observer no chat, moderação por port
 ChatRoom o--> "*" ChatObserver
 ChatDeliveryService ..|> ChatObserver
-ChatRoom --> QuarantineQueue : quarentena
-ChatRoom --> ChatAuditService : auditoria
 ChatService ..|> ChatPort
-ChatService --> ChatRoom
+ChatService --> ChatRoom : inscritos e entrega
+ChatService --> QuarantineQueue : quarentena
+ChatService --> ChatAuditService : auditoria de todo veredito
 ChatService ..> ModeracaoPort : <<use>>\nantes de entregar
 ChatService ..> EventBus : <<publica>>\nMensagemPublicada
 
