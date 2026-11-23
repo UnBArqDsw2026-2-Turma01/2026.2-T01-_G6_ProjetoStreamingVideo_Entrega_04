@@ -22,7 +22,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/themes/vue.css">
   <link rel="stylesheet" href="./assets/styles.css">
   <style>
-    .markdown-section table { display: block; overflow-x: auto; }
     .sidebar .app-name { font-size: 1.2rem; }
   </style>
 </head>
@@ -76,6 +75,58 @@
       });
     }
 
+    function pluginTabelas(hook) {
+      function ajustar(wrapper) {
+        wrapper.classList.remove('table-stacked');
+        var tabela = wrapper.querySelector('table');
+        if (tabela.scrollWidth > wrapper.clientWidth + 1) wrapper.classList.add('table-stacked');
+      }
+
+      function ajustarTodas() {
+        document.querySelectorAll('.markdown-section .table-wrap').forEach(ajustar);
+      }
+
+      var temporizador;
+      window.addEventListener('resize', function () {
+        clearTimeout(temporizador);
+        temporizador = setTimeout(ajustarTodas, 120);
+      });
+
+      hook.doneEach(function () {
+        document.querySelectorAll('.markdown-section table').forEach(function (tabela) {
+          if (tabela.parentElement && tabela.parentElement.classList.contains('table-wrap')) return;
+
+          var cabecalhos = Array.prototype.map.call(
+            tabela.querySelectorAll('thead th'),
+            function (th) { return th.textContent.trim(); }
+          );
+          var linhas = tabela.querySelectorAll('tbody tr');
+
+          // Rótulos para o modo cartão e detecção de colunas curtas.
+          var compactas = cabecalhos.map(function () { return true; });
+          linhas.forEach(function (tr) {
+            Array.prototype.forEach.call(tr.children, function (td, i) {
+              td.setAttribute('data-label', cabecalhos[i] || '');
+              var texto = td.textContent.trim();
+              if (texto.length > 16 || (cabecalhos[i] || '').length > 18) compactas[i] = false;
+            });
+          });
+          compactas.forEach(function (ehCompacta, i) {
+            if (!ehCompacta) return;
+            tabela.querySelectorAll('tr').forEach(function (tr) {
+              if (tr.children[i]) tr.children[i].classList.add('col-compact');
+            });
+          });
+
+          var wrapper = document.createElement('div');
+          wrapper.className = 'table-wrap';
+          tabela.parentNode.insertBefore(wrapper, tabela);
+          wrapper.appendChild(tabela);
+          ajustar(wrapper);
+        });
+      });
+    }
+
     // Sem escolha salva, acompanha a mudança de tema do sistema.
     if (window.matchMedia) {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
@@ -111,7 +162,7 @@
         crossChapterText: true
       },
       alias: { '/.*/_sidebar.md': '/_sidebar.md' },
-      plugins: [pluginTema]
+      plugins: [pluginTema, pluginTabelas]
     };
   </script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/docsify.min.js"></script>

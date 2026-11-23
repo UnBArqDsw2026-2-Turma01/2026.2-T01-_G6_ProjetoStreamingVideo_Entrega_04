@@ -2,10 +2,10 @@
 
 | Campo | Valor |
 | --- | --- |
-| Status | Proposta, aguardando revisão cruzada |
+| Status | 🟢 Revisado |
 | Data | 22/11/2026 |
 | Autoria | Daniel de Oliveira Lira (SubEquipe_02), autor definido na [issue #19](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/19). **Rascunho preparado por Lucas Andrade Zanetti com apoio de IA generativa, a partir das evidências do código; Daniel precisa conferir e assumir o texto.** |
-| Revisor | Pendente: SubEquipe_01 (revisão cruzada) |
+| Revisor | SubEquipe_01 — revisão concluída |
 | Escopo | Como os seis contextos compartilham vocabulário (tipos, ports e eventos) sem se importarem. Registra a decisão D08 da [ata de abertura](/Projeto/Atas/ata-G01-entrega-04.md), aplicada no [código #3](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/3) e [#4](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/4). |
 | Seção do DAS | [1.1.1.2. Representação Arquitetural](/Base/Relatórios/1.1.1.DAS/1.1.1.2.RepresentacaoArquitetural.md) · [1.1.1.5. Visão Lógica](/Base/Relatórios/1.1.1.DAS/1.1.1.5.VisaoLogica.md) · [1.1.2. Reutilização](/Base/Relatórios/1.1.2.Reutilizacao.md) |
 
@@ -84,4 +84,4 @@ Adotar **B**, com três restrições.
 
 | Versão | Data | Descrição | Autor(es) | Revisor(es) |
 | --- | --- | --- | --- | --- |
-| 0.1 | 22/11/2026 | Rascunho da decisão, alternativas A–F e evidências K-01 a K-09, preparado com apoio de IA generativa para o autor definido na issue #19 | Lucas Andrade Zanetti (rascunho), Daniel de Oliveira Lira (autoria a confirmar) | Pendente (SubEquipe_01) |
+| 0.1 | 22/11/2026 | Rascunho da decisão, alternativas A–F e evidências K-01 a K-09, preparado com apoio de IA generativa para o autor definido na issue #19 | Lucas Andrade Zanetti (rascunho), Daniel de Oliveira Lira (autoria a confirmar) | 🟢 Revisado |

@@ -2,10 +2,10 @@
 
 | Campo | Valor |
 | --- | --- |
-| Status | Proposta, aguardando revisão cruzada |
+| Status | 🟢 Revisado |
 | Data | 22/11/2026 |
 | Autoria | Lucas Andrade Zanetti (SubEquipe_01), autor definido na [issue #19](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/19); redigido com apoio de IA generativa |
-| Revisor | Pendente: SubEquipe_02 (revisão cruzada) |
+| Revisor | SubEquipe_02 — revisão concluída |
 | Escopo | Como o código das três subequipes da Entrega 03 passa a viver em um único repositório executável. Registra uma decisão já aplicada em 09/11/2026 ([PR #24 do código](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/pull/24)). |
 | Seção do DAS | [1.1.1.2. Representação Arquitetural](/Base/Relatórios/1.1.1.DAS/1.1.1.2.RepresentacaoArquitetural.md) · [1.1.1.3. Metas e Restrições](/Base/Relatórios/1.1.1.DAS/1.1.1.3.MetasRestricoes.md) (RT-02) · [1.1.1.8. Visão de Implementação](/Base/Relatórios/1.1.1.DAS/1.1.1.8.VisaoImplementacao.md) |
 
@@ -84,4 +84,4 @@ Adotar **C**.
 
 | Versão | Data | Descrição | Autor(es) | Revisor(es) |
 | --- | --- | --- | --- | --- |
-| 1.0 | 22/11/2026 | Registro da decisão, alternativas A–E e evidências M-01 a M-08, redigido com apoio de IA generativa | Lucas Andrade Zanetti | Pendente (SubEquipe_02) |
+| 1.0 | 22/11/2026 | Registro da decisão, alternativas A–E e evidências M-01 a M-08, redigido com apoio de IA generativa | Lucas Andrade Zanetti | 🟢 Revisado |
