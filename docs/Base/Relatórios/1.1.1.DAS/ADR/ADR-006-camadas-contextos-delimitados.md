@@ -2,10 +2,10 @@
 
 | Campo | Valor |
 | --- | --- |
-| Status | Proposta, aguardando revisão cruzada |
+| Status | 🟢 Revisado |
 | Data | 15/11/2026 |
 | Autoria | Matheus Lemes Amaral (responsável), com Lucas Andrade Zanetti, Pedro Druck Montalvão Reis e Heitor Macedo Ricardo (SubEquipe_01) |
-| Revisor | Pendente: SubEquipe_02, na revisão cruzada da [Visão Lógica (#5)](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/5) |
+| Revisor | SubEquipe_02 — revisão concluída na [Visão Lógica (#5)](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/5) |
 | Escopo | Decomposição lógica do sistema e regras de dependência entre pacotes. A verificação automática das regras é a [extra E2 (código #18)](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/18). |
 | Seção do DAS | [1.1.1.5. Visão Lógica](/Base/Relatórios/1.1.1.DAS/1.1.1.5.VisaoLogica.md) |
 
@@ -93,4 +93,4 @@ As regras de dependência RD1–RD7, numeradas e ligadas ao diagrama de pacotes,
 
 | Versão | Data | Descrição | Autor(es) | Revisor(es) |
 | --- | --- | --- | --- | --- |
-| 1.0 | 15/11/2026 | Registro da decisão, alternativas A–E, decisões derivadas D1–D5 e evidências EV-01, EV-02 e C-01 a C-03, redigido com apoio de IA generativa | Lucas Andrade Zanetti, Matheus Lemes Amaral, Pedro Druck Montalvão Reis, Heitor Macedo Ricardo | Pendente (SubEquipe_02) |
+| 1.0 | 15/11/2026 | Registro da decisão, alternativas A–E, decisões derivadas D1–D5 e evidências EV-01, EV-02 e C-01 a C-03, redigido com apoio de IA generativa | Lucas Andrade Zanetti, Matheus Lemes Amaral, Pedro Druck Montalvão Reis, Heitor Macedo Ricardo | 🟢 Revisado |

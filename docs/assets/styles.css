@@ -257,6 +257,133 @@ body {
   border-bottom: 0;
 }
 
+/* Tabelas largas: reserva larguras legíveis e permite quebra de conteúdo. */
+.markdown-section table:has(th:nth-child(7)) {
+  table-layout: fixed;
+  min-width: 0;
+  display: table;
+  font-size: 0.82rem;
+}
+
+.markdown-section table:has(th:nth-child(7)) th,
+.markdown-section table:has(th:nth-child(7)) td {
+  padding: 0.65rem 0.7rem;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.markdown-section table:has(th:nth-child(7)) th:nth-child(1),
+.markdown-section table:has(th:nth-child(7)) td:nth-child(1) { width: 8%; }
+.markdown-section table:has(th:nth-child(7)) th:nth-child(2),
+.markdown-section table:has(th:nth-child(7)) td:nth-child(2) { width: 12%; }
+.markdown-section table:has(th:nth-child(7)) th:nth-child(3),
+.markdown-section table:has(th:nth-child(7)) td:nth-child(3) { width: 17%; }
+.markdown-section table:has(th:nth-child(7)) th:nth-child(4),
+.markdown-section table:has(th:nth-child(7)) td:nth-child(4) { width: 11%; }
+.markdown-section table:has(th:nth-child(7)) th:nth-child(5),
+.markdown-section table:has(th:nth-child(7)) td:nth-child(5) { width: 22%; }
+.markdown-section table:has(th:nth-child(7)) th:nth-child(6),
+.markdown-section table:has(th:nth-child(7)) td:nth-child(6) { width: 24%; }
+.markdown-section table:has(th:nth-child(7)) th:nth-child(7),
+.markdown-section table:has(th:nth-child(7)) td:nth-child(7) { width: 6%; }
+
+/* Checklist e grupos expansíveis ficam mais fáceis de escanear. */
+.checklist-table {
+  table-layout: fixed;
+  font-size: 0.9rem;
+}
+
+.checklist-table th:first-child,
+.checklist-table td:first-child {
+  width: 13%;
+  text-align: center;
+}
+
+.checklist-table th:nth-child(2),
+.checklist-table td:nth-child(2) { width: 30%; }
+
+.checklist-table td {
+  padding: 0.8rem 0.85rem;
+  line-height: 1.55;
+}
+
+.checklist-table .status-ok,
+.checklist-table .status-pending {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.28rem 0.55rem;
+  font-size: 0.76rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.checklist-table .status-ok {
+  color: #176b34;
+  background: #dff3e5;
+}
+
+.checklist-table .status-pending {
+  color: #7a4b11;
+  background: #fff0cf;
+}
+
+:root[data-theme="dark"] .checklist-table .status-ok {
+  color: #9fe5b5;
+  background: #173923;
+}
+
+:root[data-theme="dark"] .checklist-table .status-pending {
+  color: #ffd69a;
+  background: #4a3518;
+}
+
+.markdown-section details {
+  margin: 0.85rem 0;
+  border: 1px solid var(--g6-line);
+  border-radius: 8px;
+  background: var(--g6-surface);
+  padding: 0.75rem 1rem;
+}
+
+.markdown-section details summary {
+  cursor: pointer;
+  font-weight: 750;
+  color: var(--g6-ink);
+}
+
+.markdown-section details[open] summary {
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--g6-line);
+  padding-bottom: 0.65rem;
+}
+
+.sidebar-meetings {
+  margin-top: 1.25rem;
+  border-top: 1px solid var(--g6-line);
+  padding-top: 0.8rem;
+}
+
+.sidebar-meetings summary {
+  cursor: pointer;
+  color: var(--g6-ink);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.sidebar-meetings ul {
+  margin-top: 0.55rem !important;
+}
+
+.sidebar-meetings strong {
+  display: block;
+  margin: 0.45rem 0 0.15rem;
+  font-size: 0.68rem;
+}
+
 .markdown-section img {
   border: 1px solid var(--g6-line);
   border-radius: 10px;

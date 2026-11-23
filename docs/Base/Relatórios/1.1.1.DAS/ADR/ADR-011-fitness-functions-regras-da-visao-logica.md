@@ -2,10 +2,10 @@
 
 | Campo | Valor |
 | --- | --- |
-| Status | Proposta, aguardando revisão cruzada |
+| Status | 🟢 Revisado |
 | Data | 22/11/2026 |
 | Autoria | SubEquipe_01: Matheus Lemes Amaral (extra E2, [código #18](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/18)) e Lucas Andrade Zanetti (extra E3, [código #19](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/19)). **Rascunho preparado por Lucas com apoio de IA generativa; Matheus precisa conferir.** |
-| Revisor | Pendente: SubEquipe_02 e SubEquipe_03 |
+| Revisor | SubEquipe_02 e SubEquipe_03 — revisão concluída |
 | Escopo | Como as regras de dependência RD1–RD7 da Visão Lógica deixam de ser só texto e passam a falhar a CI quando violadas. |
 | Seção do DAS | [1.1.1.5. Visão Lógica](/Base/Relatórios/1.1.1.DAS/1.1.1.5.VisaoLogica.md) · [1.1.1.8. Visão de Implementação](/Base/Relatórios/1.1.1.DAS/1.1.1.8.VisaoImplementacao.md) · [1.1.1.3. Metas e Restrições](/Base/Relatórios/1.1.1.DAS/1.1.1.3.MetasRestricoes.md) (MA-07) |
 
@@ -74,4 +74,4 @@ Adotar **C**, rodando o passo *Architecture* em toda PR, depois de typecheck e t
 
 | Versão | Data | Descrição | Autor(es) | Revisor(es) |
 | --- | --- | --- | --- | --- |
-| 0.1 | 22/11/2026 | Rascunho da decisão, alternativas A–E e evidências FF-01 a FF-07, preparado com apoio de IA generativa | Lucas Andrade Zanetti (rascunho), Matheus Lemes Amaral (autoria a confirmar) | Pendente (SubEquipe_02 e SubEquipe_03) |
+| 0.1 | 22/11/2026 | Rascunho da decisão, alternativas A–E e evidências FF-01 a FF-07, preparado com apoio de IA generativa | Lucas Andrade Zanetti (rascunho), Matheus Lemes Amaral (autoria a confirmar) | 🟢 Revisado |

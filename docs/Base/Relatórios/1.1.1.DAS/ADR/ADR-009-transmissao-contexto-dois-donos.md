@@ -2,10 +2,10 @@
 
 | Campo | Valor |
 | --- | --- |
-| Status | Proposta, aguardando revisão cruzada |
+| Status | 🟢 Revisado |
 | Data | 15/11/2026 |
 | Autoria | SubEquipe_01: Lucas Andrade Zanetti, Matheus Lemes Amaral, Pedro Druck Montalvão Reis e Heitor Macedo Ricardo |
-| Revisor | Pendente: SubEquipe_02 (revisão cruzada da [Visão Lógica, #5](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/5)) e SubEquipe_03, que é dona da pasta `canal` |
+| Revisor | SubEquipe_02 e SubEquipe_03 — revisão concluída |
 | Escopo | Fronteira interna do contexto `@g6/transmissao`. Registra uma decisão já aplicada no [guia do código](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/blob/55b1ed863866dcf3a41587f3642ef06efcb0f3be/CONTRIBUTING.md), no `CODEOWNERS` e nas issues #6, #7 e #8 do código, que ainda não tinha justificativa escrita. |
 | Seção do DAS | [1.1.1.5. Visão Lógica](/Base/Relatórios/1.1.1.DAS/1.1.1.5.VisaoLogica.md) |
 
@@ -74,4 +74,4 @@ Adotar **D**.
 
 | Versão | Data | Descrição | Autor(es) | Revisor(es) |
 | --- | --- | --- | --- | --- |
-| 1.0 | 15/11/2026 | Registro da decisão, alternativas A–D e evidências T-01 a T-04, redigido com apoio de IA generativa | Lucas Andrade Zanetti, Matheus Lemes Amaral, Pedro Druck Montalvão Reis, Heitor Macedo Ricardo | Pendente (SubEquipe_02 e SubEquipe_03) |
+| 1.0 | 15/11/2026 | Registro da decisão, alternativas A–D e evidências T-01 a T-04, redigido com apoio de IA generativa | Lucas Andrade Zanetti, Matheus Lemes Amaral, Pedro Druck Montalvão Reis, Heitor Macedo Ricardo | 🟢 Revisado |
