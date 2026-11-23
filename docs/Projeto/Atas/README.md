@@ -30,3 +30,12 @@ Use o [modelo de ata](/Projeto/Atas/TEMPLATE.md). Decisões numeradas (D01, D02�
 | Organização da Entrega 04 — SubEquipe_02 | — | Davi Severiano Freitas, Daniel de Oliveira Lira, Mateus Rodrigues Barreto e Pedro Henrique Freire Rodrigues | [Documento](/Projeto/Atas/Atas_Sg2/Sg2-organizacao-entrega-04.md) | — |
 
 </details>
+
+<details>
+<summary><strong>SubEquipe 03 — organização e revisões</strong></summary>
+
+| Documento | Participantes | Conteúdo |
+| --- | --- | --- |
+| [Organização da SubEquipe 03](/Projeto/Atas/Atas_Sg3/Sg3-organizacao-entrega-04.md) | Hugo Freitas Silva, Philipe Amâncio Reis Caetano e Eduardo Lôbo Moreira | Entregáveis, divisão por integrante, revisões e merges da subequipe, reconstruídos a partir das issues e dos PRs |
+
+</details>

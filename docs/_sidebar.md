@@ -63,6 +63,8 @@
     <li><a href="/Projeto/Atas/Atas_Sg2/ata-S2-01-2026-11-11.md">Ata S2E4_01 (11/11/2026)</a></li>
     <li><a href="/Projeto/Atas/Atas_Sg2/ata-S2-02-2026-11-16.md">Ata S2E4_02 (16/11/2026)</a></li>
     <li><a href="/Projeto/Atas/Atas_Sg2/ata-S2-03-2026-11-21.md">Ata S2E4_03 (21/11/2026)</a></li>
+    <li><strong>SubEquipe 03</strong></li>
+    <li><a href="/Projeto/Atas/Atas_Sg3/Sg3-organizacao-entrega-04.md">Organização da SubEquipe 03</a></li>
     <li><a href="/Projeto/Atas/TEMPLATE.md">Modelo de ata</a></li>
   </ul>
 </details>
