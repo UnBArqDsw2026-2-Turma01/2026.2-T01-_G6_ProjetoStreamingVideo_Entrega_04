@@ -221,171 +221,145 @@ body {
   border-radius: 0 8px 8px 0;
 }
 
+/* Tabelas: colunas com largura mínima legível (sem texto vertical). Quando a
+   tabela não cabe na área de leitura, o JS aplica .table-stacked e cada linha
+   vira um cartão, sem rolagem horizontal. */
 .table-wrap {
   width: 100%;
   max-width: 100%;
-  overflow-x: auto;
   margin: 1.25rem 0;
-  border-radius: 8px;
-  -webkit-overflow-scrolling: touch;
 }
 
 .markdown-section table {
+  display: table;
   border: 1px solid var(--g6-line);
   border-collapse: separate;
   border-spacing: 0;
   border-radius: 8px;
-  width: 100% !important;
-  max-width: none !important;
+  width: 100%;
+  max-width: 100%;
   table-layout: auto;
   overflow: hidden;
   margin: 0;
+  font-size: 0.92rem;
+}
+
+.markdown-section table th,
+.markdown-section table td {
+  padding: 0.65rem 0.8rem;
+  line-height: 1.5;
+  min-width: 7.5rem;
+  vertical-align: top;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: manual;
+  border: 0;
+  border-bottom: 1px solid var(--g6-line);
 }
 
 .markdown-section table th {
   background: var(--g6-surface-2);
   color: var(--g6-ink);
-  border: 0;
-  border-bottom: 1px solid var(--g6-line);
-  text-align: left;
-  vertical-align: top;
+  font-weight: 700;
 }
 
-.markdown-section table td {
-  border: 0;
-  border-bottom: 1px solid var(--g6-line);
-  vertical-align: top;
-}
-
-.table-wrap.table-wide table {
-  min-width: 980px;
-}
-
-.table-wrap.table-medium table {
-  min-width: 900px;
-}
-
-.table-wrap.table-narrow table {
-  min-width: 100%;
-}
-
-.table-wrap.table-wide table {
-  min-width: 1120px;
-}
-
-.table-wrap.table-checklist table {
-  min-width: 760px;
-}
-
-.table-wrap.table-checklist table th:first-child,
-.table-wrap.table-checklist table td:first-child {
-  width: 150px;
-  min-width: 150px;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.table-wrap.table-checklist .status-ok,
-.table-wrap.table-checklist .status-pending {
-  display: inline-flex;
-  min-width: 112px;
-  justify-content: center;
-  white-space: nowrap;
-}
-
-.table-wrap.table-status-last table th:last-child,
-.table-wrap.table-status-last table td:last-child {
-  width: 150px;
-  min-width: 150px;
-  max-width: 150px;
-  white-space: normal;
-  overflow-wrap: normal;
-  word-break: normal;
-  text-align: left;
-}
-
-.table-wrap.table-index-first table th:first-child,
-.table-wrap.table-index-first table td:first-child {
-  width: 110px;
-  min-width: 110px;
-  white-space: nowrap;
-  overflow-wrap: normal;
-  word-break: normal;
-}
-
-.markdown-section table th,
-.markdown-section table td {
-  padding: 0.72rem 0.82rem;
-  line-height: 1.48;
-  white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: normal;
-}
-
-.markdown-section table tr {
-  background: transparent;
-}
-
-.markdown-section table tr:nth-child(2n) {
+.markdown-section table tr { background: transparent; }
+.markdown-section table tbody tr:nth-child(2n) {
   background: color-mix(in srgb, var(--g6-surface-2) 55%, transparent);
 }
+.markdown-section table tr:last-child td { border-bottom: 0; }
 
-.markdown-section table tr:last-child td {
-  border-bottom: 0;
+/* Colunas curtas (IDs, status, datas, números) não quebram nem encolhem. */
+.markdown-section table .col-compact {
+  min-width: 0;
+  white-space: nowrap;
+  width: 1%;
 }
 
-
-/* Checklist e grupos expansíveis ficam mais fáceis de escanear. */
-.checklist-table {
-  table-layout: fixed;
-  font-size: 0.9rem;
+/* Modo cartão: cada linha vira um bloco com rótulo + valor. */
+.table-wrap.table-stacked table,
+.table-wrap.table-stacked tbody,
+.table-wrap.table-stacked tr,
+.table-wrap.table-stacked td {
+  display: block;
+  width: 100%;
 }
 
-.checklist-table th:first-child,
-.checklist-table td:first-child {
-  width: 13%;
-  text-align: center;
+.table-wrap.table-stacked table {
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
 }
 
-.checklist-table th:nth-child(2),
-.checklist-table td:nth-child(2) { width: 30%; }
-
-.checklist-table td {
-  padding: 0.8rem 0.85rem;
-  line-height: 1.55;
+.table-wrap.table-stacked thead {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
 }
 
-.checklist-table .status-ok,
-.checklist-table .status-pending {
+.table-wrap.table-stacked tbody tr {
+  border: 1px solid var(--g6-line);
+  border-radius: 8px;
+  background: var(--g6-surface);
+  margin: 0 0 0.75rem;
+  overflow: hidden;
+}
+
+.table-wrap.table-stacked tbody tr:nth-child(2n) { background: var(--g6-surface); }
+
+.table-wrap.table-stacked td,
+.table-wrap.table-stacked .col-compact {
+  min-width: 0;
+  width: 100%;
+  white-space: normal;
+  display: block;
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid var(--g6-line);
+}
+
+.table-wrap.table-stacked td::before {
+  content: attr(data-label);
+  display: block;
+  margin-bottom: 0.15rem;
+  color: var(--g6-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.table-wrap.table-stacked td:not([data-label])::before,
+.table-wrap.table-stacked td[data-label=""]::before { content: none; }
+
+.table-wrap.table-stacked td:first-child {
+  background: var(--g6-surface-2);
+}
+
+.table-wrap.table-stacked tr:last-child td:last-child { border-bottom: 0; }
+.table-wrap.table-stacked tr td:last-child { border-bottom: 0; }
+
+/* Selos de status (Checklist). */
+.markdown-section .status-ok,
+.markdown-section .status-pending {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  padding: 0.28rem 0.55rem;
+  padding: 0.25rem 0.6rem;
   font-size: 0.76rem;
   font-weight: 800;
   white-space: nowrap;
 }
 
-.checklist-table .status-ok {
-  color: #176b34;
-  background: #dff3e5;
-}
+.markdown-section .status-ok { color: #176b34; background: #dff3e5; }
+.markdown-section .status-pending { color: #7a4b11; background: #fff0cf; }
 
-.checklist-table .status-pending {
-  color: #7a4b11;
-  background: #fff0cf;
-}
-
-:root[data-theme="dark"] .checklist-table .status-ok {
-  color: #9fe5b5;
-  background: #173923;
-}
-
-:root[data-theme="dark"] .checklist-table .status-pending {
-  color: #ffd69a;
-  background: #4a3518;
-}
+:root[data-theme="dark"] .markdown-section .status-ok { color: #9fe5b5; background: #173923; }
+:root[data-theme="dark"] .markdown-section .status-pending { color: #ffd69a; background: #4a3518; }
 
 .markdown-section details {
   margin: 0.85rem 0;
