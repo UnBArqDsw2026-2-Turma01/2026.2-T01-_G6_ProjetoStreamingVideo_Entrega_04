@@ -1,0 +1,129 @@
+@startuml visao-logica-pacotes-global-v2
+' Visão Lógica (DAS 1.1.1.5) — Figura 1: diagrama de pacotes UML global (camadas × contextos).
+' Autoria: Lucas Andrade Zanetti (SubEquipe_01), 2026. Versão 2 (padronização e conferência no código).
+' Fonte de verdade: package.json de cada pacote e src/index.ts no repositório de código, main @ c020c93.
+' ── Estilo comum da Visão Lógica (v2) ─────────────────────────────────────────
+' Mesmo bloco em todas as figuras: notação UML 2.5 (pacote = «folder»; seta
+' tracejada aberta = dependência; seta tracejada com triângulo = realização;
+' seta cheia com triângulo = generalização; losango vazio = agregação).
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 4
+skinparam defaultFontName Helvetica
+skinparam defaultFontSize 12
+skinparam titleFontSize 17
+skinparam titleFontStyle bold
+skinparam titleFontColor #1F2937
+skinparam footerFontSize 10
+skinparam footerFontColor #6B7280
+skinparam packageStyle folder
+skinparam packageFontStyle bold
+skinparam packageBorderColor #4B5563
+skinparam packageBorderThickness 1.2
+skinparam classAttributeIconSize 0
+skinparam classBorderColor #4B5563
+skinparam classBackgroundColor #FFFFFF
+skinparam classFontStyle bold
+skinparam classStereotypeFontSize 10
+skinparam classStereotypeFontColor #4B5563
+skinparam ArrowColor #374151
+skinparam ArrowFontSize 10
+skinparam ArrowFontColor #374151
+skinparam ArrowThickness 1.1
+skinparam legendBackgroundColor #FAFAFA
+skinparam legendBorderColor #9CA3AF
+skinparam legendFontSize 10
+skinparam noteBackgroundColor #FFFBEA
+skinparam noteBorderColor #B59F3B
+skinparam noteFontSize 10
+skinparam package {
+  BackgroundColor<<camada>> #FFFFFF
+  BackgroundColor<<app>> #EDE3F2
+  BackgroundColor<<SG1>> #DCE9FB
+  BackgroundColor<<SG2>> #DDEFDC
+  BackgroundColor<<SG3>> #FFE9D1
+  BackgroundColor<<kernel>> #F1F3F5
+  BackgroundColor<<misto>> #FFFFFF
+}
+skinparam class {
+  BackgroundColor<<port>> #FFFFFF
+  BorderColor<<port>> #111827
+  BackgroundColor<<signal>> #FFF4CC
+  BackgroundColor<<DTO>> #F8FAFC
+}
+hide empty members
+hide <<camada>> stereotype
+hide <<app>> stereotype
+hide <<SG1>> stereotype
+hide <<SG2>> stereotype
+hide <<SG3>> stereotype
+hide <<kernel>> stereotype
+hide <<misto>> stereotype
+
+title Figura 1 · Visão Lógica — pacotes do monorepo (camadas × contextos delimitados)
+
+package "Camada 1 · Apresentação e composição  (apps/*)" as L1 <<camada>> {
+  folder "@g6/cli-demo" as cli #DCE9FB
+  folder "@g6/web" as web #FFFFFF
+}
+
+package "Camada 2 · Contextos delimitados  (packages/*)" as L2 <<camada>> {
+  folder "@g6/identidade" as identidade #FFE9D1
+  package "@g6/transmissao" as transmissao <<misto>> {
+    folder "servico" as tr_serv #DCE9FB
+    folder "configuracao" as tr_conf #DCE9FB
+    folder "canal" as tr_canal #FFE9D1
+  }
+  folder "@g6/conteudo" as conteudo #DCE9FB
+  folder "@g6/monetizacao" as monetizacao #DDEFDC
+  folder "@g6/chat" as chat #FFE9D1
+  folder "@g6/moderacao" as moderacao #FFE9D1
+}
+
+package "Camada 3 · Shared kernel  (@g6/shared-kernel)" as kernel <<kernel>> {
+  folder "tipos" as k_tipos #F1F3F5
+  folder "ports" as k_ports #F1F3F5
+  folder "eventos" as k_eventos #F1F3F5
+  folder "eventbus" as k_bus #F1F3F5
+  folder "testing" as k_testing #F1F3F5
+}
+
+' RD1 · só apps compõem implementações reais (dependem dos contextos e do kernel).
+L1 .down.> L2 : <U+00AB>use<U+00BB>\nRD1
+L1 .down.> kernel : <U+00AB>import<U+00BB>\nRD1
+' RD2 · o único destino de um contexto é o kernel.
+L2 .down.> kernel : <U+00AB>import<U+00BB>\nRD2
+
+' RD6 · dentro de transmissao, só servico liga configuracao e canal.
+tr_serv .down.> tr_conf : <U+00AB>use<U+00BB>
+tr_serv .down.> tr_canal : <U+00AB>use<U+00BB>
+
+' Dependências internas do kernel (todas terminam em tipos).
+k_testing .right.> k_ports
+k_ports .right.> k_tipos
+k_testing .down.> k_bus
+k_bus .right.> k_eventos
+k_eventos .up.> k_tipos
+
+legend bottom left
+  |= Cor |= Dono do pacote |
+  |<#DCE9FB>   | SubEquipe_01 |
+  |<#DDEFDC>   | SubEquipe_02 |
+  |<#FFE9D1>   | SubEquipe_03 |
+  |<#F1F3F5>   | contrato comum (SG2) |
+  |<#FFFFFF>   | compartilhado entre subequipes |
+
+  <b>Permitido</b> (seta = dependência, de quem usa para quem é usado)
+  RD1 · apps → contextos e kernel
+  RD2 · contexto → shared-kernel
+
+  <b>Proibido</b> (a ausência de seta também é regra)
+  RD3 · contexto → outro contexto
+  RD4 · shared-kernel → qualquer pacote @g6
+  RD5 · contexto → apps
+  RD6 · configuracao ↔ canal
+  RD7 · src/ de produção → shared-kernel/testing
+endlegend
+
+footer Autoria: Lucas Andrade Zanetti (SubEquipe_01) · v2 · 23/11/2026 · conferido em UnBArqDsw2026-2-Turma01/…_Entrega_04_Codigo @ c020c93
+@enduml

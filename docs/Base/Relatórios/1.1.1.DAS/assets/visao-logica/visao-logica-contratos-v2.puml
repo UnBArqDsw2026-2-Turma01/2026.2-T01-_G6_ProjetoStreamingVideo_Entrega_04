@@ -1,0 +1,177 @@
+@startuml visao-logica-contratos-v2
+' Visão Lógica (DAS 1.1.1.5) — Figura 2: contratos entre contextos (ports providos/requeridos e eventos).
+' Autoria: Lucas Andrade Zanetti (SubEquipe_01), 2026. Versão 2 (padronização e conferência no código).
+' Fonte de verdade: packages/shared-kernel/src/{ports,eventos}/*.ts e as classes que realizam cada port,
+' main @ c020c93 do repositório de código.
+' ── Estilo comum da Visão Lógica (v2) ─────────────────────────────────────────
+' Mesmo bloco em todas as figuras: notação UML 2.5 (pacote = «folder»; seta
+' tracejada aberta = dependência; seta tracejada com triângulo = realização;
+' seta cheia com triângulo = generalização; losango vazio = agregação).
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 4
+skinparam defaultFontName Helvetica
+skinparam defaultFontSize 12
+skinparam titleFontSize 17
+skinparam titleFontStyle bold
+skinparam titleFontColor #1F2937
+skinparam footerFontSize 10
+skinparam footerFontColor #6B7280
+skinparam packageStyle folder
+skinparam packageFontStyle bold
+skinparam packageBorderColor #4B5563
+skinparam packageBorderThickness 1.2
+skinparam classAttributeIconSize 0
+skinparam classBorderColor #4B5563
+skinparam classBackgroundColor #FFFFFF
+skinparam classFontStyle bold
+skinparam classStereotypeFontSize 10
+skinparam classStereotypeFontColor #4B5563
+skinparam ArrowColor #374151
+skinparam ArrowFontSize 10
+skinparam ArrowFontColor #374151
+skinparam ArrowThickness 1.1
+skinparam legendBackgroundColor #FAFAFA
+skinparam legendBorderColor #9CA3AF
+skinparam legendFontSize 10
+skinparam noteBackgroundColor #FFFBEA
+skinparam noteBorderColor #B59F3B
+skinparam noteFontSize 10
+skinparam package {
+  BackgroundColor<<camada>> #FFFFFF
+  BackgroundColor<<app>> #EDE3F2
+  BackgroundColor<<SG1>> #DCE9FB
+  BackgroundColor<<SG2>> #DDEFDC
+  BackgroundColor<<SG3>> #FFE9D1
+  BackgroundColor<<kernel>> #F1F3F5
+  BackgroundColor<<misto>> #FFFFFF
+}
+skinparam class {
+  BackgroundColor<<port>> #FFFFFF
+  BorderColor<<port>> #111827
+  BackgroundColor<<signal>> #FFF4CC
+  BackgroundColor<<DTO>> #F8FAFC
+}
+hide empty members
+hide <<camada>> stereotype
+hide <<app>> stereotype
+hide <<SG1>> stereotype
+hide <<SG2>> stereotype
+hide <<SG3>> stereotype
+hide <<kernel>> stereotype
+hide <<misto>> stereotype
+skinparam nodesep 30
+skinparam ranksep 55
+
+title Figura 2 · Visão Lógica — contratos entre contextos (ports e eventos de domínio)
+
+package "apps/*  ·  composição (cli-demo, web)" as apps <<app>> {
+  class "composição do CA-01" as composicao <<composition root>>
+}
+
+package "@g6/shared-kernel" as kernel <<kernel>> {
+  package "ports" as k_ports <<kernel>> {
+    interface AutenticacaoPort <<port>> {
+      + login(credenciais): Resultado<Sessao>
+      + stepUp(sessao, fator): Resultado<Sessao>
+    }
+    interface TransmissaoPort <<port>> {
+      + abrir(criador, preset): Resultado<LiveResumo>
+      + encerrar(criador, live): Resultado<void>
+      + consultar(live): Resultado<LiveResumo>
+    }
+    interface RecargaPort <<port>> {
+      + ofertas(sessao): Resultado<OfertaRecarga[]>
+      + recarregar(sessao, pacote, meio): Resultado<CheckoutPendente>
+      + consultar(sessao, recargaId): Resultado<SituacaoRecarga>
+    }
+    interface DoacaoPort <<port>> {
+      + doar(sessao, live, valor, mensagem?): Resultado<ComprovanteDoacao>
+    }
+    interface ChatPort <<port>> {
+      + publicar(live, mensagem): Resultado<void>
+      + publicarDestacada(live, mensagem): Resultado<void>
+      + inscrever(live, ouvinte): Cancelamento
+    }
+    interface ModeracaoPort <<port>> {
+      + avaliar(mensagem): VereditoModeracao
+    }
+  }
+  package "eventos" as k_eventos <<kernel>> {
+    interface EventBus <<port>> {
+      + publicar(evento: EventoDominio): void
+      + assinar(tipo, tratador): Cancelamento
+    }
+    class EventoDominio <<signal>> {
+      LiveIniciada
+      LiveEncerrada
+      RecargaConcluida
+      DoacaoConfirmada
+      MensagemPublicada
+    }
+  }
+}
+
+package "@g6/identidade" as identidade <<SG3>> {
+  class AutenticacaoService
+}
+package "@g6/transmissao" as transmissao <<misto>> {
+  class TransmissaoService
+  class StreamChannel
+}
+package "@g6/monetizacao" as monetizacao <<SG2>> {
+  class RecargaService
+  class ServicoDoacao
+}
+package "@g6/chat" as chat <<SG3>> {
+  class ChatService
+}
+package "@g6/moderacao" as moderacao <<SG3>> {
+  class ModeracaoService
+}
+package "@g6/conteudo" as conteudo <<SG1>> {
+  class ConteudoDeLive
+}
+
+' Leiaute: apps em cima, kernel no meio, contextos embaixo.
+composicao -[hidden]down- TransmissaoPort
+AutenticacaoPort -[hidden]down- ChatPort
+TransmissaoPort -[hidden]down- DoacaoPort
+RecargaPort -[hidden]down- ModeracaoPort
+EventBus -[hidden]down- EventoDominio
+
+' ── Composição: apps/* usam os ports de borda e injetam as implementações reais ─
+apps .down.> k_ports : <U+00AB>use<U+00BB>\nRD1
+apps .down.> k_eventos : <U+00AB>use<U+00BB>
+
+' ── Interfaces providas: cada contexto realiza o seu port ─────────────────
+AutenticacaoService .up.|> AutenticacaoPort
+TransmissaoService .up.|> TransmissaoPort
+RecargaService .up.|> RecargaPort
+ServicoDoacao .up.|> DoacaoPort
+ChatService .up.|> ChatPort
+ModeracaoService .up.|> ModeracaoPort
+
+' ── Interfaces requeridas: o contexto usa o port de outro contexto ─────────
+ServicoDoacao .up.> ChatPort : <U+00AB>use<U+00BB>
+ServicoDoacao .up.> TransmissaoPort : <U+00AB>use<U+00BB>
+ChatService .up.> ModeracaoPort : <U+00AB>use<U+00BB>
+ConteudoDeLive .up.> TransmissaoPort : <U+00AB>use<U+00BB>
+
+' ── Eventos de domínio («send» publica · «receive» assina) ──────────────────
+EventBus .down.> EventoDominio : transporta
+StreamChannel .up.> EventoDominio : <U+00AB>send<U+00BB>\nLiveIniciada\nLiveEncerrada
+RecargaService .up.> EventoDominio : <U+00AB>send<U+00BB>\nRecargaConcluida
+ServicoDoacao .up.> EventoDominio : <U+00AB>send<U+00BB>\nDoacaoConfirmada
+ChatService .up.> EventoDominio : <U+00AB>send<U+00BB>\nMensagemPublicada
+ConteudoDeLive .up.> EventoDominio : <U+00AB>receive<U+00BB>\nLiveIniciada\nLiveEncerrada
+
+legend bottom
+  <b>Como ler.</b> ┄┄▷ realização: o contexto <i>provê</i> o port · ┄┄> «use»: o contexto <i>requer</i> o port (a implementação real é injetada em apps/*)
+  «send» / «receive»: o contexto publica / assina o evento pelo <b>EventBus</b>; os cinco eventos formam a união <b>EventoDominio</b>.
+  Nenhuma seta liga duas classes de contextos diferentes (RD3): toda colaboração passa por um port ou por um evento do kernel.
+  Retornos assíncronos (Promise) omitidos. Cores: <back:#DCE9FB> SG1 </back> <back:#DDEFDC> SG2 </back> <back:#FFE9D1> SG3 </back> <back:#F1F3F5> kernel </back> <back:#EDE3F2> apps </back> · branco = pacote com dois donos
+endlegend
+
+footer Autoria: Lucas Andrade Zanetti (SubEquipe_01) · v2 · 23/11/2026 · conferido em UnBArqDsw2026-2-Turma01/…_Entrega_04_Codigo @ c020c93
+@enduml

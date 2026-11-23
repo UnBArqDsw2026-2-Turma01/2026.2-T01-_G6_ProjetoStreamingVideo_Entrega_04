@@ -1,0 +1,168 @@
+@startuml visao-logica-contextos-sg1-v2
+' Visão Lógica (DAS 1.1.1.5) — Figura 3: contextos da SubEquipe_01 (transmissao/configuracao,
+' transmissao/servico e conteudo), com os papéis GoF de cada classe.
+' Autoria: Heitor Macedo Ricardo (SubEquipe_01), 2026. Versão 2 (padronização e conferência no código).
+' Fonte de verdade: packages/transmissao/src/{configuracao,servico} e packages/conteudo/src, main @ c020c93.
+' ── Estilo comum da Visão Lógica (v2) ─────────────────────────────────────────
+' Mesmo bloco em todas as figuras: notação UML 2.5 (pacote = «folder»; seta
+' tracejada aberta = dependência; seta tracejada com triângulo = realização;
+' seta cheia com triângulo = generalização; losango vazio = agregação).
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 4
+skinparam defaultFontName Helvetica
+skinparam defaultFontSize 12
+skinparam titleFontSize 17
+skinparam titleFontStyle bold
+skinparam titleFontColor #1F2937
+skinparam footerFontSize 10
+skinparam footerFontColor #6B7280
+skinparam packageStyle folder
+skinparam packageFontStyle bold
+skinparam packageBorderColor #4B5563
+skinparam packageBorderThickness 1.2
+skinparam classAttributeIconSize 0
+skinparam classBorderColor #4B5563
+skinparam classBackgroundColor #FFFFFF
+skinparam classFontStyle bold
+skinparam classStereotypeFontSize 10
+skinparam classStereotypeFontColor #4B5563
+skinparam ArrowColor #374151
+skinparam ArrowFontSize 10
+skinparam ArrowFontColor #374151
+skinparam ArrowThickness 1.1
+skinparam legendBackgroundColor #FAFAFA
+skinparam legendBorderColor #9CA3AF
+skinparam legendFontSize 10
+skinparam noteBackgroundColor #FFFBEA
+skinparam noteBorderColor #B59F3B
+skinparam noteFontSize 10
+skinparam package {
+  BackgroundColor<<camada>> #FFFFFF
+  BackgroundColor<<app>> #EDE3F2
+  BackgroundColor<<SG1>> #DCE9FB
+  BackgroundColor<<SG2>> #DDEFDC
+  BackgroundColor<<SG3>> #FFE9D1
+  BackgroundColor<<kernel>> #F1F3F5
+  BackgroundColor<<misto>> #FFFFFF
+}
+skinparam class {
+  BackgroundColor<<port>> #FFFFFF
+  BorderColor<<port>> #111827
+  BackgroundColor<<signal>> #FFF4CC
+  BackgroundColor<<DTO>> #F8FAFC
+}
+hide empty members
+hide <<camada>> stereotype
+hide <<app>> stereotype
+hide <<SG1>> stereotype
+hide <<SG2>> stereotype
+hide <<SG3>> stereotype
+hide <<kernel>> stereotype
+hide <<misto>> stereotype
+skinparam nodesep 28
+skinparam ranksep 50
+
+title Figura 3 · Visão Lógica — contextos da SubEquipe_01 (transmissão: configuração e serviço · conteúdo)
+
+package "@g6/shared-kernel" as kernel <<kernel>> {
+  interface TransmissaoPort <<port>>
+  interface EventBus <<port>>
+  class PresetTransmissao <<DTO>> {
+    preset: 'baixa-latencia' | 'alta-qualidade' | 'movel'
+    titulo: string
+  }
+  class EventoDominio <<signal>> {
+    LiveIniciada
+    LiveEncerrada
+  }
+}
+
+package "@g6/transmissao" as transmissao <<misto>> {
+  package "servico  (#8)" as serv <<SG1>> {
+    class TransmissaoService {
+      + abrir(criador, preset)
+      + encerrar(criador, live)
+      + consultar(live)
+    }
+  }
+  package "configuracao  (#6 · Builder)" as conf <<SG1>> {
+    class "criarConfiguracao()" as criar <<função>>
+    class StreamConfigDirector <<Director>> {
+      + lowLatency(title): StreamConfig
+      + highQuality(title): StreamConfig
+      + mobile(title): StreamConfig
+    }
+    interface StreamConfigBuilder <<Builder>> {
+      + withTitle(title)
+      + withLatencyMode(modo)
+      + withRecording(ativo)
+      + withVideo(…)
+      + build(): StreamConfig
+    }
+    class DefaultStreamConfigBuilder <<ConcreteBuilder>>
+    class StreamConfig <<Product>>
+    interface VideoSettings
+  }
+  package "canal  (#7 · SG3, ver Figura 5)" as canal <<SG3>> {
+    class StreamChannel <<ConcreteSubject>>
+  }
+}
+
+package "@g6/conteudo  (#9 · Factory Method)" as conteudo <<SG1>> {
+  class ConteudoDeLive {
+    + assinar(): Cancelamento
+  }
+  abstract class "UserContentCreator<TInput, TContent>" as UserContentCreator <<Creator>> {
+    + submit(input): TContent
+  }
+  class LiveStreamCreator <<ConcreteCreator>>
+  class RecordedVideoCreator <<ConcreteCreator>>
+  class ClipCreator <<ConcreteCreator>>
+  abstract class UserContent <<Product>>
+  class LiveStream <<ConcreteProduct>>
+  class RecordedVideo <<ConcreteProduct>>
+  class Clip <<ConcreteProduct>>
+  interface ContentRepository
+  interface PolicyService
+}
+
+' ── servico: único ponto que liga configuracao e canal (RD6) ─────────────
+TransmissaoService .up.|> TransmissaoPort
+TransmissaoService ..> PresetTransmissao
+TransmissaoService .down.> criar : <U+00AB>use<U+00BB>\npreset → receita
+TransmissaoService .down.> StreamChannel : <U+00AB>use<U+00BB>\nabre a live
+criar ..> StreamConfigDirector : <U+00AB>use<U+00BB>
+StreamChannel .up.> EventoDominio : <U+00AB>send<U+00BB>
+
+' ── Builder + Director ──────────────────────────────────────────────────
+StreamConfigDirector o--> StreamConfigBuilder
+DefaultStreamConfigBuilder ..|> StreamConfigBuilder
+DefaultStreamConfigBuilder ..> StreamConfig : <U+00AB>create<U+00BB>
+StreamConfig o--> "0..1" VideoSettings
+
+' ── Factory Method; o VOD nasce de um evento, sem conhecer a transmissão ──
+ConteudoDeLive .up.> EventBus : <U+00AB>use<U+00BB>
+ConteudoDeLive .up.> EventoDominio : <U+00AB>receive<U+00BB>
+ConteudoDeLive .up.> TransmissaoPort : <U+00AB>use<U+00BB>
+ConteudoDeLive --> LiveStreamCreator
+ConteudoDeLive --> RecordedVideoCreator
+LiveStreamCreator --|> UserContentCreator
+RecordedVideoCreator --|> UserContentCreator
+ClipCreator --|> UserContentCreator
+LiveStream --|> UserContent
+RecordedVideo --|> UserContent
+Clip --|> UserContent
+UserContentCreator ..> UserContent : <U+00AB>create<U+00BB>
+UserContentCreator --> ContentRepository
+UserContentCreator --> PolicyService
+
+legend bottom
+  <b>Como ler.</b> Estereótipo = papel GoF da classe (E03). ──▷ generalização · ┄┄▷ realização · ┄┄> dependência · ◇── agregação.
+  RD6: <i>configuracao</i> e <i>canal</i> não se importam; só <i>servico</i> liga os dois. Presets → Director: baixa-latencia → lowLatency · alta-qualidade → highQuality · movel → mobile (ADR-009).
+  <i>PolicyService</i> é interno ao conteúdo (moderação de VOD, DE09 da E02) e não usa o ModeracaoPort.
+  Cores: <back:#DCE9FB> SG1 </back> <back:#FFE9D1> SG3 </back> <back:#F1F3F5> kernel </back> · branco = pacote com dois donos
+endlegend
+
+footer Autoria: Heitor Macedo Ricardo (SubEquipe_01) · v2 · 23/11/2026 · conferido em UnBArqDsw2026-2-Turma01/…_Entrega_04_Codigo @ c020c93
+@enduml

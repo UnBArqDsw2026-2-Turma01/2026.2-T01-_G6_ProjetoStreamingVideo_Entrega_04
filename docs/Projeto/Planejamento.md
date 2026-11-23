@@ -1,6 +1,6 @@
 # Planejamento da Entrega 04
 
-> Versão em PDF: [planejamento-entrega-04.pdf](assets/planejamento-entrega-04.pdf ':ignore'). Decisões da reunião de abertura ([ata](/Projeto/Atas/ata-G01-entrega-04.md)): **foco DAS aprovado** (D01), divisão por subequipe aprovada com ressalvas (D02), TypeScript mantido (D07) e integração por shared kernel (D08). **Pendentes:** confirmar as datas no Aprender3 (D03), horário de congelamento (D04) e próxima reunião (D05). A parte de **vídeo** deste plano deve ser desconsiderada: a demonstração será ao vivo (D06).
+> Versão em PDF: [planejamento-entrega-04.pdf](assets/planejamento-entrega-04.pdf ':ignore'). Decisões da reunião de abertura ([ata](/Projeto/Atas/ata-G01-entrega-04.md)): **foco DAS aprovado** (D01), divisão por subequipe aprovada com ressalvas (D02), TypeScript mantido (D07) e integração por shared kernel (D08). **Pendentes:** confirmar as datas no Aprender3 (D03), horário de congelamento (D04) e próxima reunião (D05).
 
 ## Em uma página
 
@@ -62,7 +62,7 @@ flowchart TB
 | **🟢 SubEquipe_02** | | | |
 | Davi Severiano Freitas | Visão de Implementação ([#8](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/8)) | recarga ([código #10](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/10)) | C4 ([#22](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/22)) |
 | Daniel de Oliveira Lira | Seção 9 + página 1.1.2 ([#9](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/9)) | **shared-kernel** ([código #3](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/3), [código #4](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/4)) | TypeDoc ([código #22](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/22)) |
-| Mateus Rodrigues Barreto | Screenshots e vídeo ([#14](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/14)) | destaque ([código #12](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/12)) · web ([código #16](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/16)) | — |
+| Mateus Rodrigues Barreto | Screenshots ([#14](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/14)) | destaque ([código #12](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/12)) · web ([código #16](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/16)) | — |
 | Pedro Henrique Freire Rodrigues | Visão de Implantação ([#7](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/7)) | doação ([código #11](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/11)) | Docker Compose ([código #20](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/20)) |
 | **🟠 SubEquipe_03** | | | |
 | Hugo Freitas Silva | Seção 11 ([#11](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/issues/11)) | identidade ([código #5](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/5)) · login web ([código #17](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/17)) | Cenários de qualidade ([código #23](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/issues/23)) |
@@ -92,8 +92,8 @@ O contrato é definido em [código #3](https://github.com/UnBArqDsw2026-2-Turma0
 | M0 · Abertura | D-14 | 09/11 (reunião realizada) | Reunião geral e ata | Plano aprovado ou ajustado | ✅ realizado em 09/11 |
 | M1 · Fundação | D-11 | 12/11 (prov.) | Monorepo, shared-kernel, esqueleto do DAS | `npm test` passa na raiz; sidebar completa | ✅ com atraso: monorepo em 09/11 ([PR #24](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/pull/24)); contrato e fakes do kernel só em 18/11 ([PR #26](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/pull/26), [#27](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/pull/27)); `npm test` passa na raiz |
 | M2 · Rascunho | D-7 | 16/11 (prov.) | Três visões em rascunho; CA-01 no terminal | **Go/no-go** da web integrada | ✅ realizado com atraso (23/11): visões escritas; pacotes dos contextos (`#5` a `#14`), login web (`#17`) e CA-01 no terminal com módulos reais (`#15`, [PR #48](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04_Codigo/pull/48)) mesclados na `main`; `apps/web/src/ca01.ts` ainda usa fakes em `compor()` |
-| M3 · Revisão | D-4 | 19/11 (prov.) | Revisões cruzadas, web, relatos de IA, extras A | PRs de visão revisados por outra subequipe | 🟡 parcial: seções `1.1.1.1` a `1.1.1.11`, `1.1.1.12` (SG1, SG2 e SG3) e ADRs mesclados na `main`; relatos de IA 8 de 11; extras E2, E3, E6, E8 e E10 com PR mesclado na `main` |
-| M4 · Fechamento | D-2 | 21/11 (prov.) | Vídeo, quadros 1.2 e 1.3, README | [Checklist](/Checklist.md) completo | 🟡 parcial: quadro 1.2 com 9 de 11, quadro 1.3 consolidado e README sem screenshots; vídeo substituído por apresentação ao vivo (D06) |
+| M3 · Revisão | D-4 | 19/11 (prov.) | Revisões cruzadas, web, relatos de IA, extras A | PRs de visão revisados por outra subequipe | 🟢 concluído: seções `1.1.1.1` a `1.1.1.12` e ADR-005 a ADR-011 revisados e mesclados na `main`; Visão Lógica v2 conferida contra o código (`c020c93`); extras E2, E3, E6, E8 e E10 com PR mesclado |
+| M4 · Fechamento | D-2 | 21/11 (prov.) | Quadros 1.2 e 1.3, README | [Checklist](/Checklist.md) completo | 🟡 parcial: quadro 1.2 com 9 de 11, quadro 1.3 consolidado e README sem screenshots (a entrega não exige vídeo; o CA-01 é mostrado ao vivo, D06) |
 | M5 · Congelamento | D-1 | 22/11 (prov.) | Último merge, ensaio, cópia offline | Nenhum commit após o horário combinado | ⬜ horário de congelamento não definido (D04); commits continuaram em 23/11 |
 
 Datas **provisórias**, com D = 23/11/2026 (data-limite mais cedo entre as lembradas na reunião, ata D03). Confirmar a data de entrega no Aprender3 e ajustar também os [milestones](https://github.com/UnBArqDsw2026-2-Turma01/2026.2-T01-_G6_ProjetoStreamingVideo_Entrega_04/milestones).
@@ -110,7 +110,7 @@ Detalhes e situação em [1.3. Iniciativas extras](/Base/1.3.IniciativasExtras.m
 
 | Risco | Mitigação |
 | --- | --- |
-| Integração atrasa | No-go da web em D-7: o vídeo usa o CLI do CA-01 |
+| Integração atrasa | No-go da web em D-7: a apresentação usa o CLI do CA-01 |
 | Commit fora do prazo | Congelamento em D-1 com horário em ata |
 | DAS vira colagem da E02/E03 | Seção “o que mudou e por quê” obrigatória; revisão cruzada barra o PR |
 | UML inválido gerado por IA | Checklist de notação na revisão; o erro vira material do relato de IA |
@@ -128,3 +128,4 @@ Detalhes e situação em [1.3. Iniciativas extras](/Base/1.3.IniciativasExtras.m
 | 0.5 | 23/11/2026 | Atualização de M3 após preenchimento da SubEquipe_03 em `1.1.1.12` e consolidação das seções mescladas na `main` | Eduardo Lôbo Moreira | — |
 | 0.6 | 23/11/2026 | Atualização de M3/M4 após recuperação e atualização da seção `1.1.1.11.Qualidade.md` | Hugo Freitas Silva e Eduardo Lôbo Moreira | — |
 | 0.7 | 23/11/2026 | Atualização de M3 após o preenchimento da SubEquipe_02 em `1.1.1.12` | Hugo Freitas Silva | — |
+| 0.8 | 23/11/2026 | Retiradas as menções ao vídeo de entrega, que não é exigido (D06 da ata geral) | Lucas Andrade Zanetti | — |
