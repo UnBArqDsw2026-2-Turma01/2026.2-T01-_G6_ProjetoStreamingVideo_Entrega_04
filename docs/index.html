@@ -76,6 +76,44 @@
       });
     }
 
+    function pluginTabelas(hook) {
+      hook.doneEach(function () {
+        document.querySelectorAll('.markdown-section table').forEach(function (tabela) {
+          if (tabela.parentElement && tabela.parentElement.classList.contains('table-wrap')) return;
+          var colunas = tabela.querySelectorAll('thead th').length;
+          if (!colunas) colunas = tabela.querySelectorAll('tr:first-child th, tr:first-child td').length;
+
+          var wrapper = document.createElement('div');
+          wrapper.className = 'table-wrap';
+          if (colunas >= 7) wrapper.classList.add('table-wide');
+          else if (colunas >= 5) wrapper.classList.add('table-medium');
+          else wrapper.classList.add('table-narrow');
+          if (tabela.querySelector('.status-ok, .status-pending')) {
+            wrapper.classList.add('table-checklist');
+          }
+          var ultimaCabecalho = tabela.querySelector('thead th:last-child');
+          if (!ultimaCabecalho) {
+            var ultimaLinha = tabela.querySelector('tr:last-child');
+            if (ultimaLinha) ultimaCabecalho = ultimaLinha.querySelector('th:last-child');
+          }
+          if (ultimaCabecalho) {
+            var titulo = ultimaCabecalho.textContent.trim().toLowerCase();
+            if (titulo === 'status' || titulo === 'situação') {
+              wrapper.classList.add('table-status-last');
+            }
+          }
+          var primeiraCabecalho = tabela.querySelector('thead th:first-child');
+          if (primeiraCabecalho) {
+            var tituloPrimeiro = primeiraCabecalho.textContent.trim().toLowerCase();
+            if (tituloPrimeiro === 'adr') wrapper.classList.add('table-index-first');
+          }
+
+          tabela.parentNode.insertBefore(wrapper, tabela);
+          wrapper.appendChild(tabela);
+        });
+      });
+    }
+
     // Sem escolha salva, acompanha a mudança de tema do sistema.
     if (window.matchMedia) {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
@@ -111,7 +149,7 @@
         crossChapterText: true
       },
       alias: { '/.*/_sidebar.md': '/_sidebar.md' },
-      plugins: [pluginTema]
+      plugins: [pluginTema, pluginTabelas]
     };
   </script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/docsify.min.js"></script>
